@@ -36,8 +36,8 @@
           </el-input>
         </div>
       </div>
-      <el-table ref="multipleTable" :header-cell-style="{color: '#fff', fontSize: '14px', backgroundColor: '#3e85ff',}" 
-      :data="tableData" tooltip-effect="dark" style="width: 100%">
+      <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
+        @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="日期" width="120">

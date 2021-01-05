@@ -83,3 +83,11 @@ body{
 .content_handle .el-input{
     width: 332px;
 }
+.el-table__header-wrapper{
+    background-color: #3e85ff !important;
+    box-shadow: 0px 0px 10px #cadfff;
+    border-radius: 5px;
+}
+.el-table tr{
+    background-color: none;
+}

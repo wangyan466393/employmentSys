@@ -23,21 +23,11 @@
   </div>
   <div class="main" id="app">
     <div class="content">
-      <div class="content_top">
-        <div class="content_title"></div>
-        <div class="content_handle">
-            <a href="#" class="icon_edit">数据修改</a>
-            <a href="#" class="icon_import">导入数据</a>
-            <a href="#" class="icon_export">导出数据</a>
-          <el-input
-            placeholder="学校或班级名称"
-            suffix-icon="el-icon-search"
-            v-model="input2">
-          </el-input>
-        </div>
+      <div>
+        
       </div>
-      <el-table ref="multipleTable" :header-cell-style="{color: '#fff', fontSize: '14px', backgroundColor: '#3e85ff',}" 
-      :data="tableData" tooltip-effect="dark" style="width: 100%">
+      <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
+        @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="日期" width="120">

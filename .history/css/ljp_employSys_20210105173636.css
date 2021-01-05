@@ -47,7 +47,6 @@ body{
 .content_top{
     display: flex;
     margin-bottom: 10px;
-    justify-content: space-between;
 }
 .content_title{
     width: 30%;
@@ -57,7 +56,6 @@ body{
 }
 .content_handle > a{
     display: inline-block;
-    margin-right: 20px;
     width: 90px;
     height: 30px;
     color: #c3c6cc;
@@ -65,10 +63,6 @@ body{
     font-weight: 600;
     line-height: 30px;
     background-size: 25px;
-}
-.content_handle > a:hover{
-    text-decoration: underline;
-    color: #4089ff;
 }
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
@@ -79,7 +73,4 @@ body{
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  
-}
-.content_handle .el-input{
-    width: 332px;
 }

@@ -47,7 +47,6 @@ body{
 .content_top{
     display: flex;
     margin-bottom: 10px;
-    justify-content: space-between;
 }
 .content_title{
     width: 30%;
@@ -66,10 +65,6 @@ body{
     line-height: 30px;
     background-size: 25px;
 }
-.content_handle > a:hover{
-    text-decoration: underline;
-    color: #4089ff;
-}
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
 }
@@ -79,7 +74,4 @@ body{
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  
-}
-.content_handle .el-input{
-    width: 332px;
 }
