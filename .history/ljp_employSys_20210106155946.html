@@ -72,10 +72,6 @@
         small
         layout="prev, pager, next"
         :page-size="pageSize"
-        @prev-click="prevPage"
-        @next-click="nextPage"
-        @current-change="currentPageFunc"
-        :current-page='currentPage'
         :total="tableData.length">
       </el-pagination>
     </div>
@@ -158,16 +154,7 @@
         },
         handleClick(v){
           console.log(v)
-        },
-        prevPage(val){
-          this.currentPage = val
-        },
-        nextPage(val){
-          this.currentPage = val
-        },
-        currentPageFunc(val){
-          this.currentPage = val
-        },
+        }
       }
     })
   </script>

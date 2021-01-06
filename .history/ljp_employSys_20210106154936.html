@@ -38,7 +38,7 @@
       </div>
       <div class="table_content">
       <el-table ref="multipleTable" :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}" 
-      :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
+      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="序号" width="60">
@@ -72,10 +72,6 @@
         small
         layout="prev, pager, next"
         :page-size="pageSize"
-        @prev-click="prevPage"
-        @next-click="nextPage"
-        @current-change="currentPageFunc"
-        :current-page='currentPage'
         :total="tableData.length">
       </el-pagination>
     </div>
@@ -135,12 +131,9 @@
       computed:{
         //分页
         pageFilter(){
-            //开始数据的下标
-            let startVal =parseInt((this.currentPage-1) * this.pageSize);
-            return this.tableData.slice(startVal,startVal+this.pageSize)  ;  
-              //1页 0  5  1-1 *5     (currentPage-1)*pageSize    (currentPage-1)*pageSize + pageSize
-              //2页 5 10   2-1 *5
-              //3页 10 15   3-1 *5
+            //得到总页码数
+           let pageCount = this.tableData.length / this.pageSize ;
+           console.log(pageCount);
         }
       },
       methods: {
@@ -158,16 +151,7 @@
         },
         handleClick(v){
           console.log(v)
-        },
-        prevPage(val){
-          this.currentPage = val
-        },
-        nextPage(val){
-          this.currentPage = val
-        },
-        currentPageFunc(val){
-          this.currentPage = val
-        },
+        }
       }
     })
   </script>

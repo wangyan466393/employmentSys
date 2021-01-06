@@ -86,7 +86,7 @@ body{
     width: 332px;
 }
 .table_content{
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .el-table--enable-row-hover .el-table__body tr:hover>td {

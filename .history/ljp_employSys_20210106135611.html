@@ -26,7 +26,7 @@
       <div class="content_top">
         <div class="content_title"></div>
         <div class="content_handle">
-            <!-- <a href="#" class="icon_edit">数据修改</a> -->
+            <a href="#" class="icon_edit">数据修改</a>
             <a href="#" class="icon_import">导入数据</a>
             <a href="#" class="icon_export">导出数据</a>
           <el-input
@@ -38,7 +38,7 @@
       </div>
       <div class="table_content">
       <el-table ref="multipleTable" :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}" 
-      :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))" tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
+      :data="tableData" tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
         <el-table-column type="selection" width="55">
         </el-table-column>
         <el-table-column label="序号" width="60">
@@ -60,23 +60,18 @@
         <el-table-column prop="address" label="学生总数" show-overflow-tooltip>
         </el-table-column>
         <el-table-column
+          
           label="操作"
-          width="100">
+          width="70">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
         small
         layout="prev, pager, next"
-        :page-size="pageSize"
-        @prev-click="prevPage"
-        @next-click="nextPage"
-        @current-change="currentPageFunc"
-        :current-page='currentPage'
-        :total="tableData.length">
+        :total="50">
       </el-pagination>
     </div>
     </div>
@@ -91,8 +86,6 @@
       data() {
         return {
           search:'',
-          pageSize:5,
-          currentPage:1,
           tableData: [{
             id:1,
             date: '山东劳动',
@@ -132,17 +125,7 @@
           multipleSelection: []
         }
       },
-      computed:{
-        //分页
-        pageFilter(){
-            //开始数据的下标
-            let startVal =parseInt((this.currentPage-1) * this.pageSize);
-            return this.tableData.slice(startVal,startVal+this.pageSize)  ;  
-              //1页 0  5  1-1 *5     (currentPage-1)*pageSize    (currentPage-1)*pageSize + pageSize
-              //2页 5 10   2-1 *5
-              //3页 10 15   3-1 *5
-        }
-      },
+
       methods: {
         toggleSelection(rows) {
           if (rows) {
@@ -155,19 +138,7 @@
         },
         handleSelectionChange(val) {
           this.multipleSelection = val;
-        },
-        handleClick(v){
-          console.log(v)
-        },
-        prevPage(val){
-          this.currentPage = val
-        },
-        nextPage(val){
-          this.currentPage = val
-        },
-        currentPageFunc(val){
-          this.currentPage = val
-        },
+        }
       }
     })
   </script>
