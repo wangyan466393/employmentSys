@@ -94,14 +94,9 @@ body{
     font-weight: 600;
 }
 .el-table__header-wrapper{
-    z-index: 1000;
-    position: relative;
     border-radius: 7px;
     box-shadow: 0 0 10px #d1e1fa;
 }
 .el-table th.is-leaf{
     border: none !important;
-}
-.el-table::before {
-    height: 0px !important;
 }
