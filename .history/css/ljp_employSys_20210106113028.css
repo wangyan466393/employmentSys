@@ -102,6 +102,3 @@ body{
 .el-table th.is-leaf{
     border: none !important;
 }
-.el-table::before {
-    height: 0px !important;
-}

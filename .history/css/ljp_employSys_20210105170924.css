@@ -1,0 +1,55 @@
+body{
+    background-color: #f8fbfc;
+}
+.header{
+    display: flex;
+    padding:0 20px;
+    min-width: 1200px;
+    width: 100%;
+    height: 50px;
+    background-color: #fff;
+    box-sizing: border-box;
+    
+}
+.logo{
+    width: 50%;
+    height: 50px;
+    background: url(../imgs/logoljp.png) no-repeat left center;
+    background-size: 300px;
+}
+.login_name{
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+    text-align: right;
+    line-height: 50px;
+}
+.avatar>img{
+    width: 25px;
+    height: 25px;
+    margin-top: calc((50px - 25px)/2);
+    
+}
+.username{
+    padding-right: 30px;
+    margin-left: 10px;
+    font-weight: 600;
+}
+.main{
+    margin-top: 20px;
+    padding: 0 20px;
+}
+.main .content{
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #d6e9ff;
+}
+.content_top{
+    display: flex;
+}
+.content_title{
+    width: 30%;
+    height: 50px;
+    background: url(../imgs/title_ljp.png) no-repeat left center;
+    background-size: 180px;
+}

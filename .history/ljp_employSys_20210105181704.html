@@ -36,44 +36,19 @@
           </el-input>
         </div>
       </div>
-      <div class="table_content">
-      <el-table ref="multipleTable" :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}" 
-      :data="tableData" tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
+      <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
+        
+        @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55">
         </el-table-column>
-        <el-table-column label="序号" width="60">
-          <template slot-scope="scope">{{ scope.row.id }}</template>
-        </el-table-column>
-        <el-table-column label="院校" width="120">
+        <el-table-column label="日期" width="120">
           <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
-        <el-table-column label="班级" width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+        <el-table-column prop="name" label="姓名" width="120">
         </el-table-column>
-        <el-table-column label="学历" width="120">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
-        </el-table-column>
-        <el-table-column prop="name" label="专业方向" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="学校数据" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column prop="address" label="学生总数" show-overflow-tooltip>
-        </el-table-column>
-        <el-table-column
-          
-          label="操作"
-          width="70">
-          <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-          </template>
+        <el-table-column prop="address" label="地址" show-overflow-tooltip>
         </el-table-column>
       </el-table>
-      <el-pagination
-        small
-        layout="prev, pager, next"
-        :total="50">
-      </el-pagination>
-    </div>
     </div>
   </div>
 
@@ -86,38 +61,31 @@
       data() {
         return {
           tableData: [{
-            id:1,
-            date: '山东劳动',
+            date: '2016-05-03',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
-            id:2,
-            date: '山东商职',
-            name: '山东商职',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            id:3,
-            date: '山东商职',
+            date: '2016-05-02',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
-            id:4,
-            date: '山东商职',
+            date: '2016-05-04',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
-            id:5,
-            date: '山东劳动',
+            date: '2016-05-01',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
-            id:6,
-            date: '山东劳动',
+            date: '2016-05-08',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
-            id:7,
-            date: '山东劳动',
+            date: '2016-05-06',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+            date: '2016-05-07',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }],

@@ -1,6 +1,5 @@
 body{
     background-color: #f8fbfc;
-    min-width: 1200px;
 }
 .header{
     display: flex;
@@ -48,7 +47,6 @@ body{
 .content_top{
     display: flex;
     margin-bottom: 10px;
-    justify-content: space-between;
 }
 .content_title{
     width: 30%;
@@ -58,7 +56,6 @@ body{
 }
 .content_handle > a{
     display: inline-block;
-    margin-right: 20px;
     width: 90px;
     height: 30px;
     color: #c3c6cc;
@@ -66,10 +63,6 @@ body{
     font-weight: 600;
     line-height: 30px;
     background-size: 25px;
-}
-.content_handle > a:hover{
-    text-decoration: underline;
-    color: #4089ff;
 }
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
@@ -80,28 +73,4 @@ body{
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  
-}
-.content_handle .el-input{
-    width: 332px;
-}
-.table_content{
-    margin-top: 30px;
-}
-
-.el-table--enable-row-hover .el-table__body tr:hover>td {
-    color: #3c83ff;
-    cursor: pointer;
-    font-weight: 600;
-}
-.el-table__header-wrapper{
-    z-index: 1000;
-    position: relative;
-    border-radius: 7px;
-    box-shadow: 0 0 10px #d1e1fa;
-}
-.el-table th.is-leaf{
-    border: none !important;
-}
-.el-table::before {
-    height: 0px !important;
 }

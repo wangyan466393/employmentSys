@@ -1,6 +1,5 @@
 body{
     background-color: #f8fbfc;
-    min-width: 1200px;
 }
 .header{
     display: flex;
@@ -87,21 +86,6 @@ body{
 .table_content{
     margin-top: 30px;
 }
-
 .el-table--enable-row-hover .el-table__body tr:hover>td {
     color: #3c83ff;
-    cursor: pointer;
-    font-weight: 600;
-}
-.el-table__header-wrapper{
-    z-index: 1000;
-    position: relative;
-    border-radius: 7px;
-    box-shadow: 0 0 10px #d1e1fa;
-}
-.el-table th.is-leaf{
-    border: none !important;
-}
-.el-table::before {
-    height: 0px !important;
 }

@@ -103,5 +103,5 @@ body{
     border: none !important;
 }
 .el-table::before {
-    height: 0px !important;
+    height: 0px;
 }
