@@ -28,8 +28,8 @@
         <div class="content_handle">
           <!-- <a href="#" class="icon_edit">数据修改</a> -->
           <a href="javascript:;" class="file"> 导入数据
-            <input type="file" class="uploadExcel" accept=".xls, .xlsx" id="importExcel"
-              @change="submitCollectionFlowImport" />
+          <input type="file" class="uploadExcel" accept=".xls, .xlsx" id="importExcel"
+            @change="submitCollectionFlowImport" />
           </a>
           <!-- <a href="#" class="icon_import">导入数据</a> -->
           <a href="#" class="icon_export">导出数据</a>
@@ -38,77 +38,70 @@
         </div>
       </div>
       <div class="table_content">
-        <template v-if="id ==''">
-          <!-- 所有合作院校数据 -->
-          <el-table ref="multipleTable"
-            :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
-            :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-            @selection-change="handleSelectionChange" tooltip-effect="dark"
-            style="width: 100%;padding: 10px;border: none;">
-            <el-table-column type="selection" width="55">
-            </el-table-column>
-            <el-table-column label="序号" width="60">
-              <template slot-scope="scope">{{ scope.row.id }}</template>
-            </el-table-column>
-            <el-table-column label="院校" width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
-            <el-table-column label="班级" width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
-            <el-table-column label="学历" width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
-            <el-table-column prop="name" label="专业方向" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="学校数据" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="address" label="学生总数" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column label="操作" width="100">
-              <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-                <el-button type="text" size="small">编辑</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </template>
-        <template v-else>
-          <!-- 院校对应学生数据 -->
-          <el-table ref="multipleTable"
-            :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
-            :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-            tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
-            <el-table-column type="selection" width="55">
-            </el-table-column>
-            <el-table-column label="序号" width="60">
-              <template slot-scope="scope">{{ scope.row.id }}</template>
-            </el-table-column>
-            <el-table-column label="姓名" width="120">
-              <template slot-scope="scope">{{ scope.row.name }}</template>
-            </el-table-column>
-            <el-table-column label="班级" width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
-            <el-table-column label="学历" width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
-            </el-table-column>
-            <el-table-column prop="name" label="专业方向" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="工作经历" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column prop="address" label="自我评价" show-overflow-tooltip>
-            </el-table-column>
-            <el-table-column width="100">
-              <template slot="header" slot-scope="scope">
-                <el-button icon="el-icon-back"  round size="mini" @click="handleClickBack(scope.row)"></el-button>
-              </template>
-              <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
-              </template>
-            </el-table-column>
-          </el-table>
-        </template>
+        <!-- 所有合作院校数据 -->
+        <el-table ref="multipleTable" v-if="id ==''" :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
+          :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+          @selection-change="handleSelectionChange"
+          tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
+          <el-table-column type="selection" width="55">
+          </el-table-column>
+          <el-table-column label="序号" width="60">
+            <template slot-scope="scope">{{ scope.row.id }}</template>
+          </el-table-column>
+          <el-table-column label="院校" width="120">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
+          </el-table-column>
+          <el-table-column label="班级" width="120">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
+          </el-table-column>
+          <el-table-column label="学历" width="120">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
+          </el-table-column>
+          <el-table-column prop="name" label="专业方向" width="120">
+          </el-table-column>
+          <el-table-column prop="address" label="学校数据" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column prop="address" label="学生总数" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+              <el-button type="text" size="small">编辑</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- 院校对应学生数据 -->
+        <el-table ref="multipleTable" v-else :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
+          :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+          tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
+          <el-button type="info" icon="el-icon-message" circle></el-button>
+          <el-table-column type="selection" width="55">
+          </el-table-column>
+          <el-table-column label="序号" width="60">
+            <template slot-scope="scope">{{ scope.row.id }}</template>
+          </el-table-column>
+          <el-table-column label="姓名" width="120">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
+          </el-table-column>
+          <el-table-column label="班级" width="120">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
+          </el-table-column>
+          <el-table-column label="学历" width="120">
+            <template slot-scope="scope">{{ scope.row.date }}</template>
+          </el-table-column>
+          <el-table-column prop="name" label="专业方向" width="120">
+          </el-table-column>
+          <el-table-column prop="address" label="工作经历" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column prop="address" label="自我评价" show-overflow-tooltip>
+          </el-table-column>
+          <el-table-column label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+              <el-button type="text" size="small"  @click="handleClickBack(scope.row)">返回</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
         <el-pagination small layout="prev, pager, next" :page-size="pageSize" @prev-click="prevPage"
           @next-click="nextPage" @current-change="currentPageFunc" :current-page='currentPage'
           :total="tableData.length">
@@ -125,7 +118,7 @@
       el: '#app',
       data() {
         return {
-          id: '',
+          id:'',
           search: '', //搜索
           pageSize: 5,  //默认一页显示数据个数
           currentPage: 1,  //当前页码
@@ -137,7 +130,7 @@
           }, {
             id: 2,
             date: '山东商职',
-            name: '张三',
+            name: '山东商职',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 3,
@@ -189,8 +182,8 @@
           console.log(obj)
           this.id = obj.id;
         },
-        handleClickBack() {
-          this.id = "";
+        handleClickBack(){
+          this.id ="";
         },
         //分页切换，上一页
         prevPage(val) {

@@ -85,7 +85,7 @@
               <template slot-scope="scope">{{ scope.row.id }}</template>
             </el-table-column>
             <el-table-column label="姓名" width="120">
-              <template slot-scope="scope">{{ scope.row.name }}</template>
+              <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
             <el-table-column label="班级" width="120">
               <template slot-scope="scope">{{ scope.row.date }}</template>
@@ -101,10 +101,11 @@
             </el-table-column>
             <el-table-column width="100">
               <template slot="header" slot-scope="scope">
-                <el-button icon="el-icon-back"  round size="mini" @click="handleClickBack(scope.row)"></el-button>
+                <el-button type="info" icon="el-icon-back" circle></el-button>
               </template>
               <template slot-scope="scope">
                 <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+                <!-- <el-button type="text" size="small" @click="handleClickBack(scope.row)">返回</el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -137,7 +138,7 @@
           }, {
             id: 2,
             date: '山东商职',
-            name: '张三',
+            name: '山东商职',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 3,

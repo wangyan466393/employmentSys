@@ -75,12 +75,10 @@ body{
 /* 导入数据 */
 .file {
     position: relative;
-    background: url(../imgs/icon_ljp02.png) no-repeat right center;
 }
 .file input {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    font-size: 100px;
     right: 0;
     top: 0;
     opacity: 0;
@@ -88,9 +86,9 @@ body{
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
 }
-/* .icon_import{
+.icon_import{
     background: url(../imgs/icon_ljp02.png) no-repeat right center;
-} */
+}
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  

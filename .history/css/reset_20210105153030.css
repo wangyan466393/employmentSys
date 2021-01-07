@@ -5,7 +5,7 @@ html,body,img{border:0;}
 li{list-style:none;}
 h1,h2,h3,h4,h5,h6,small{font-size:100%;}
 textarea{overflow:auto;resize:none;}
-a,button,input{cursor:pointer;}
+a,button{cursor:pointer;}
 h1,h2,h3,h4,h5,h6,em,strong,b{font-weight:bold;}
 a,a:hover{text-decoration:none;}
 body,textarea,input,button,select{font:12px/1.14 arial,\5b8b\4f53;color:#333;outline:0;}
