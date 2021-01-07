@@ -77,7 +77,7 @@
           <!-- 院校对应学生数据 -->
           <el-table ref="multipleTable"
             :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
-            :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+            :data="pageFilter.filter(data => !search || data.className.toLowerCase().includes(search.toLowerCase()))"
             tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
             <el-table-column type="selection" width="55">
             </el-table-column>
@@ -88,7 +88,7 @@
               <template slot-scope="scope">{{ scope.row.name }}</template>
             </el-table-column>
             <el-table-column label="班级" width="120">
-              <template slot-scope="scope">{{ scope.row.date }}</template>
+              <template slot-scope="scope">{{ scope.row.className }}</template>
             </el-table-column>
             <el-table-column label="学历" width="120">
               <template slot-scope="scope">{{ scope.row.date }}</template>
@@ -101,10 +101,10 @@
             </el-table-column>
             <el-table-column width="100">
               <template slot="header" slot-scope="scope">
-                <el-button icon="el-icon-back"  round size="mini" @click="handleClickBack(scope.row)"></el-button>
+                <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"></el-button>
               </template>
               <template slot-scope="scope">
-                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+                <el-button @click="handleClickDetails(scope.row)" type="text" size="small">查看</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -113,7 +113,11 @@
           @next-click="nextPage" @current-change="currentPageFunc" :current-page='currentPage'
           :total="tableData.length">
         </el-pagination>
+
       </div>
+      <el-drawer title="我是标题" :visible.sync="drawerDetails" :with-header="false">
+        <span>我来啦!</span>
+      </el-drawer>
     </div>
   </div>
 
@@ -125,6 +129,7 @@
       el: '#app',
       data() {
         return {
+          drawerDetails: false,//弹框默认不显示
           id: '',
           search: '', //搜索
           pageSize: 5,  //默认一页显示数据个数
@@ -132,36 +137,43 @@
           tableData: [{
             id: 1,
             date: '山东劳动',
+            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 2,
             date: '山东商职',
+            className:'16级1601',
             name: '张三',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 3,
             date: '山东商职',
+            className:'18级1801',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 4,
             date: '山东商职',
+            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 5,
             date: '山东劳动',
+            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 6,
             date: '山东劳动',
+            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 7,
             date: '山东劳动',
+            className:'17级1701',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }],
@@ -229,6 +241,11 @@
                 alert('上传成功');
               }
             });
+        },
+        // 点击查看学生详情
+        handleClickDetails(obj) {
+          console.log(obj.id);
+          this.drawerDetails = true;
         }
       }
     })
