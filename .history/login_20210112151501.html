@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>就业实习跟踪系统</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/ljp_employSys.css">
+</head>
+
+<body class='wy_login-box'>
+    <div id="app" class="wy_login_main">
+        <a href="" class="wy_login_logo">
+            <img src="imgs/wy_logo.png" alt="">
+        </a>
+        <div class="wy_login_Inputs">
+            <h4>就业实习跟踪系统</h4>
+            <div>
+                <img src="imgs/wy_user.png" alt="">
+                <input placeholder="请输入邮箱" v-model='userAccount' type="text" name="" id="">
+            </div>
+            <div>
+                <img src="imgs/wy_pwd.png" alt="">
+                <input placeholder="请输入密码" v-model='userPassword' type="password" name="" id="">
+            </div>
+            <p class="wy_remberPwd">
+                <input type="checkbox">
+                记住密码
+            </p>
+            <button class="wy_loginBtn" @click='dologin'>登录</button>
+        </div>
+        
+    </div>
+    <script src="js/jquery-1.11.3.js"></script>
+
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="js/api.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data(){
+                return{
+                    userAccount:'',
+                    userPassword:'',
+                    loginInfo:''
+                }
+            },
+            methods:{
+                async dologin(){
+                    this.loginInfo = await loginApi(this.userAccount,this.userPassword);
+                    window.localStorage.setItem('loginInfo',JSON.stringify(this.loginInfo));
+                    window.location.href='employSys.html'
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
