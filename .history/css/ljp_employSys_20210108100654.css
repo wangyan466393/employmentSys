@@ -3,7 +3,7 @@ html{
     height: 100%;
     
 }
-.content_body{
+body{
     background-color: #f8fbfc;
     min-width: 1200px;
     padding-bottom: 20px;

@@ -89,40 +89,29 @@
             <el-table-column label="性别" width="60">
               <template slot-scope="scope">{{ scope.row.gender }}</template>
             </el-table-column>
-            <el-table-column label="班级" width="80">
+            <el-table-column label="班级" width="120">
               <template slot-scope="scope">{{ scope.row.gradeName }}</template>
             </el-table-column>
-            <el-table-column prop="educationName" label="学历" width="80">
+            <el-table-column label="学历" width="120">
               <template slot-scope="scope">{{ scope.row.educationName }}</template>
-            </el-table-column>
-            <el-table-column prop="phone" label="电话" width="120">
-              <template slot-scope="scope">{{ scope.row.phone }}</template>
             </el-table-column>
             <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="120">
             </el-table-column>
-            <el-table-column prop="salary" label="薪资(元)" show-overflow-tooltip min-width="100">
-              <span>¥</span>
-              <template slot-scope="scope">{{ "¥" + scope.row.salary }}</template>
+            <el-table-column prop="salary" label="薪资" show-overflow-tooltip min-width="120">
             </el-table-column>
-            <el-table-column prop="address" label="工作地点" width="120">
+            <el-table-column label="工作地点" width="120">
               <template slot-scope="scope">{{ scope.row.address }}</template>
             </el-table-column>
-            <el-table-column  label="入职日期" width="120">
-              <template slot-scope="scope">{{ scope.row.jobdate.toString() }}</template>
+            <el-table-column label="入职日期" width="120">
+              <template slot-scope="scope">{{ scope.row.jobdate }}</template>
             </el-table-column>
             <el-table-column prop="subjectName" label="专业方向" width="120">
-            </el-table-column>
-            <el-table-column label="就业方式" width="120">
-              <template slot-scope="scope">{{ scope.row.empType }}</template>
             </el-table-column>
             <el-table-column label="专业对口" width="120">
               <template slot-scope="scope">{{ scope.row.orRight ? "是" : "否" }}</template>
             </el-table-column>
             <el-table-column label="个人简介" width="120">
               <template slot-scope="scope">{{ scope.row.summary ? scope.row.summary : "无" }}</template>
-            </el-table-column>
-            <el-table-column label="工作经历" width="120">
-              <template slot-scope="scope">{{ scope.row.workExperience ? scope.row.workExperience : "无" }}</template>
             </el-table-column>
             <el-table-column width="100">
               <template slot="header" slot-scope="scope">
@@ -146,7 +135,7 @@
   <script src="js/jquery-1.11.3.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.min.js"></script>
+  <script src="js/element-ui.js"></script>
   <script>
     new Vue({
       el: '#app',

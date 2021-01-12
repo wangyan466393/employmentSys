@@ -67,7 +67,7 @@
             </el-table-column>
             <el-table-column label="操作" width="100">
               <template slot-scope="scope">
-                <el-button @click="studentListData(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
                 <el-button type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
@@ -75,59 +75,33 @@
         </template>
         <template v-else>
           <!-- 院校对应学生数据 -->
-          <el-table :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
-            :data="stusListData"
+          <el-table ref="multipleTable"
+            :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
+            :data="pageFilter.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
             tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="序号" width="60">
               <template slot-scope="scope">{{ scope.row.id }}</template>
             </el-table-column>
-            <el-table-column label="姓名" width="100">
+            <el-table-column label="姓名" width="120">
               <template slot-scope="scope">{{ scope.row.name }}</template>
             </el-table-column>
-            <el-table-column label="性别" width="60">
-              <template slot-scope="scope">{{ scope.row.gender }}</template>
+            <el-table-column label="班级" width="120">
+              <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
-            <el-table-column label="班级" width="80">
-              <template slot-scope="scope">{{ scope.row.gradeName }}</template>
+            <el-table-column label="学历" width="120">
+              <template slot-scope="scope">{{ scope.row.date }}</template>
             </el-table-column>
-            <el-table-column prop="educationName" label="学历" width="80">
-              <template slot-scope="scope">{{ scope.row.educationName }}</template>
+            <el-table-column prop="name" label="专业方向" width="120">
             </el-table-column>
-            <el-table-column prop="phone" label="电话" width="120">
-              <template slot-scope="scope">{{ scope.row.phone }}</template>
+            <el-table-column prop="address" label="工作经历" show-overflow-tooltip min-width="120">
             </el-table-column>
-            <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="120">
-            </el-table-column>
-            <el-table-column prop="salary" label="薪资(元)" show-overflow-tooltip min-width="100">
-              <span>¥</span>
-              <template slot-scope="scope">{{ "¥" + scope.row.salary }}</template>
-            </el-table-column>
-            <el-table-column prop="address" label="工作地点" width="120">
-              <template slot-scope="scope">{{ scope.row.address }}</template>
-            </el-table-column>
-            <el-table-column  label="入职日期" width="120">
-              <template slot-scope="scope">{{ scope.row.jobdate.toString() }}</template>
-            </el-table-column>
-            <el-table-column prop="subjectName" label="专业方向" width="120">
-            </el-table-column>
-            <el-table-column label="就业方式" width="120">
-              <template slot-scope="scope">{{ scope.row.empType }}</template>
-            </el-table-column>
-            <el-table-column label="专业对口" width="120">
-              <template slot-scope="scope">{{ scope.row.orRight ? "是" : "否" }}</template>
-            </el-table-column>
-            <el-table-column label="个人简介" width="120">
-              <template slot-scope="scope">{{ scope.row.summary ? scope.row.summary : "无" }}</template>
-            </el-table-column>
-            <el-table-column label="工作经历" width="120">
-              <template slot-scope="scope">{{ scope.row.workExperience ? scope.row.workExperience : "无" }}</template>
+            <el-table-column prop="address" label="自我评价" show-overflow-tooltip min-width="120">
             </el-table-column>
             <el-table-column width="100">
               <template slot="header" slot-scope="scope">
-                <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"
-                  style="padding: 5px 12px;"></el-button>
+                <el-button icon="el-icon-back"  round size="mini" @click="handleClickBack(scope.row)" style="padding: 5px 12px;"></el-button>
               </template>
               <template slot-scope="scope">
                 <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
@@ -146,13 +120,13 @@
   <script src="js/jquery-1.11.3.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.min.js"></script>
+  <script src="js/element-ui.js"></script>
   <script>
     new Vue({
       el: '#app',
       data() {
         return {
-          url: "http://47.95.13.193:80/Job-1.0-SNAPSHOT",
+          url:"http://47.95.13.193:80/Job-1.0-SNAPSHOT",
           id: '',
           search: '', //搜索
           pageSize: 5,  //默认一页显示数据个数
@@ -193,12 +167,23 @@
             name: '张三',
             address: '上海市普陀区金沙江路 1518 弄'
           }],
-          stusListData: [],   //指定学校下的学生列表 数据
           multipleSelection: []   //选中数据
         }
       },
       created() {
-
+        let data = {
+          "collegeId":1,
+          "gradeid":5
+        }
+        $.ajax({
+          url:this.url+"/student/selectStuByCollegeId",
+          type:"post",
+          data:JSON.stringify(data),
+          contentType: 'application/json;charset=UTF-8',
+          success:function(res){
+            console.log(res);
+          }
+        })
         // let _self =  this;
         // const $axios = axios.create({
         //     withCredentials: true,
@@ -230,11 +215,11 @@
           //2页 5 10   2-1 *5
           //3页 10 15   3-1 *5
         },
-
+       
       },
       methods: {
         ///搜索条件
-        searchFilter(data) {
+        searchFilter(data){
           return data.date.toLowerCase().includes(this.search.toLowerCase()) || data.name.toLowerCase().includes(this.search.toLowerCase())
         },
         handleSelectionChange(val) {
@@ -244,6 +229,7 @@
         //编辑
         handleClick(obj) {
           console.log(obj)
+          this.id = obj.id;
         },
         handleClickBack() {
           this.id = "";
@@ -283,34 +269,10 @@
             .then((res) => {
               if (res.data.status == "ok") {
                 alert('上传成功');
-              } else {
+              }else{
                 this.$message.error('上传失败，请重试！');
               }
             });
-        },
-
-
-        //分组查看学生列表，单击某个学校查看对应的学生数据
-        studentListData(obj) {
-          this.id = obj.id;
-          let _this = this;
-          if (this.id) {
-            let data = {
-              "collegeId": 1,
-              "gradeid": 5
-            }
-            $.ajax({
-              url: this.url + "/student/selectStuByCollegeId",
-              type: "post",
-              data: JSON.stringify(data),
-              contentType: 'application/json;charset=UTF-8',
-              success: function (res) {
-
-                _this.stusListData = res;
-                console.log(_this.stusListData);
-              }
-            })
-          }
         }
       }
     })
