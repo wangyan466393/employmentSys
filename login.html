@@ -27,12 +27,12 @@
                 <input placeholder="请输入密码" v-model='userPassword' type="password" name="" id="">
             </div>
             <p class="wy_remberPwd">
-                <input type="checkbox">
+                <input type="checkbox" v-model='remember'>
                 记住密码
             </p>
             <button class="wy_loginBtn" @click='dologin'>登录</button>
         </div>
-        
+
     </div>
     <script src="js/jquery-1.11.3.js"></script>
 
@@ -44,20 +44,74 @@
     <script>
         new Vue({
             el: '#app',
-            data(){
-                return{
-                    userAccount:'',
-                    userPassword:'',
-                    loginInfo:''
+            data() {
+                return {
+                    userAccount: '',
+                    userPassword: '',
+                    loginInfo: '',
+                    remember: false
                 }
             },
-            methods:{
-                async dologin(){
-                    this.loginInfo = await loginApi(this.userAccount,this.userPassword);
-                    window.localStorage.setItem('loginInfo',JSON.stringify(this.loginInfo));
-                    window.location.href='ljp_employSys.html'
-
+            created() {
+                // 在页面加载时从cookie获取登录信息
+                let userAccount = this.getCookie("userAccount")
+                let userPassword = this.getCookie("userPassword")
+                // 如果存在赋值给表单，并且将记住密码勾选
+                if (userAccount) {
+                    this.userAccount = userAccount
+                    this.userPassword = userPassword
+                    this.remember = true
                 }
+               
+            },
+            methods: {
+                // 储存表单信息
+                setUserInfo: function () {
+                    // 判断用户是否勾选记住密码，如果勾选，向cookie中储存登录信息，
+                    // 如果没有勾选，储存的信息为空
+                    console.log(this.remember);
+                    if (this.remember) {
+                        console.log(this.userAccount);
+                        console.log(this.userPassword);
+                        debugger
+                        this.setCookie("userAccount", this.userAccount)
+                        this.setCookie("userPassword", this.userPassword);
+                        this.setCookie("remember", this.remember)
+                        console.log(this.getCookie("userAccount"))
+                        console.log(this.getCookie("userPassword"))
+                    } else {
+                        this.setCookie("userAccount", "")
+                        this.setCookie("userPassword", "")
+                    }
+                },
+                async dologin() {
+                    this.loginInfo = await loginApi(this.userAccount, this.userPassword);
+                    window.localStorage.setItem('loginInfo', JSON.stringify(this.loginInfo));
+                    // 储存登录信息
+                    this.setUserInfo();
+                    // window.location.href = 'ljp_employSys.html'
+                },
+                // 获取cookie
+            getCookie: function (key) {
+                if (document.cookie.length > 0) {
+                    var start = document.cookie.indexOf(key + '=')
+                    if (start !== -1) {
+                        start = start + key.length + 1
+                        var end = document.cookie.indexOf(';', start)
+                        if (end === -1) end = document.cookie.length
+                        return unescape(document.cookie.substring(start, end))
+                    }
+                }
+                return ''
+            },
+            // 保存cookie
+            setCookie: function (cName, value, expiredays) {
+                var exdate = new Date()
+                exdate.setDate(exdate.getDate() + expiredays)
+                document.cookie = cName + '=' + decodeURIComponent(value) +
+                    ((expiredays == null) ? '' : ';expires=' + exdate.toGMTString())
+            }
+
             }
         })
     </script>
