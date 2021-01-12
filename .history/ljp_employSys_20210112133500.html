@@ -75,14 +75,8 @@
         </template>
         <template v-else>
           <!-- 院校对应学生数据 -->
-<<<<<<< HEAD
-          <el-table ref="multipleTable"
-            :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
-            :data="pageFilter.filter(data => !search || data.className.toLowerCase().includes(search.toLowerCase()))"
-=======
           <el-table :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
             :data="stusListData"
->>>>>>> ljp
             tooltip-effect="dark" style="width: 100%;padding: 10px;border: none;">
             <el-table-column type="selection" width="55">
             </el-table-column>
@@ -92,28 +86,19 @@
             <el-table-column label="姓名" width="100">
               <template slot-scope="scope">{{ scope.row.name }}</template>
             </el-table-column>
-<<<<<<< HEAD
-            <el-table-column label="班级" width="120">
-              <template slot-scope="scope">{{ scope.row.className }}</template>
-=======
             <el-table-column label="性别" width="60">
               <template slot-scope="scope">{{ scope.row.gender }}</template>
->>>>>>> ljp
             </el-table-column>
-            <el-table-column label="班级" width="80">
+            <el-table-column label="班级" width="100">
               <template slot-scope="scope">{{ scope.row.gradeName }}</template>
             </el-table-column>
-            <el-table-column prop="educationName" label="学历" width="80">
+            <!-- <el-table-column label="学历" width="80">
               <template slot-scope="scope">{{ scope.row.educationName }}</template>
-            </el-table-column>
-            <el-table-column prop="phone" label="电话" width="120">
-              <template slot-scope="scope">{{ scope.row.phone }}</template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="120">
             </el-table-column>
             <el-table-column prop="salary" label="薪资(元)" show-overflow-tooltip min-width="100">
-              <span>¥</span>
-              <template slot-scope="scope">{{ "¥" + scope.row.salary }}</template>
+              <template slot-scope="scope">¥{{ "¥" + scope.row.salary }}</template>
             </el-table-column>
             <el-table-column prop="address" label="工作地点" width="120">
               <template slot-scope="scope">{{ scope.row.address }}</template>
@@ -137,15 +122,11 @@
             </el-table-column>
             <el-table-column width="100">
               <template slot="header" slot-scope="scope">
-<<<<<<< HEAD
-                <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"></el-button>
-=======
                 <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"
                   style="padding: 5px 12px;"></el-button>
->>>>>>> ljp
               </template>
               <template slot-scope="scope">
-                <el-button @click="handleClickDetails(scope.row)" type="text" size="small">查看</el-button>
+                <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -154,11 +135,7 @@
           @next-click="nextPage" @current-change="currentPageFunc" :current-page='currentPage'
           :total="search ? pageFilter.length : tableData.length ">
         </el-pagination>
-
       </div>
-      <el-drawer title="我是标题" :visible.sync="drawerDetails" :with-header="false">
-        <span>我来啦!</span>
-      </el-drawer>
     </div>
   </div>
 
@@ -171,11 +148,7 @@
       el: '#app',
       data() {
         return {
-<<<<<<< HEAD
-          drawerDetails: false,//弹框默认不显示
-=======
           url: "http://47.95.13.193:80/Job-1.0-SNAPSHOT",
->>>>>>> ljp
           id: '',
           search: '', //搜索
           pageSize: 5,  //默认一页显示数据个数
@@ -183,48 +156,37 @@
           tableData: [{
             id: 1,
             date: '山东劳动',
-            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 2,
             date: '山东商职',
-            className:'16级1601',
             name: '张三',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 3,
             date: '山东商职',
-            className:'18级1801',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 4,
             date: '山东商职',
-            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 5,
             date: '山东劳动',
-            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 6,
             date: '山东劳动',
-            className:'19级1901',
             name: '王小虎',
             address: '上海市普陀区金沙江路 1518 弄'
           }, {
             id: 7,
             date: '山东劳动',
-<<<<<<< HEAD
-            className:'17级1701',
-            name: '王小虎',
-=======
             name: '张三',
->>>>>>> ljp
             address: '上海市普陀区金沙江路 1518 弄'
           }],
           stusListData: [],   //指定学校下的学生列表 数据
@@ -322,12 +284,6 @@
               }
             });
         },
-<<<<<<< HEAD
-        // 点击查看学生详情
-        handleClickDetails(obj) {
-          console.log(obj.id);
-          this.drawerDetails = true;
-=======
 
 
         //分组查看学生列表，单击某个学校查看对应的学生数据
@@ -351,7 +307,6 @@
               }
             })
           }
->>>>>>> ljp
         }
       }
     })
