@@ -24,7 +24,10 @@ const loginApi = async (userAccount,userPassword) => {
 
 
   // 分组查看学生列表，单击某个学校查看对应的学生数据
-  const studentListDataApi = async (stuPramas) => {
-    const {data} = await requestPost("/student/selectStuByCollegeId",stuPramas);
-    return data ;
+  const studentListDataApi = async (userAccount,userPassword) => {
+    const { data } = await requestPost("/user/login", {
+        "account":userAccount,
+        "password":userPassword
+    });
+    return data;
   };
