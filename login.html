@@ -81,10 +81,15 @@
                 },
                 async dologin() {
                     this.loginInfo = await loginApi(this.userAccount, this.userPassword);
-                    window.localStorage.setItem('loginInfo', JSON.stringify(this.loginInfo));
-                    // 储存登录信息
-                    this.setUserInfo();
-                    // window.location.href = 'ljp_employSys.html'
+                    if(this.loginInfo){
+                        window.localStorage.setItem('loginInfo', JSON.stringify(this.loginInfo));
+                        // 储存登录信息
+                        this.setUserInfo();
+                        window.location.href = 'employSys.html'
+                    }else{
+                        this.$message('这是一条消息提示');
+                    }
+                    
                 },
                 // 获取cookie
             getCookie: function (key) {
