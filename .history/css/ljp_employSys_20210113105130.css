@@ -42,7 +42,7 @@ html{
     margin-left: 10px;
     font-weight: 600;
 }
-.login_name .el-divider{
+.el-divider{
     height: 100% !important;
 }
 .main{

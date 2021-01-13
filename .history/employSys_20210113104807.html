@@ -20,9 +20,8 @@
           <img src="imgs/avatar_ljp.png" alt="">
         </span>
         <span class="username">{{loginName.name}}</span>
-        <el-divider direction="vertical" content-position="center" style="height: 100%;"></el-divider>
-        <i class="el-icon-switch-button" style="font-size: 20px;line-height: 50px;cursor: pointer;" title="退出"
-          @click="loginout"></i>
+        <el-divider direction="vertical" content-position="center" style="height: auto;"></el-divider>
+        <i class="el-icon-switch-button" style="font-size: 22px;line-height: 50px;cursor: pointer;"></i>
       </div>
     </div>
     <div class="main">
@@ -44,7 +43,7 @@
           </div>
         </div>
         <div class="table_content">
-          <template>
+          <template >
             <!-- 所有合作院校数据 -->
             <el-table ref="multipleTable" v-show="showTable"
               :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
@@ -99,9 +98,9 @@
               </el-table-column>
             </el-table>
             <!-- 院校对应学生数据 -->
-            <el-table v-show=" !showTable "
-              :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}" :data="stusListData"
-              style="width: 100%;padding: 10px;border: none;">
+            <el-table  v-show=" !showTable "
+              :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
+              :data="stusListData" style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
               <el-table-column label="序号" width="60">
@@ -145,7 +144,7 @@
               <el-table-column label="个人简介" width="120">
                 <template slot-scope="scope">{{ scope.row.summary ? scope.row.summary : "无" }}</template>
               </el-table-column>
-              <el-table-column label="工作经历" width="120">
+              <el-table-column label="工作经历" width="120" >
                 <template slot-scope="scope">{{ scope.row.workExperience ? scope.row.workExperience : "无" }}</template>
               </el-table-column>
               <el-table-column width="100">
@@ -271,7 +270,7 @@
             "subjectRate": null,
             "salaryAvg": 5555,
             "starCount": null
-          }, {
+          },{
             "id": 6,
             "education": "高职",
             "college": "九江职业技术学院",
@@ -288,7 +287,7 @@
             "subjectRate": null,
             "salaryAvg": 5555,
             "starCount": null
-          }, {
+          },{
             "id": 7,
             "education": "高职",
             "college": "九江职业技术学院",
@@ -325,12 +324,7 @@
         pageFilter() {
           //开始数据的下标
           let startVal = parseInt((this.currentPage - 1) * this.pageSize);
-          if (this.showTable) {
-            return this.tableData.slice(startVal, startVal + this.pageSize);
-          } else {
-            return this.stusListData.slice(startVal, startVal + this.pageSize);
-          }
-          
+          return this.tableData.slice(startVal, startVal + this.pageSize);
           //1页 0  5  1-1 *5     (currentPage-1)*pageSize    (currentPage-1)*pageSize + pageSize
           //2页 5 10   2-1 *5
           //3页 10 15   3-1 *5
@@ -350,9 +344,8 @@
         handleClick(obj) {
           console.log(obj)
         },
-        //返回
         handleClickBack() {
-          this.showTable = true;
+          this.id = "";
         },
         //分页切换，上一页
         prevPage(val) {
@@ -401,36 +394,12 @@
           this.showTable = false;
           this.id = obj.id;
           // if (this.id) {
-          let stuPramas = {
-            "collegeId": 1,
-            "gradeid": 5
-          }
-          this.stusListData = await studentListDataApi(stuPramas);
+            let stuPramas = {
+              "collegeId": 1,
+              "gradeid": 5
+            }
+            this.stusListData = await studentListDataApi(stuPramas);
           // }
-        },
-        //退出
-        loginout() {
-          this.$confirm('确定要退出吗?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning',
-            center: true
-          }).then(() => {
-            this.$message({
-              type: 'success',
-              message: '退出成功!'
-            });
-            localStorage.clear();
-            window.location.href = "login.html";
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消退出'
-            });
-          });
-
-
-
         },
         //日期格式化
         format(time, format) {
