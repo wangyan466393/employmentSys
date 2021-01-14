@@ -143,12 +143,6 @@
               <el-table-column prop="orRight" label="专业对口" width="120">
                 <template slot-scope="scope">{{ scope.row.orRight ? "是" : "否" }}</template>
               </el-table-column>
-              <el-table-column label="个人简介" width="120">
-                <template slot-scope="scope">{{ scope.row.summary ? scope.row.summary : "无" }}</template>
-              </el-table-column>
-              <el-table-column label="工作经历" width="120">
-                <template slot-scope="scope">{{ scope.row.workExperience ? scope.row.workExperience : "无" }}</template>
-              </el-table-column>
               <el-table-column width="100">
                 <template slot="header" slot-scope="scope">
                   <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"
@@ -156,7 +150,7 @@
                   </el-button>
                 </template>
                 <template slot-scope="scope">
-                  <el-button @click="handleClickDetails(scope.row)" type="text" size="small">查看</el-button>
+                  <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
                 </template>
               </el-table-column>
             </el-table>
