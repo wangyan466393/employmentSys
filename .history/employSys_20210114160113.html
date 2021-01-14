@@ -52,7 +52,6 @@
               :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
               :data="searchSchool ? tableData.filter(data => !searchSchool || searchFilter(data)) : pageFilter"
               @selection-change="handleSelectionChange" tooltip-effect="dark"
-              @row-click="studentListData(row)"
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
@@ -93,7 +92,7 @@
               </el-table-column>
               <el-table-column prop="subjectRate" label="专业对口率(%)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column label="操作" width="60" >
+              <el-table-column label="操作" width="60" fixed="right">
                 <template slot-scope="scope">
                   <el-button @click="studentListData(scope.row)" type="text" size="small">查看</el-button>
                   <!-- <el-button type="text" size="small">编辑</el-button> -->
@@ -320,9 +319,9 @@ u        },
         },
         //分组查看学生列表，单击某个学校查看对应的学生数据
         async studentListData(obj) {
-          console.log(obj)
           this.showTable = false;
           this.id = obj.id;
+          console.log(obj)
           // if (this.id) {
           let stuPramas = {
             "collegeId": obj.collegeId,

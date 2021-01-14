@@ -320,9 +320,9 @@ u        },
         },
         //分组查看学生列表，单击某个学校查看对应的学生数据
         async studentListData(obj) {
-          console.log(obj)
           this.showTable = false;
           this.id = obj.id;
+          console.log(obj)
           // if (this.id) {
           let stuPramas = {
             "collegeId": obj.collegeId,
