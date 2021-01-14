@@ -23,8 +23,8 @@ const loginApi = async (userAccount,userPassword) => {
   };
 
 //通过用户角色查询学校学生信息
-const schoolListDataApi = async (roleId) => {
-  const {data} = await requestPost("/student/queryStudent",roleId);
+const schoolListDataApi = async (stuPramas) => {
+  const {data} = await requestPost("/student/queryStudent",stuPramas);
   return data ;
 };
 
@@ -33,21 +33,3 @@ const schoolListDataApi = async (roleId) => {
     const {data} = await requestPost("/student/selectStuByCollegeId",stuPramas);
     return data ;
   };
-
-//导出数据
-const downloadDataApi = async (sclId) =>{
-  // const {data} = await requestPost("/student/exportExcelAllInfo",sclId);
-  // return data ;
-
-  return new Promise((resolve,reject)=>{
-    request.post('/student/exportExcelAllInfo',{
-      params:{sclId},
-      responseType: 'blob'
-    }).then(result=>{
-      resolve(result.data)
-    }).catch(err=>{
-      reject(err)
-    })
-  })
-}
-

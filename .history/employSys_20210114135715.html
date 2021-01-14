@@ -55,7 +55,8 @@
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
-              <el-table-column label="序号" width="60" type="index">
+              <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ scope.row.id }}</template>
               </el-table-column>
               <el-table-column prop="college" label="院校" min-width="170">
                 <template slot-scope="scope">{{ scope.row.college }}</template>
@@ -106,7 +107,8 @@
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
-              <el-table-column label="序号" width="60" type="index">
+              <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ scope.row.id }}</template>
               </el-table-column>
               <el-table-column label="姓名" width="100">
                 <template slot-scope="scope">{{ scope.row.name }}</template>
@@ -191,7 +193,7 @@
           showTable: true,
           searchSchool: '', //搜索学校
           searchStudent: '', //搜索学生
-          pageSize: 10,  //默认一页显示数据个数
+          pageSize: 5,  //默认一页显示数据个数
           currentPage: 1,  //当前页码
           tableData: [],  // 学校数据
           stusListData: [],   //指定学校下的学生列表 数据

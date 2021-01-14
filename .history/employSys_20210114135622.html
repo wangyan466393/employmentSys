@@ -55,7 +55,8 @@
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
-              <el-table-column label="序号" width="60" type="index">
+              <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ scope.row.id }}</template>
               </el-table-column>
               <el-table-column prop="college" label="院校" min-width="170">
                 <template slot-scope="scope">{{ scope.row.college }}</template>
@@ -106,7 +107,8 @@
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
-              <el-table-column label="序号" width="60" type="index">
+              <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ scope.row.id }}</template>
               </el-table-column>
               <el-table-column label="姓名" width="100">
                 <template slot-scope="scope">{{ scope.row.name }}</template>
@@ -191,9 +193,128 @@
           showTable: true,
           searchSchool: '', //搜索学校
           searchStudent: '', //搜索学生
-          pageSize: 10,  //默认一页显示数据个数
+          pageSize: 5,  //默认一页显示数据个数
           currentPage: 1,  //当前页码
-          tableData: [],  // 学校数据
+          tableData: [{
+            "id": 1,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 2,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 3,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 4,
+            "education": "高职",
+            "college": "山东劳动职业技术学院",
+            "grade": "19级",
+            "subject": "Web前端开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 5,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 6,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 7,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555.01,
+            "starCount": null
+          },],
           stusListData: [],   //指定学校下的学生列表 数据
           multipleSelection: [],   //选中数据
           loginName: "",

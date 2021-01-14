@@ -40,8 +40,11 @@ const downloadDataApi = async (sclId) =>{
   // return data ;
 
   return new Promise((resolve,reject)=>{
-    request.post('/student/exportExcelAllInfo',{
-      params:{sclId},
+    axios.post(`/student/exportExcelAllInfo`,{
+      params:{applyId},
+      headers:{
+        Authorization: `Bearer ${token}`
+      },
       responseType: 'blob'
     }).then(result=>{
       resolve(result.data)
