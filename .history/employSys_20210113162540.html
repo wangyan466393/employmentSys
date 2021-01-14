@@ -55,9 +55,10 @@
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
-              <el-table-column label="序号" width="60" type="index">
+              <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ scope.row.id }}</template>
               </el-table-column>
-              <el-table-column prop="college" label="院校" min-width="170">
+              <el-table-column prop="college" label="院校" min-width="160">
                 <template slot-scope="scope">{{ scope.row.college }}</template>
               </el-table-column>
               <el-table-column prop="grade" label="年级" min-width="60">
@@ -106,7 +107,8 @@
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
-              <el-table-column label="序号" width="60" type="index">
+              <el-table-column label="序号" width="60">
+                <template slot-scope="scope">{{ scope.row.id }}</template>
               </el-table-column>
               <el-table-column label="姓名" width="100">
                 <template slot-scope="scope">{{ scope.row.name }}</template>
@@ -191,9 +193,128 @@
           showTable: true,
           searchSchool: '', //搜索学校
           searchStudent: '', //搜索学生
-          pageSize: 10,  //默认一页显示数据个数
+          pageSize: 5,  //默认一页显示数据个数
           currentPage: 1,  //当前页码
-          tableData: [],  // 学校数据
+          tableData: [{
+            "id": 1,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 2,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 3,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 4,
+            "education": "高职",
+            "college": "山东劳动职业技术学院",
+            "grade": "19级",
+            "subject": "Web前端开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 5,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 6,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555,
+            "starCount": null
+          }, {
+            "id": 7,
+            "education": "高职",
+            "college": "九江职业技术学院",
+            "grade": "19级",
+            "subject": "java开发",
+            "studentCount": 1,
+            "higherSchoolCount": 0,
+            "jobStuCount": 1,
+            "autonomouslyCount": 0,
+            "recommendCount": 1,
+            "subjectCount": 1,
+            "allRate": null,
+            "aecommendRate": null,
+            "subjectRate": null,
+            "salaryAvg": 5555.01,
+            "starCount": null
+          },],
           stusListData: [],   //指定学校下的学生列表 数据
           multipleSelection: [],   //选中数据
           loginName: "",
@@ -296,22 +417,8 @@
         //导出数据
         async downloadData(){
             var sclId = [1];
-            // const red = await downloadDataApi(sclId)
-            // let id=this.staffApplyList[index].id;
-            await downloadDataApi(sclId).then(result=>{
-              let url = window.URL.createObjectURL(result);
-              let link=document.createElement('a');
-              link.style.display='none'
-              link.href=url;
-            link.setAttribute('id', 'downloadLink')
-            link.setAttribute('download','员工资料信息表.xls');
-            document.body.appendChild(link)
-            link.click();
-
-            // 删除添加的a链接
-            let objLink = document.getElementById('downloadLink')
-            document.body.removeChild(objLink)
-          })
+            const red = await downloadDataApi(sclId)
+            console.log(red)
         },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {
@@ -321,11 +428,10 @@
         async studentListData(obj) {
           this.showTable = false;
           this.id = obj.id;
-          console.log(obj)
           // if (this.id) {
           let stuPramas = {
-            "collegeId": obj.collegeId,
-            "gradeid": obj.gradeid
+            "collegeId": 1,
+            "gradeid": 5
           }
           this.stusListData = await studentListDataApi(stuPramas);
           // }

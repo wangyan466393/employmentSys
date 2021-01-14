@@ -35,19 +35,7 @@ const schoolListDataApi = async (roleId) => {
   };
 
 //导出数据
-const downloadDataApi = async (sclId) =>{
-  // const {data} = await requestPost("/student/exportExcelAllInfo",sclId);
-  // return data ;
-
-  return new Promise((resolve,reject)=>{
-    request.post('/student/exportExcelAllInfo',{
-      params:{sclId},
-      responseType: 'blob'
-    }).then(result=>{
-      resolve(result.data)
-    }).catch(err=>{
-      reject(err)
-    })
-  })
+const downloadDataApi = async () =>{
+  const {data} = await requestPost("/student/exportExcelAllInfo",sclId);
+  return data ;
 }
-
