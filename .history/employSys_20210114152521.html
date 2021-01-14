@@ -37,7 +37,7 @@
                   @change="submitCollectionFlowImport" />
               </a>
               <!-- <a href="#" class="icon_import">导入数据</a> -->
-              <a href="javascript:void(0);" class="icon_export" @click="downloadData">导出数据</a>
+              <a href="#" class="icon_export" @click="downloadData">导出数据</a>
             </template>
             <el-input v-show="showTable" placeholder="学校或班级名称" suffix-icon="el-icon-search" v-model="searchSchool">
             </el-input>
@@ -143,6 +143,12 @@
               <el-table-column prop="orRight" label="专业对口" width="120">
                 <template slot-scope="scope">{{ scope.row.orRight ? "是" : "否" }}</template>
               </el-table-column>
+              <el-table-column label="个人简介" width="120">
+                <template slot-scope="scope">{{ scope.row.summary ? scope.row.summary : "无" }}</template>
+              </el-table-column>
+              <el-table-column label="工作经历" width="120">
+                <template slot-scope="scope">{{ scope.row.workExperience ? scope.row.workExperience : "无" }}</template>
+              </el-table-column>
               <el-table-column width="100">
                 <template slot="header" slot-scope="scope">
                   <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"
@@ -150,7 +156,7 @@
                   </el-button>
                 </template>
                 <template slot-scope="scope">
-                  <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
+                  <el-button @click="handleClickDetails(scope.row)" type="text" size="small">查看</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -236,13 +242,8 @@
 
         },
         handleSelectionChange(val) {
-          val.forEach(element => {
-            // console.log(element.collegeId);
-            this.multipleSelection = element.collegeId;
-            console.log(this.multipleSelection);
-          });
-         
-          
+          console.log(val);
+          this.multipleSelection = val;
         },
         //编辑
         handleClick(obj) {
@@ -294,24 +295,23 @@
         },
         //导出数据
         async downloadData() {
-          if (this.multipleSelection.length != 0) {
-            var sclId = [5];
+          var sclId = [3];
+          // const red = await downloadDataApi(sclId)
+          // let id=this.staffApplyList[index].id;
           await downloadDataApi(sclId).then(result => {
             let url = window.URL.createObjectURL(result);
             let link = document.createElement('a');
             link.style.display = 'none'
             link.href = url;
             link.setAttribute('id', 'downloadLink')
-            link.setAttribute('download', '学生就业信息数据表.xls');
+            link.setAttribute('download', '员工资料信息表.xls');
             document.body.appendChild(link)
             link.click();
+
             // 删除添加的a链接
             let objLink = document.getElementById('downloadLink')
             document.body.removeChild(objLink)
           })
-          }else{
-            this.$message('请先选择要导出数据的学校！');
-          }
         },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {
