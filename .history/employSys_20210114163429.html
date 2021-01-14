@@ -37,7 +37,7 @@
                   @change="submitCollectionFlowImport" />
               </a>
               <!-- <a href="#" class="icon_import">导入数据</a> -->
-              <a href="#" class="icon_export" @click="downloadData">导出数据</a>
+              <a href="javascript:void(0);" class="icon_export" @click="downloadData">导出数据</a>
             </template>
             <el-input v-show="showTable" placeholder="学校或班级名称" suffix-icon="el-icon-search" v-model="searchSchool">
             </el-input>
@@ -52,7 +52,6 @@
               :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
               :data="searchSchool ? tableData.filter(data => !searchSchool || searchFilter(data)) : pageFilter"
               @selection-change="handleSelectionChange" tooltip-effect="dark"
-              @row-click="studentListData(row)"
               style="width: 100%;padding: 10px;border: none;">
               <el-table-column type="selection" width="55">
               </el-table-column>
@@ -237,8 +236,13 @@
 
         },
         handleSelectionChange(val) {
-          console.log(val);
-          this.multipleSelection = val;
+          val.forEach(element => {
+            // console.log(element.collegeId);
+            this.multipleSelection = element.collegeId;
+            console.log(this.multipleSelection);
+          });
+         
+          
         },
         //编辑
         handleClick(obj) {
@@ -289,21 +293,18 @@
             });
         },
         //导出数据
-        async downloadData(){
-          if (this.multipleSelection.length > 0) {
-            var sclId = [1];
-            // const red = await downloadDataApi(sclId)
-            // let id=this.staffApplyList[index].id;
-            await downloadDataApi(sclId).then(result=>{
-              let url = window.URL.createObjectURL(result);
-              let link=document.createElement('a');
-              link.style.display='none'
-              link.href=url;
+        async downloadData() {
+          if (this.multipleSelection.length != 0) {
+            var sclId = [5];
+          await downloadDataApi(sclId).then(result => {
+            let url = window.URL.createObjectURL(result);
+            let link = document.createElement('a');
+            link.style.display = 'none'
+            link.href = url;
             link.setAttribute('id', 'downloadLink')
-            link.setAttribute('download','员工资料信息表.xls');
+            link.setAttribute('download', '学生就业信息数据表.xls');
             document.body.appendChild(link)
             link.click();
-
             // 删除添加的a链接
             let objLink = document.getElementById('downloadLink')
             document.body.removeChild(objLink)
@@ -311,16 +312,16 @@
           }else{
             this.$message('请先选择要导出数据的学校！');
           }
-      },
+u        },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {
           this.tableData = await schoolListDataApi(roleId);
         },
         //分组查看学生列表，单击某个学校查看对应的学生数据
         async studentListData(obj) {
-          console.log(obj)
           this.showTable = false;
           this.id = obj.id;
+          console.log(obj)
           // if (this.id) {
           let stuPramas = {
             "collegeId": obj.collegeId,

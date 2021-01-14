@@ -144,6 +144,12 @@
               <el-table-column prop="orRight" label="专业对口" width="120">
                 <template slot-scope="scope">{{ scope.row.orRight ? "是" : "否" }}</template>
               </el-table-column>
+              <el-table-column label="个人简介" width="120">
+                <template slot-scope="scope">{{ scope.row.summary ? scope.row.summary : "无" }}</template>
+              </el-table-column>
+              <el-table-column label="工作经历" width="120">
+                <template slot-scope="scope">{{ scope.row.workExperience ? scope.row.workExperience : "无" }}</template>
+              </el-table-column>
               <el-table-column width="100">
                 <template slot="header" slot-scope="scope">
                   <el-button icon="el-icon-back" round size="mini" @click="handleClickBack(scope.row)"
@@ -290,7 +296,6 @@
         },
         //导出数据
         async downloadData(){
-          if (this.multipleSelection.length > 0) {
             var sclId = [1];
             // const red = await downloadDataApi(sclId)
             // let id=this.staffApplyList[index].id;
@@ -308,10 +313,14 @@
             let objLink = document.getElementById('downloadLink')
             document.body.removeChild(objLink)
           })
+<<<<<<< HEAD
+        },
+=======
           }else{
             this.$message('请先选择要导出数据的学校！');
           }
-      },
+u        },
+>>>>>>> ljp
         //通过用户查询学校学生信息
         async schoolListData(roleId) {
           this.tableData = await schoolListDataApi(roleId);
