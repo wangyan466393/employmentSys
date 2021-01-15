@@ -96,6 +96,9 @@ html{
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
 }
+/* .icon_import{
+    background: url(../imgs/icon_ljp02.png) no-repeat right center;
+} */
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  
@@ -104,7 +107,7 @@ html{
     width: 332px;
 }
 .table_content{
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .el-table--enable-row-hover .el-table__body tr:hover>td {

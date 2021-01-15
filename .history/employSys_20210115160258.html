@@ -76,27 +76,27 @@
               </el-table-column>
               <el-table-column prop="higherSchoolCount" label="专升本数量(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="jobStuCount" label="就业总数(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="jobStuCount" label="就业总数(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="autonomouslyCount" label="自主就业(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="autonomouslyCount" label="自主就业(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="recommendCount" label="推荐就业(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="recommendCount" label="推荐就业(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="subjectCount" label="专业对口(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="subjectCount" label="专业对口(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="starCount" label="就业明星(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="starCount" label="就业明星(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
               <el-table-column prop="salaryAvg" label="实习平均薪资(元)" show-overflow-tooltip min-width="120">
                 <template slot-scope="scope">{{scope.row.salaryAvg ? "¥" + scope.row.salaryAvg.toFixed(2) : "¥0.00"}}</template>
               </el-table-column>
               <el-table-column label="整体就业率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{  scope.row.studentCount? ((scope.row.jobStuCount / scope.row.studentCount)*100).toFixed(2) + "%" : "0%"}}</template>
+                <template slot-scope="scope">{{ ((scope.row.jobStuCount / scope.row.studentCount)*100).toFixed(2) + "%"}}</template>
               </el-table-column>
               <el-table-column label="推荐就业率(%)" show-overflow-tooltip min-width="120">
                 <template slot-scope="scope">{{ ((scope.row.recommendCount / scope.row.jobStuCount)*100).toFixed(2) + "%"}}</template>
               </el-table-column>
               <el-table-column label="专业对口率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{ scope.row.recommendCount ? ((scope.row.subjectCount / scope.row.recommendCount)*100).toFixed(2) + "%" : "0%"}}</template>
+                <template slot-scope="scope">{{ ((scope.row.subjectCount / scope.row.recommendCount)*100).toFixed(2) + "%"}}</template>
               </el-table-column>
               <el-table-column label="操作" width="60" >
                 <template slot-scope="scope">
@@ -109,19 +109,13 @@
             <el-table v-show=" !showTable "
               :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
               :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
-          
               style="width: 100%;padding: 10px;border: none;">
               <!-- <el-table-column type="selection" width="55">
               </el-table-column> -->
               <el-table-column label="序号" width="60" type="index">
               </el-table-column>
-              <el-table-column label="姓名" min-width="80">
-                <template slot-scope="scope">
-                  <el-badge value="class='el-icon-delete'" class="item" >
-                    {{ scope.row.name }}
-                  </el-badge>
-                </template>
-                
+              <el-table-column label="姓名" width="80">
+                <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="性别" width="60">
                 <template slot-scope="scope">{{ scope.row.gender }}</template>

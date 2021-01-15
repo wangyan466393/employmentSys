@@ -44,11 +44,7 @@
             </el-input>
           </div>
         </div>
-        <!-- 表格数据 -->
         <div class="table_content">
-          <div style="text-align: right;height: 30px;">
-            <el-button  v-show="!showTable" type="info" icon="el-icon-back" size="mini" round style="margin-right: 15px;" @click="handleClickBack">返回</el-button>
-          </div>
           <template>
             <!-- 所有合作院校数据 -->
             <el-table ref="multipleTable" v-show="showTable"
@@ -76,52 +72,47 @@
               </el-table-column>
               <el-table-column prop="higherSchoolCount" label="专升本数量(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="jobStuCount" label="就业总数(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="jobStuCount" label="就业总数(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="autonomouslyCount" label="自主就业(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="autonomouslyCount" label="自主就业(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="recommendCount" label="推荐就业(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="recommendCount" label="推荐就业(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="subjectCount" label="专业对口(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="subjectCount" label="专业对口(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column prop="starCount" label="就业明星(人)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="starCount" label="就业明星(人)" show-overflow-tooltip min-width="120">
               </el-table-column>
               <el-table-column prop="salaryAvg" label="实习平均薪资(元)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{scope.row.salaryAvg ? "¥" + scope.row.salaryAvg.toFixed(2) : "¥0.00"}}</template>
+                <span>¥</span>
+                <template slot-scope="scope">{{ "¥" + scope.row.salaryAvg.toFixed(2) }}</template>
               </el-table-column>
               <el-table-column label="整体就业率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{  scope.row.studentCount? ((scope.row.jobStuCount / scope.row.studentCount)*100).toFixed(2) + "%" : "0%"}}</template>
+                <template slot-scope="scope">{{ ((scope.row.jobStuCount / scope.row.studentCount)*100).toFixed(2) + "%"}}</template>
               </el-table-column>
               <el-table-column label="推荐就业率(%)" show-overflow-tooltip min-width="120">
                 <template slot-scope="scope">{{ ((scope.row.recommendCount / scope.row.jobStuCount)*100).toFixed(2) + "%"}}</template>
               </el-table-column>
               <el-table-column label="专业对口率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{ scope.row.recommendCount ? ((scope.row.subjectCount / scope.row.recommendCount)*100).toFixed(2) + "%" : "0%"}}</template>
+                <template slot-scope="scope">{{ ((scope.row.subjectCount / scope.row.recommendCount)*100).toFixed(2) + "%"}}</template>
               </el-table-column>
               <el-table-column label="操作" width="60" >
                 <template slot-scope="scope">
                   <el-button @click="studentListData(scope.row)" type="text" size="small">查看</el-button>
+                  <!-- <el-button type="text" size="small">编辑</el-button> -->
                 </template>
               </el-table-column>
             </el-table>
             <!-- 院校对应学生数据 -->
-            <template>
             <el-table v-show=" !showTable "
               :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
               :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
-          
               style="width: 100%;padding: 10px;border: none;">
-              <!-- <el-table-column type="selection" width="55">
-              </el-table-column> -->
+              <el-table-column type="selection" width="55">
+              </el-table-column>
               <el-table-column label="序号" width="60" type="index">
               </el-table-column>
-              <el-table-column label="姓名" min-width="80">
-                <template slot-scope="scope">
-                  <el-badge value="class='el-icon-delete'" class="item" >
-                    {{ scope.row.name }}
-                  </el-badge>
-                </template>
-                
+              <el-table-column label="姓名" width="100">
+                <template slot-scope="scope">{{ scope.row.name }}</template>
               </el-table-column>
               <el-table-column label="性别" width="60">
                 <template slot-scope="scope">{{ scope.row.gender }}</template>
@@ -137,21 +128,22 @@
               </el-table-column>
               <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="100">
               </el-table-column>
-              <el-table-column label="薪资(元)" show-overflow-tooltip min-width="100">
+              <el-table-column prop="salary" label="薪资(元)" show-overflow-tooltip min-width="100">
+                <!-- <span>¥</span> -->
                 <template slot-scope="scope">{{ scope.row.salary ?  "¥" + scope.row.salary.toFixed(2) : "¥0.00" }}</template>
               </el-table-column>
-              <el-table-column prop="address" label="工作地点" width="100" show-overflow-tooltip>
+              <el-table-column prop="address" label="工作地点" width="120" show-overflow-tooltip>
                 <template slot-scope="scope">{{ scope.row.address }}</template>
               </el-table-column>
               <el-table-column label="入职日期" width="120">
                 <template slot-scope="scope">{{ format(scope.row.jobdate ,"yyyy-MM-dd")}}</template>
               </el-table-column>
-              <el-table-column prop="subjectName" label="专业方向" min-width="100">
-              </el-table-column>
-              <el-table-column prop="empType" label="就业方式" width="100">
+              <el-table-column prop="subjectName" label="专业方向" width="120">
+              </el-table-column> -->
+              <el-table-column prop="empType" label="就业方式" width="120">
                 <template slot-scope="scope">{{ scope.row.empType }}</template>
               </el-table-column>
-              <el-table-column prop="orRight" label="专业对口" width="100">
+              <el-table-column prop="orRight" label="专业对口" width="120">
                 <template slot-scope="scope">{{ scope.row.orRight ? "是" : "否" }}</template>
               </el-table-column>
               <el-table-column width="100">
@@ -165,7 +157,6 @@
                 </template>
               </el-table-column>
             </el-table>
-          </template>
           </template>
           <!-- 分页 -->
           <el-pagination v-show="showTable" small layout="prev, pager, next" :page-size="pageSize"
@@ -293,10 +284,9 @@
           this.tableData.forEach(element => {
             dataAllId.push(element.id)
           });
-          this.$message('默认导出所有数据！');
-          const arrId = this.multipleSelection.length > 0 ? this.multipleSelection : dataAllId
-          // if (this.multipleSelection.length > 0) {
-            await downloadDataApi(arrId).then(result=>{
+
+          if (this.multipleSelection.length > 0) {
+            await downloadDataApi(this.multipleSelection).then(result=>{
               let url = window.URL.createObjectURL(result);
               let link=document.createElement('a');
               link.style.display='none'
@@ -311,9 +301,9 @@
             document.body.removeChild(objLink)
             this.multipleSelection.length=0;
           })
-          // }else{
-          //   this.$message('请先选择要导出数据的学校！');
-          // }
+          }else{
+            this.$message('请先选择要导出数据的学校！');
+          }
       },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {

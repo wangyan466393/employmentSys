@@ -96,10 +96,14 @@ html{
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
 }
+/* .icon_import{
+    background: url(../imgs/icon_ljp02.png) no-repeat right center;
+} */
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  
 }
+
 .content_handle .el-input{
     width: 332px;
 }
