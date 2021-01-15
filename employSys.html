@@ -170,8 +170,19 @@
         </div>
       </div>
     </div>
-    <el-drawer title="我是标题" :visible.sync="drawerDetails" :with-header="false">
-      <span>我来啦!</span>
+    <el-drawer class="wy_studentDeilDraw" title="我是标题" :before-close="handleClose" :visible.sync="drawerDetails" :with-header="false">
+      <el-row :gutter="10">
+        <el-col :span="8">
+          <el-image
+          style="width: 160px; height: 220px"
+          :src="studentDetail.url"
+          fit="fill"></el-image>
+        </el-col>
+        <el-col :span="14">
+           aaaaaa
+        </el-col>
+      </el-row>  
+      
     </el-drawer>
   </div>
   <script src="js/jquery-1.11.3.js"></script>
@@ -184,7 +195,10 @@
       el: '#app',
       data() {
         return {
-          drawerDetails: false,//弹框默认不显示
+          studentDetail:{
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
+          drawerDetails: true,//弹框默认不显示
           showTable: true,
           searchSchool: '', //搜索学校
           searchStudent: '', //搜索学生
@@ -229,6 +243,19 @@
 
       },
       methods: {
+        // 点击查看学生详情
+        handleClickDetails(data){
+           console.log(data);
+           this.drawerDetails=true;
+        },
+        // 是否确认关闭
+        handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        },
         ///搜索条件
         searchFilter(data) {
           if (this.showTable) {
