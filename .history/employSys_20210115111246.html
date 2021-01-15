@@ -84,7 +84,7 @@
               </el-table-column>
               <el-table-column prop="salaryAvg" label="实习平均薪资(元)" show-overflow-tooltip min-width="120">
                 <span>¥</span>
-                <template slot-scope="scope">{{ "¥" + scope.row.salaryAvg.toFixed(2) }}</template>
+                <template slot-scope="scope">{{ "¥" + scope.row.salaryAvg }}</template>
               </el-table-column>
               <el-table-column label="整体就业率(%)" show-overflow-tooltip min-width="120">
                 <template slot-scope="scope">{{ ((scope.row.jobStuCount / scope.row.studentCount)*100).toFixed(2) + "%"}}</template>
@@ -306,6 +306,7 @@
         },
         //分组查看学生列表，单击某个学校查看对应的学生数据
         async studentListData(row) {
+          console.log(row)
           this.searchSchool='';
           this.showTable = false;
           this.currentPage =1;

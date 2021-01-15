@@ -34,8 +34,9 @@
             <template v-if="roleBool">
               <a href="javascript:;" class="file"> 导入数据
                 <input type="file" class="uploadExcel" accept=".xls, .xlsx" id="importExcel"
-                  @change="uploadData" />
+                  @change="submitCollectionFlowImport" />
               </a>
+              <!-- <a href="#" class="icon_import">导入数据</a> -->
               <a href="#" class="icon_export" @click="downloadData">导出数据</a>
             </template>
             <el-input v-show="showTable" placeholder="学校或班级名称" suffix-icon="el-icon-search" v-model="searchSchool">
@@ -84,16 +85,13 @@
               </el-table-column>
               <el-table-column prop="salaryAvg" label="实习平均薪资(元)" show-overflow-tooltip min-width="120">
                 <span>¥</span>
-                <template slot-scope="scope">{{ "¥" + scope.row.salaryAvg.toFixed(2) }}</template>
+                <template slot-scope="scope">{{ "¥" + scope.row.salaryAvg }}</template>
               </el-table-column>
-              <el-table-column label="整体就业率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{ ((scope.row.jobStuCount / scope.row.studentCount)*100).toFixed(2) + "%"}}</template>
+              <el-table-column prop="allRate" label="整体就业率(%)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column label="推荐就业率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{ ((scope.row.recommendCount / scope.row.jobStuCount)*100).toFixed(2) + "%"}}</template>
+              <el-table-column prop="aecommendRate" label="推荐就业率(%)" show-overflow-tooltip min-width="120">
               </el-table-column>
-              <el-table-column label="专业对口率(%)" show-overflow-tooltip min-width="120">
-                <template slot-scope="scope">{{ ((scope.row.subjectCount / scope.row.recommendCount)*100).toFixed(2) + "%"}}</template>
+              <el-table-column prop="subjectRate" label="专业对口率(%)" show-overflow-tooltip min-width="120">
               </el-table-column>
               <el-table-column label="操作" width="60" >
                 <template slot-scope="scope">
@@ -130,7 +128,7 @@
               </el-table-column>
               <el-table-column prop="salary" label="薪资(元)" show-overflow-tooltip min-width="100">
                 <!-- <span>¥</span> -->
-                <template slot-scope="scope">{{ scope.row.salary ?  "¥" + scope.row.salary.toFixed(2) : "¥0.00" }}</template>
+                <template slot-scope="scope">{{ "¥" + scope.row.salary }}</template>
               </el-table-column>
               <el-table-column prop="address" label="工作地点" width="120" show-overflow-tooltip>
                 <template slot-scope="scope">{{ scope.row.address }}</template>
@@ -231,18 +229,18 @@
       methods: {
         ///搜索条件
         searchFilter(data) {
+        
           if (this.showTable) {
             return data.college.toLowerCase().includes(this.searchSchool.toLowerCase()) || data.grade.toLowerCase().includes(this.searchSchool.toLowerCase())
           } else {
-            return data.name.toLowerCase().includes(this.searchStudent.toLowerCase()) || (data.company ? data.company.toLowerCase().includes(this.searchStudent.toLowerCase()) : data.company)
+           
+            return data.name.toLowerCase().includes(this.searchStudent.toLowerCase()) || (data.company ? data.company.toLowerCase().includes(this.searchStudent.toLowerCase()) : "无")
           }
 
         },
         handleSelectionChange(val) {
-          val.forEach(element => {
-            this.multipleSelection.push(element.id)
-          });
-          console.log(this.multipleSelection);
+          console.log(val);
+          this.multipleSelection = val;
         },
         //编辑
         handleClick(obj) {
@@ -267,7 +265,7 @@
           this.currentPage = val
         },
         //导入数据
-        async uploadData(type) {
+        submitCollectionFlowImport: function (type) {
           var _self = this;
           let fileFormData = new FormData();
           fileFormData.append("file", $("#importExcel")[0].files[0]);
@@ -276,25 +274,43 @@
               "Content-Type": "multipart/form-data",
             },
           };
-          await uploadDataApi (fileFormData,requestConfig);
+          const instance = axios.create({
+            withCredentials: true,
+          });
+
+          instance
+            .post(
+              _self.url,
+              fileFormData,
+              requestConfig
+            )
+            .then((res) => {
+              if (res.data.status == "ok") {
+                alert('上传成功');
+              } else {
+                this.$message.error('上传失败，请重试！');
+              }
+            });
         },
         //导出数据
         async downloadData(){
           if (this.multipleSelection.length > 0) {
-            await downloadDataApi(this.multipleSelection).then(result=>{
+            var sclId = [1];
+            // const red = await downloadDataApi(sclId)
+            // let id=this.staffApplyList[index].id;
+            await downloadDataApi(sclId).then(result=>{
               let url = window.URL.createObjectURL(result);
               let link=document.createElement('a');
               link.style.display='none'
               link.href=url;
             link.setAttribute('id', 'downloadLink')
-            link.setAttribute('download','学生就业信息表.xls');
+            link.setAttribute('download','员工资料信息表.xls');
             document.body.appendChild(link)
             link.click();
 
             // 删除添加的a链接
             let objLink = document.getElementById('downloadLink')
             document.body.removeChild(objLink)
-            this.multipleSelection.length=0;
           })
           }else{
             this.$message('请先选择要导出数据的学校！');
@@ -306,6 +322,7 @@
         },
         //分组查看学生列表，单击某个学校查看对应的学生数据
         async studentListData(row) {
+          console.log(row)
           this.searchSchool='';
           this.showTable = false;
           this.currentPage =1;
