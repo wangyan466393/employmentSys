@@ -171,18 +171,94 @@
       </div>
     </div>
     <el-drawer class="wy_studentDeilDraw" title="我是标题" :before-close="handleClose" :visible.sync="drawerDetails" :with-header="false">
-      <el-row :gutter="10">
-        <el-col :span="8">
+      <el-row>
+        <el-col :span="8" style="text-align:center">
           <el-image
-          style="width: 160px; height: 220px"
+          style="width: 140px; height: 200px"
           :src="studentDetail.url"
           fit="fill"></el-image>
         </el-col>
-        <el-col :span="14">
-           aaaaaa
+        <el-col :span="16">
+           <el-row class="wy_row">
+               <el-col :span="24">姓名：{{studentDetail.name}}</el-col>
+            </el-row>
+            <el-row class="wy_row">
+                <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
+                <el-col :span="12">籍贯：{{studentDetail.address}}市</el-col>
+            </el-row>
+             <el-row class="wy_row">
+                <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
+            
+              </el-row>
+             <el-row class="wy_row">
+                 
+                <el-col :span="24">毕业院校：{{studentDetail.collegeName}}</el-col>
+                
+             </el-row>
+             <el-row class="wy_row">
+                <el-col :span="12">联系电话：{{studentDetail.phone}}</el-col>
+                <el-col :span="12">所学专业：{{studentDetail.subjectName}}</el-col>
+             </el-row>
         </el-col>
       </el-row>  
-      
+      <el-row>
+         <el-col :span='7' class="wy_left_col">
+             个人技能
+         </el-col>
+         <el-col :span='15'>
+            <el-divider></el-divider>
+         </el-col>
+         <el-row class="wy_desci">
+              <el-col :span='22' :push='2'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id amet iure accusantium labore. Qui ex laborum accusamus, ipsa, laboriosam debitis et deleniti commodi repellendus tempore quae. Qui, quam quidem. Nam.
+              </el-col>
+         </el-row>
+      </el-row>
+      <el-row>
+          <el-col :span='7' class="wy_left_col">
+              工作经历
+          </el-col>
+          <el-col :span='15'>
+             <el-divider></el-divider>
+          </el-col>
+          
+          <el-row class="wy_desci" v-if='studentDetail.workExperience'>
+               <el-col :span='22' :push='2'>
+                    <span>企业名称</span> 
+                    <span>2010年10月-2020年4月</span>
+                    <span>前端开发</span>
+                    <span>2000/月</span>
+               </el-col>
+          </el-row>
+          <el-row v-else class="wy_desci">
+              <el-col :span='22' :push='2'>
+                暂无工作经历
+              </el-col>
+          </el-row>
+          <el-row>
+              <el-col :span='4' :push='18'>
+                  <el-button type="primary" round>新增经历</el-button>
+              </el-col>
+          </el-row>
+       </el-row>
+          
+       <el-row>
+          <el-col :span='7' class="wy_left_col">
+              自我评价
+          </el-col>
+          <el-col :span='15'>
+             <el-divider></el-divider>
+          </el-col>
+          <el-row class="wy_desci">
+              <el-col v-if='studentDetail.summary' :span='22' :push='2' >
+                  {{studentDetail.summary}}
+               </el-col>
+               <el-col v-else :span='22' :push='2' >
+                  暂无自我评价
+               </el-col>
+          </el-row>
+       </el-row>
+       
     </el-drawer>
   </div>
   <script src="js/jquery-1.11.3.js"></script>
@@ -198,7 +274,7 @@
           studentDetail:{
             url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
           },
-          drawerDetails: true,//弹框默认不显示
+          drawerDetails: false,//弹框默认不显示
           showTable: true,
           searchSchool: '', //搜索学校
           searchStudent: '', //搜索学生
@@ -244,10 +320,28 @@
       },
       methods: {
         // 点击查看学生详情
-        handleClickDetails(data){
-           console.log(data);
+        async handleClickDetails(data){
+          console.log(data.id);
            this.drawerDetails=true;
+           this.studentDetail= await studentDetailApi(data.id);
+           console.log(this.studentDetail);
+           
         },
+        // 根据返回的日期计算间隔
+         // 时间戳转日期
+         toDate(number) {
+                let n = number;
+                let date = new Date(n);
+                let Y = date.getFullYear() + '/';
+                let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '/';
+                let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+                return (Y + M + D)
+            },
+        toAge(timeStamp) {
+                let birthDate = this.toDate(timeStamp).substr(0, 4);
+                let newDate = new Date().getFullYear();
+                return (newDate - parseInt(birthDate));
+            },
         // 是否确认关闭
         handleClose(done) {
         this.$confirm('确认关闭？')
