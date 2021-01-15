@@ -110,7 +110,6 @@
             <!-- 院校对应学生数据 -->
             <template>
               <el-table v-show=" !showTable "
-              @row-click="handleClickDetails"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
