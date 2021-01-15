@@ -68,3 +68,8 @@ const studentDetailApi = async (id)=>{
   const {data} =await request.get(`/student/selectStuById?stuId=${id}`);
   return data;
 }
+// 获取学生头像
+const studentAvatarApi = async (id)=>{
+  const {data} =await request.get(`/student/selectPhoto?id=${id}`);
+  return data;
+}
