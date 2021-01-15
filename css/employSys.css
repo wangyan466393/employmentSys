@@ -231,3 +231,27 @@ input:-ms-input-placeholder {
     text-align: center;
     line-height:42px;
 }
+.wy_studentDeilDraw .el-drawer__body{
+    padding: 20px;
+}
+.wy_studentDeilDraw .el-drawer{
+    width:640px!important;
+    color: #3e86ff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: AdobeHeitiStd-Regular;
+}
+.wy_studentDeilDraw .wy_row{
+    margin-top: 20px;
+}
+.wy_studentDeilDraw .wy_row:first-child{
+    margin-top: 30px;
+}
+.wy_studentDeilDraw .wy_left_col{
+    text-align: center;
+    line-height: 48px;
+}
+.wy_desci{
+    color: #999999;
+    line-height: 30px;
+}

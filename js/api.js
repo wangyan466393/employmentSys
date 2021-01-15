@@ -63,3 +63,8 @@ const uploadDataApi = async (fileFormData,requestConfig)=>{
     });
 }
 
+// 点击显示学生详情
+const studentDetailApi = async (id)=>{
+  const {data} =await request.get(`/student/selectStuById?stuId=${id}`);
+  return data;
+}
