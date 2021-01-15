@@ -110,7 +110,6 @@
             <!-- 院校对应学生数据 -->
             <template>
               <el-table v-show=" !showTable "
-              @row-click="handleClickDetails"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
@@ -121,7 +120,7 @@
                 <el-table-column label="姓名" min-width="80">
                   <template slot-scope="scope">
                     {{ scope.row.name }}
-                    <span v-if="scope.row.orRight == '是'" class="start_ljp"></span>
+                    <span class="start_ljp"></span>
                   </template>
 
                 </el-table-column>
@@ -286,7 +285,7 @@
             url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
           },
           drawerDetails: false,//弹框默认不显示
-          showTable: true,  //表格切换
+          showTable: true,
           searchSchool: '', //搜索学校
           searchStudent: '', //搜索学生
           pageSize: 10,  //默认一页显示数据个数
@@ -312,7 +311,6 @@
           }
         }
       },
-
       computed: {
         //分页
         pageFilter() {

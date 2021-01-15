@@ -82,11 +82,11 @@ html{
 }
 .start_ljp{
     position: absolute;
-    top: 8px;
-    width: 25px;
-    height: 25px;
+    top: 10px;
+    width: 20px;
+    height: 20px;
     background: url(../imgs/start_ljp.png) no-repeat center;
-    background-size: 25px;
+    background-size: 20px;
 }
 /* 导入数据 */
 .file {

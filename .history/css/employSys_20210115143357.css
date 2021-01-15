@@ -80,14 +80,6 @@ html{
     text-decoration: underline;
     color: #4089ff;
 }
-.start_ljp{
-    position: absolute;
-    top: 8px;
-    width: 25px;
-    height: 25px;
-    background: url(../imgs/start_ljp.png) no-repeat center;
-    background-size: 25px;
-}
 /* 导入数据 */
 .file {
     position: relative;
@@ -104,15 +96,22 @@ html{
 .icon_edit{
     background: url(../imgs/icon_ljp01.png) no-repeat right center;
 }
+/* .icon_import{
+    background: url(../imgs/icon_ljp02.png) no-repeat right center;
+} */
 .icon_export{
     background: url(../imgs/icon_ljp03.png) no-repeat right center;
  
+}
+.icon_back{
+    width: 50px;
+    background: url(../imgs/back_ljp.png) no-repeat right center;
 }
 .content_handle .el-input{
     width: 332px;
 }
 .table_content{
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 .el-table--enable-row-hover .el-table__body tr:hover>td {
@@ -238,28 +237,4 @@ input:-ms-input-placeholder {
     font-size: 22px;
     text-align: center;
     line-height:42px;
-}
-.wy_studentDeilDraw .el-drawer__body{
-    padding: 20px;
-}
-.wy_studentDeilDraw .el-drawer{
-    width:640px!important;
-    color: #3e86ff;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: AdobeHeitiStd-Regular;
-}
-.wy_studentDeilDraw .wy_row{
-    margin-top: 20px;
-}
-.wy_studentDeilDraw .wy_row:first-child{
-    margin-top: 30px;
-}
-.wy_studentDeilDraw .wy_left_col{
-    text-align: center;
-    line-height: 48px;
-}
-.wy_desci{
-    color: #999999;
-    line-height: 30px;
 }
