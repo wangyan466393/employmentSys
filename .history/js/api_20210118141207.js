@@ -67,13 +67,8 @@ const uploadDataApi = async (fileFormData)=>{
     });
 }
 //删除指定学生信息
-const deleteStuApi = async (id)=>{
-  const {data} =await request.get(`/student/deleteStu?id=${id}`).then(res=> {
-    console.log(res);
-    if (res.data == 1) {
-      alert("删除成功！")
-    }
-  });
+const studentDetailApi = async (id)=>{
+  const {data} =await request.get(`/student/deleteStu?id=${id}`);
   return data;
 }
 // 点击显示学生详情

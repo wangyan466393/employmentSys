@@ -46,7 +46,7 @@
         <!-- 表格数据 -->
         <div class="table_content">
           <div style="text-align: right;height: 30px;">
-            <el-button v-show="!showTable" type="info"  icon="el-icon-back" size="mini" round style="margin-right: 15px;"
+            <el-button v-show="!showTable" type="info" class="logout_ljp" icon="el-icon-back" size="mini" round style="margin-right: 15px;"
               @click="handleClickBack">返回</el-button>
           </div>
           <template>
@@ -108,6 +108,7 @@
             <!-- 院校对应学生数据 -->
             <template>
               <el-table v-show=" !showTable "
+              @row-click="handleClickDetails"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
@@ -153,7 +154,7 @@
                 <el-table-column prop="orRight" label="专业对口" width="100">
                   <template slot-scope="scope">{{ scope.row.orRight }}</template>
                 </el-table-column>
-                <el-table-column min-width="100">
+                <el-table-column width="100">
                   <template slot="header" slot-scope="scope">
                     <el-button icon="el-icon-back" round size="mini" @click="handleClickBack"
                       style="padding: 5px 12px;">
@@ -161,11 +162,7 @@
                   </template>
                   <template slot-scope="scope">
                     <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
-                    <el-button @click="deleteStudent(scope.row)" type="text" size="small">删除</el-button>
                   </template>
-                  
-                    
-                 
                 </el-table-column>
               </el-table>
             </template>
@@ -295,7 +292,7 @@
           stusListData: [],   //指定学校下的学生列表 数据
           multipleSelection: [],   //选中数据
           loginName: "",
-          roleBool: false,
+          roleBool: false
 
         }
       },
@@ -330,26 +327,6 @@
 
       },
       methods: {
-        async deleteStudent(row){
-          this.$confirm('确认要删除此学生信息吗？, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteStuApi(row.id)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-          
-        },
         // 点击查看学生详情
         async handleClickDetails(data) {
           console.log(data.id);

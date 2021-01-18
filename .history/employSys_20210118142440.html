@@ -108,6 +108,7 @@
             <!-- 院校对应学生数据 -->
             <template>
               <el-table v-show=" !showTable "
+              @row-click="handleClickDetails"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
@@ -296,6 +297,7 @@
           multipleSelection: [],   //选中数据
           loginName: "",
           roleBool: false,
+          sts:{}
 
         }
       },
@@ -331,24 +333,9 @@
       },
       methods: {
         async deleteStudent(row){
-          this.$confirm('确认要删除此学生信息吗？, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteStuApi(row.id)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
           
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-          
+          await deleteStuApi(row.id)
+          await studentListDataApi(this.sts)
         },
         // 点击查看学生详情
         async handleClickDetails(data) {
@@ -466,6 +453,10 @@
           this.searchSchool = '';
           this.showTable = false;
           this.currentPage = 1;
+          this.sts = {
+            "collegeId": row.collegeId,
+            "gradeid": row.gradeid
+          }
           let stuPramas = {
             "collegeId": row.collegeId,
             "gradeid": row.gradeid

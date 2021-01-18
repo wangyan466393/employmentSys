@@ -45,8 +45,8 @@ html{
 .login_name .el-divider{
     height: 100% !important;
 }
-.login_name i.el-icon-switch-button:hover{
-    color: red;
+.logout_ljp i.el-icon-switch-button:hover{
+    color: rgb(0,184,255);
 }
 .main{
     margin-top: 20px;

@@ -72,6 +72,7 @@ const deleteStuApi = async (id)=>{
     console.log(res);
     if (res.data == 1) {
       alert("删除成功！")
+      await studentListDataApi
     }
   });
   return data;

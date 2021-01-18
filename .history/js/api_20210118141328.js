@@ -70,9 +70,6 @@ const uploadDataApi = async (fileFormData)=>{
 const deleteStuApi = async (id)=>{
   const {data} =await request.get(`/student/deleteStu?id=${id}`).then(res=> {
     console.log(res);
-    if (res.data == 1) {
-      alert("删除成功！")
-    }
   });
   return data;
 }
