@@ -185,7 +185,7 @@
       :with-header="false">
       <el-row>
         <el-col :span="8" style="text-align:center">
-          <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image>
+          <el-image style="width: 140px; height: 200px" :src="studentDetail.url" fit="fill"></el-image>
         </el-col>
         <el-col :span="16">
           <el-row class="wy_row">
@@ -217,13 +217,12 @@
         <el-col :span='15'>
           <el-divider></el-divider>
         </el-col>
-        <el-row  class="wy_desci">
-          <el-col :span='22' :push='2' >
-            <span v-if='studentDetail.skill'>{{studentDetail.skill}}</span>
-            <span v-else>暂无个人技能</span>
+        <el-row class="wy_desci">
+          <el-col :span='22' :push='2'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Id amet iure accusantium labore. Qui ex laborum
+            accusamus, ipsa, laboriosam debitis et deleniti commodi repellendus tempore quae. Qui, quam quidem. Nam.
           </el-col>
         </el-row>
-        
       </el-row>
       <el-row>
         <el-col :span='7' class="wy_left_col">
@@ -261,11 +260,12 @@
           <el-divider></el-divider>
         </el-col>
         <el-row class="wy_desci">
-          <el-col :span='22' :push='2'>
-           <span v-if='studentDetail.summary' >  {{studentDetail.summary}}</span>
-           <span v-else>暂无自我评价</span>
+          <el-col v-if='studentDetail.summary' :span='22' :push='2'>
+            {{studentDetail.summary}}
           </el-col>
-          
+          <el-col v-else :span='22' :push='2'>
+            暂无自我评价
+          </el-col>
         </el-row>
       </el-row>
 
@@ -281,9 +281,9 @@
       el: '#app',
       data() {
         return {
-          baseUrl:'http://47.95.13.193:80/Job-1.0-SNAPSHOT/',
-          studentAvatar:{},//学生头像
-          studentDetail: {},//学生基本信息
+          studentDetail: {
+            url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
+          },
           drawerDetails: false,//弹框默认不显示
           showTable: true,  //表格切换
           searchSchool: '', //搜索学校
@@ -334,9 +334,8 @@
           console.log(data.id);
           this.drawerDetails = true;
           this.studentDetail = await studentDetailApi(data.id);
-          this.studentAvatar = await studentAvatarApi(data.id);
-          console.log(this.studentAvatar);
-          
+          console.log(this.studentDetail);
+
         },
         // 根据返回的日期计算间隔
         // 时间戳转日期
@@ -404,8 +403,32 @@
           event.preventDefault();
           var fileFormData = new FormData();
           var file=e.target.files[0];
-          fileFormData.append("uploadExcel", file);
-          await uploadDataApi(fileFormData);
+          fileFormData.append("file", file);
+          debugger
+          // fileFormData = fileFormData.get('file');
+          console.log(fileFormData.get('file'))
+          // const requestConfig = {
+          //   ,
+          // };
+          // await uploadDataApi(fileFormData);
+          axios.post("http://47.95.13.193:80/Job-1.0-SNAPSHOT/student/upLoadExcelStu",
+            {
+              "uploadExcel":fileFormData.get('file')
+            },
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data,charset=UTF-8",
+                }
+              }
+              
+            ).then((res) => {
+              console.log(res);
+              if (res.data.status == "ok") {
+                alert('上传成功');
+              } else {
+                alert('上传失败，请重试！');
+              }
+            });
         },
         //导出数据
         async downloadData() {

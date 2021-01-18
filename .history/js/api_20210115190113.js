@@ -50,7 +50,7 @@ const downloadDataApi = async (sclId) =>{
 //导入数据
 const uploadDataApi = async (fileFormData)=>{
   return request.post("/student/upLoadExcelStu",
-     fileFormData,
+     {"uploadExcel":fileFormData},
       {
         headers: {
           "Content-Type": "multipart/form-data,charset=UTF-8",
@@ -59,7 +59,7 @@ const uploadDataApi = async (fileFormData)=>{
       
     ).then((res) => {
       console.log(res);
-      if (res.status == 200) {
+      if (res.data.status == "ok") {
         alert('上传成功');
       } else {
         alert('上传失败，请重试！');
@@ -70,10 +70,5 @@ const uploadDataApi = async (fileFormData)=>{
 // 点击显示学生详情
 const studentDetailApi = async (id)=>{
   const {data} =await request.get(`/student/selectStuById?stuId=${id}`);
-  return data;
-}
-// 获取学生头像
-const studentAvatarApi = async (id)=>{
-  const {data} =await request.get(`/student/selectPhoto?id=${id}`);
   return data;
 }
