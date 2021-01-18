@@ -109,8 +109,7 @@
             </el-table>
             <!-- 院校对应学生数据 -->
             <template>
-              <el-table v-show=" !showTable "
-              @row-click="handleClickDetails"
+              <el-table v-show=" !showTable " @row-click="handleClickDetails"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
@@ -217,13 +216,13 @@
         <el-col :span='15'>
           <el-divider></el-divider>
         </el-col>
-        <el-row  class="wy_desci">
-          <el-col :span='22' :push='2' >
+        <el-row class="wy_desci">
+          <el-col :span='22' :push='2'>
             <span v-if='studentDetail.skill'>{{studentDetail.skill}}</span>
             <span v-else>暂无个人技能</span>
           </el-col>
         </el-row>
-        
+
       </el-row>
       <el-row>
         <el-col :span='7' class="wy_left_col">
@@ -248,7 +247,7 @@
         </el-row>
         <el-row>
           <el-col :span='4' :push='18'>
-            <el-button type="primary" round>新增经历</el-button>
+            <el-button type="primary" @click="addVisible = true" round>新增经历</el-button>
           </el-col>
         </el-row>
       </el-row>
@@ -262,27 +261,70 @@
         </el-col>
         <el-row class="wy_desci">
           <el-col :span='22' :push='2'>
-           <span v-if='studentDetail.summary' >  {{studentDetail.summary}}</span>
-           <span v-else>暂无自我评价</span>
+            <span v-if='studentDetail.summary'> {{studentDetail.summary}}</span>
+            <span v-else>暂无自我评价</span>
           </el-col>
-          
         </el-row>
       </el-row>
-
     </el-drawer>
+    <el-dialog title="新增工作经历" :visible.sync="addVisible" width="30%" :before-close="handleClose">
+      <span>
+        <div class="demo-input-suffix">
+          入职公司：
+          <el-input placeholder="请输入入职公司" v-model='workExperience.company'>
+          </el-input>
+        </div>
+        <div class="demo-input-suffix">
+          入职时间：
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
+          </el-date-picker>
+        </div>
+        <div class="demo-input-suffix">
+          入职岗位：
+          <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
+          </el-input>
+        </div>
+        <div class="demo-input-suffix">
+          入职薪水：
+          <el-input placeholder="请输入入职薪水" v-model='workExperience.salary'>
+          </el-input>
+        </div>
+        <div class="demo-input-suffix">
+          <pre style="display:inline-block;vertical-align: middle;">
+上家公司
+离职原因：
+          </pre>
+          <el-input  v-model='workExperience.cause'  type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" >
+          </el-input>
+        </div>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addWorkExperience">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
   <script src="js/jquery-1.11.3.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
-  <script src="js/element-ui.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.9/vue.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.js"> </script>
+  <script src="js/element-ui.js"> </script>
   <script src="js/api.js"></script>
   <script>
     new Vue({
       el: '#app',
       data() {
         return {
-          baseUrl:'http://47.95.13.193:80/Job-1.0-SNAPSHOT/',
-          studentAvatar:{},//学生头像
+          baseUrl: 'http://47.95.13.193:80/Job-1.0-SNAPSHOT/',
+          addVisible: true,//新增弹框默认隐藏
+          workExperience:{   //新增工作经历
+            company:'',//入职公司
+            positionName:'',//入职岗位
+            salary:'',//入职薪资
+            jobDate:'',//入职时间
+            cause:''//上家公司离职原因
+          },
+          studentId:'',//学生id
+          studentAvatar: {},//学生头像
           studentDetail: {},//学生基本信息
           drawerDetails: false,//弹框默认不显示
           showTable: true,  //表格切换
@@ -329,14 +371,21 @@
 
       },
       methods: {
+        // 点击确定实现新增
+        async addWorkExperience(){
+          console.log(this.studentId);
+          let stuentWork=await addWorkExperienceApi(this.studentId,this.workExperience.company,this.workExperience.positionName,this.workExperience.salary,this.workExperience.jobDate,this.workExperience.cause);
+          console.log(stuentWork);
+        },
         // 点击查看学生详情
         async handleClickDetails(data) {
           console.log(data.id);
+          this.studentId=data.id;
+          console.log(this.studentId);
           this.drawerDetails = true;
           this.studentDetail = await studentDetailApi(data.id);
           this.studentAvatar = await studentAvatarApi(data.id);
           console.log(this.studentAvatar);
-          
         },
         // 根据返回的日期计算间隔
         // 时间戳转日期
