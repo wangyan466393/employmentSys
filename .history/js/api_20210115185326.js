@@ -50,7 +50,9 @@ const downloadDataApi = async (sclId) =>{
 //导入数据
 const uploadDataApi = async (fileFormData)=>{
   return request.post("/student/upLoadExcelStu",
-     fileFormData,
+      {
+       "uploadExcel": fileFormData
+      },
       {
         headers: {
           "Content-Type": "multipart/form-data,charset=UTF-8",
@@ -59,7 +61,7 @@ const uploadDataApi = async (fileFormData)=>{
       
     ).then((res) => {
       console.log(res);
-      if (res.status == 200) {
+      if (res.data.status == "ok") {
         alert('上传成功');
       } else {
         alert('上传失败，请重试！');

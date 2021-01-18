@@ -400,11 +400,19 @@
         },
         //导入数据
         async uploadData(e) {
-          event.preventDefault();
           var fileFormData = new FormData();
-          var file=e.target.files[0];
-          fileFormData.append("uploadExcel", file);
-          await uploadDataApi(fileFormData);
+          // var file=e.target.files;
+          const fileInput = this.$refs.fileInput;
+          const oFile = fileInput.files[0]
+          debugger
+          fileFormData.append("file", oFile);
+          console.log(fileFormData)
+          let requestConfig = {
+            headers: {
+              "Content-Type": "multipart/form-data,charset=UTF-8",
+            },
+          };
+          await uploadDataApi(fileFormData, requestConfig);
         },
         //导出数据
         async downloadData() {
