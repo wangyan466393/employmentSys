@@ -1,47 +1,47 @@
 const request = axios.create({
-    baseURL: "http://47.95.13.193:80/Job-1.0-SNAPSHOT",
-  });
-  
-  // post表单请求
-  const requestPost = (url, data) => {
-    const params = JSON.stringify(data);
-    const requestConfig = {
-        headers: {
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-      };
-    return request.post(url, params,requestConfig);
-  };
+  baseURL: "http://47.95.13.193:80/Job-1.0-SNAPSHOT",
+});
 
-  // 登录的API
-const loginApi = async (userAccount,userPassword) => {
-    const { data } = await requestPost("/user/login", {
-        "account":userAccount,
-        "password":userPassword
-    });
-    return data;
+// post表单请求
+const requestPost = (url, data) => {
+  const params = JSON.stringify(data);
+  const requestConfig = {
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
   };
+  return request.post(url, params, requestConfig);
+};
+
+// 登录的API
+const loginApi = async (userAccount, userPassword) => {
+  const { data } = await requestPost("/user/login", {
+    "account": userAccount,
+    "password": userPassword
+  });
+  return data;
+};
 
 //通过用户角色查询学校学生信息
 const schoolListDataApi = async (roleId) => {
-  const {data} = await requestPost("/student/queryStudent",roleId);
-  return data ;
+  const { data } = await requestPost("/student/queryStudent", roleId);
+  return data;
 };
 
-  // 分组查看学生列表，单击某个学校查看对应的学生数据
-  const studentListDataApi = async (stuPramas) => {
-    const {data} = await requestPost("/student/selectStuByCollegeId",stuPramas);
-    return data ;
-  };
+// 分组查看学生列表，单击某个学校查看对应的学生数据
+const studentListDataApi = async (stuPramas) => {
+  const { data } = await requestPost("/student/selectStuByCollegeId", stuPramas);
+  return data;
+};
 
 //导出数据
-const downloadDataApi = async (sclId) =>{
-  return new Promise((resolve,reject)=>{
-    request.post('/student/exportExcelAllInfo',sclId,{
+const downloadDataApi = async (sclId) => {
+  return new Promise((resolve, reject) => {
+    request.post('/student/exportExcelAllInfo', sclId, {
       responseType: 'blob'
-    }).then(result=>{
+    }).then(result => {
       resolve(result.data)
-    }).catch(err=>{
+    }).catch(err => {
       reject(err)
     })
   })
@@ -77,12 +77,24 @@ const deleteStuApi = async (id)=>{
   return data;
 }
 // 点击显示学生详情
-const studentDetailApi = async (id)=>{
-  const {data} =await request.get(`/student/selectStuById?stuId=${id}`);
+const studentDetailApi = async (id) => {
+  const { data } = await request.get(`/student/selectStuById?stuId=${id}`);
   return data;
 }
 // 获取学生头像
-const studentAvatarApi = async (id)=>{
-  const {data} =await request.get(`/student/selectPhoto?id=${id}`);
+const studentAvatarApi = async (id) => {
+  const { data } = await request.get(`/student/selectPhoto?id=${id}`);
   return data;
 }
+// 点击实现新增
+const addWorkExperienceApi = async (studentId,company,positionName,salary,jobDate,cause) => {
+  const res = await requestPost("/student/updateJob", {
+    "stuId": studentId,
+    "company": company,
+    "positionName": positionName,
+    "salary": salary,
+    "jobDate":jobDate,
+    "cause":cause
+  });
+return res;
+};

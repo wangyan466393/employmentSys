@@ -266,3 +266,12 @@ input:-ms-input-placeholder {
     color: #999999;
     line-height: 30px;
 }
+.demo-input-suffix .el-input{
+    width: 74%;
+    margin: 12px 0;
+}
+.demo-input-suffix .el-textarea{
+    width: 74%;
+    margin: 12px 0;
+    vertical-align: middle;
+}
