@@ -308,8 +308,8 @@
   </div>
   <script src="js/jquery-1.11.3.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.4/vue.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.min.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/index.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.21.0/axios.js"> </script>
+  <script src="js/element-ui.js"> </script>
   <script src="js/api.js"></script>
   <script>
     new Vue({
@@ -317,7 +317,7 @@
       data() {
         return {
           baseUrl: 'http://47.95.13.193:80/Job-1.0-SNAPSHOT/',
-          addVisible: false,//新增弹框默认隐藏
+          addVisible: true,//新增弹框默认隐藏
           workExperience:{   //新增工作经历
             company:'',//入职公司
             positionName:'',//入职岗位
