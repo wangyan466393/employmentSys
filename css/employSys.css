@@ -275,3 +275,9 @@ input:-ms-input-placeholder {
     margin: 12px 0;
     vertical-align: middle;
 }
+.wy_Experience span{
+    padding-right: 20px;
+}
+.el-drawer.rtl{
+    overflow-y: auto;
+}

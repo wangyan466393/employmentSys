@@ -33,7 +33,8 @@
             <!-- <a href="#" class="icon_edit">数据修改</a> -->
             <template v-if="roleBool">
               <a href="javascript:;" class="file"> 导入数据
-                <input type="file" ref="fileInput" multiple="multiple" class="uploadExcel" accept=".xls, .xlsx" id="importExcel" @change="uploadData" />
+                <input type="file" ref="fileInput" multiple="multiple" class="uploadExcel" accept=".xls, .xlsx"
+                  id="importExcel" @change="uploadData" />
               </a>
               <a href="#" class="icon_export" @click="downloadData">导出数据</a>
             </template>
@@ -46,7 +47,7 @@
         <!-- 表格数据 -->
         <div class="table_content">
           <div style="text-align: right;height: 30px;">
-            <el-button v-show="!showTable" type="info"  icon="el-icon-back" size="mini" round style="margin-right: 15px;"
+            <el-button v-show="!showTable" type="info" icon="el-icon-back" size="mini" round style="margin-right: 15px;"
               @click="handleClickBack">返回</el-button>
           </div>
           <template>
@@ -163,9 +164,9 @@
                     <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
                     <el-button @click="deleteStudent(scope.row)" type="text" size="small">删除</el-button>
                   </template>
-                  
-                    
-                 
+
+
+
                 </el-table-column>
               </el-table>
             </template>
@@ -194,7 +195,7 @@
           </el-row>
           <el-row class="wy_row">
             <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
-            <el-col :span="12">籍贯：{{studentDetail.address}}市</el-col>
+            <el-col :span="12">籍贯：{{studentDetail.nativePlace}}市</el-col>
           </el-row>
           <el-row class="wy_row">
             <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
@@ -234,12 +235,15 @@
           <el-divider></el-divider>
         </el-col>
 
-        <el-row class="wy_desci" v-if='studentDetail.workExperience'>
-          <el-col :span='22' :push='2'>
-            <span>企业名称</span>
-            <span>2010年10月-2020年4月</span>
-            <span>前端开发</span>
-            <span>2000/月</span>
+        <el-row class="wy_desci" v-if='studentWorkExperience.length!=0'>
+          <el-col style="margin-bottom:12px;" class="wy_Experience" :span='22' :push='2' v-for='item in studentWorkExperience'>
+            <span>{{item.company}}</span>
+            <span style="float:right;">时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
+            <br>
+            <span>岗位:{{item.positionName}}</span>
+            <span style="float:right">薪资：{{item.salary}}/月</span>
+            <br>
+            <span v-if='item.cause'>离职原因：{{item.cause}}</span>
           </el-col>
         </el-row>
         <el-row v-else class="wy_desci">
@@ -247,7 +251,7 @@
             暂无工作经历
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if='roleBool'>
           <el-col :span='4' :push='18'>
             <el-button type="primary" @click="addVisible = true" round>新增经历</el-button>
           </el-col>
@@ -276,11 +280,7 @@
           <el-input placeholder="请输入入职公司" v-model='workExperience.company'>
           </el-input>
         </div>
-        <div class="demo-input-suffix">
-          入职时间：
-          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
-          </el-date-picker>
-        </div>
+        
         <div class="demo-input-suffix">
           入职岗位：
           <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
@@ -288,15 +288,30 @@
         </div>
         <div class="demo-input-suffix">
           入职薪水：
-          <el-input placeholder="请输入入职薪水" v-model='workExperience.salary'>
+          <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
           </el-input>
+        </div>
+        
+        <div class="demo-input-suffix">
+          入职时间：
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
+          </el-date-picker>
+        </div>
+        <div class="demo-input-suffix">
+          <pre style="display:inline-block;vertical-align: middle;">
+上家公司
+离职时间：
+          </pre>
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.leaveDate'>
+          </el-date-picker>
         </div>
         <div class="demo-input-suffix">
           <pre style="display:inline-block;vertical-align: middle;">
 上家公司
 离职原因：
           </pre>
-          <el-input  v-model='workExperience.cause'  type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" >
+          <el-input v-model='workExperience.cause' type="textarea" :autosize="{ minRows: 2, maxRows: 4}"
+            placeholder="请输入内容">
           </el-input>
         </div>
       </span>
@@ -318,15 +333,17 @@
         return {
           baseUrl: 'http://47.95.13.193:80/Job-1.0-SNAPSHOT/',
           addVisible: false,//新增弹框默认隐藏
-          workExperience:{   //新增工作经历
-            company:'',//入职公司
-            positionName:'',//入职岗位
-            salary:'',//入职薪资
-            jobDate:'',//入职时间
-            cause:''//上家公司离职原因
+          workExperience: {   //新增工作经历
+            company: '',//入职公司
+            positionName: '',//入职岗位
+            salary: '',//入职薪资
+            jobDate: '',//入职时间
+            leaveDate:'',//上家公司离职时间
+            cause: ''//上家公司离职原因
           },
-          studentId:'',//学生id
+          studentId: '',//学生id
           studentAvatar: {},//学生头像
+          studentWorkExperience: [],//学生经历
           studentDetail: {},//学生基本信息
           drawerDetails: false,//弹框默认不显示
           showTable: true,  //表格切换
@@ -373,40 +390,53 @@
 
       },
       methods: {
-        async deleteStudent(row){
+        async deleteStudent(row) {
           this.$confirm('确认要删除此学生信息吗？, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          deleteStuApi(row.id)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            deleteStuApi(row.id)
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
           });
-          
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-      },
+        },
         // 点击确定实现新增
-        async addWorkExperience(){
-          console.log(this.studentId);
-          let stuentWork=await addWorkExperienceApi(this.studentId,this.workExperience.company,this.workExperience.positionName,this.workExperience.salary,this.workExperience.jobDate,this.workExperience.cause);
+        async addWorkExperience() {
+          let stuentWork = await addWorkExperienceApi(this.studentId, this.workExperience.company, this.workExperience.positionName, this.workExperience.salary, this.format(this.workExperience.jobDate, "yyyy/MM/dd"), this.format(this.workExperience.leaveDate, "yyyy/MM/dd"), this.workExperience.cause);
           console.log(stuentWork);
+          if (stuentWork.status == 200) {
+            this.$message({
+              message: '新增成功',
+              type: 'success'
+            });
+            this.addVisible = false;
+            this.workExperience={};
+            this.studentWE()
+          }else{
+            console.log('cuowu');
+            this.$message.error('填写错误，请重新填写')
+          }
         },
         // 点击查看学生详情
         async handleClickDetails(data) {
-          console.log(data.id);
-          this.studentId=data.id;
-          console.log(this.studentId);
+          this.studentId = data.id;
           this.drawerDetails = true;
           this.studentDetail = await studentDetailApi(data.id);
-          this.studentAvatar = await studentAvatarApi(data.id);
-          console.log(this.studentAvatar);
+          this.studentAvatar = await studentAvatarApi(data.id); 
+          this.studentWE();
+        },
+        async studentWE(){
+          this.studentWorkExperience = await studentWorkExperienceApi(this.studentId);
+          console.log(this.studentWorkExperience);
         },
         // 根据返回的日期计算间隔
         // 时间戳转日期
@@ -473,7 +503,7 @@
         async uploadData(e) {
           event.preventDefault();
           var fileFormData = new FormData();
-          var file=e.target.files[0];
+          var file = e.target.files[0];
           fileFormData.append("uploadExcel", file);
           await uploadDataApi(fileFormData);
         },
