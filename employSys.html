@@ -195,7 +195,7 @@
           </el-row>
           <el-row class="wy_row">
             <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
-            <el-col :span="12">籍贯：{{studentDetail.address}}市</el-col>
+            <el-col :span="12">籍贯：{{studentDetail.nativePlace}}市</el-col>
           </el-row>
           <el-row class="wy_row">
             <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
@@ -236,14 +236,14 @@
         </el-col>
 
         <el-row class="wy_desci" v-if='studentWorkExperience.length!=0'>
-          <el-col class="wy_Experience" :span='22' :push='2' v-for='item in studentWorkExperience'>
+          <el-col style="margin-bottom:12px;" class="wy_Experience" :span='22' :push='2' v-for='item in studentWorkExperience'>
             <span>{{item.company}}</span>
             <span style="float:right;">时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
             <br>
             <span>岗位:{{item.positionName}}</span>
             <span style="float:right">薪资：{{item.salary}}/月</span>
             <br>
-            <span>上家公司离职原因：{{item.cause}}</span>
+            <span v-if='item.cause'>离职原因：{{item.cause}}</span>
           </el-col>
         </el-row>
         <el-row v-else class="wy_desci">
@@ -251,7 +251,7 @@
             暂无工作经历
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if='roleBool'>
           <el-col :span='4' :push='18'>
             <el-button type="primary" @click="addVisible = true" round>新增经历</el-button>
           </el-col>
@@ -280,11 +280,7 @@
           <el-input placeholder="请输入入职公司" v-model='workExperience.company'>
           </el-input>
         </div>
-        <div class="demo-input-suffix">
-          入职时间：
-          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
-          </el-date-picker>
-        </div>
+        
         <div class="demo-input-suffix">
           入职岗位：
           <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
@@ -292,8 +288,22 @@
         </div>
         <div class="demo-input-suffix">
           入职薪水：
-          <el-input placeholder="请输入入职薪水" v-model='workExperience.salary'>
+          <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
           </el-input>
+        </div>
+        
+        <div class="demo-input-suffix">
+          入职时间：
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
+          </el-date-picker>
+        </div>
+        <div class="demo-input-suffix">
+          <pre style="display:inline-block;vertical-align: middle;">
+上家公司
+离职时间：
+          </pre>
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.leaveDate'>
+          </el-date-picker>
         </div>
         <div class="demo-input-suffix">
           <pre style="display:inline-block;vertical-align: middle;">
@@ -328,6 +338,7 @@
             positionName: '',//入职岗位
             salary: '',//入职薪资
             jobDate: '',//入职时间
+            leaveDate:'',//上家公司离职时间
             cause: ''//上家公司离职原因
           },
           studentId: '',//学生id
@@ -400,7 +411,7 @@
         },
         // 点击确定实现新增
         async addWorkExperience() {
-          let stuentWork = await addWorkExperienceApi(this.studentId, this.workExperience.company, this.workExperience.positionName, this.workExperience.salary, this.format(this.workExperience.jobDate, "yyyy/MM/dd"), this.workExperience.cause);
+          let stuentWork = await addWorkExperienceApi(this.studentId, this.workExperience.company, this.workExperience.positionName, this.workExperience.salary, this.format(this.workExperience.jobDate, "yyyy/MM/dd"), this.format(this.workExperience.leaveDate, "yyyy/MM/dd"), this.workExperience.cause);
           console.log(stuentWork);
           if (stuentWork.status == 200) {
             this.$message({
@@ -411,8 +422,8 @@
             this.workExperience={};
             this.studentWE()
           }else{
+            console.log('cuowu');
             this.$message.error('填写错误，请重新填写')
-            
           }
         },
         // 点击查看学生详情

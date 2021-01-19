@@ -92,13 +92,14 @@ const studentWorkExperienceApi = async (id) => {
    return data;
 }
 // 点击实现新增
-const addWorkExperienceApi = async (studentId,company,positionName,salary,jobDate,cause) => {
+const addWorkExperienceApi = async (studentId,company,positionName,salary,jobDate,leaveDate,cause) => {
   const res = await requestPost("/student/updateJob", {
     "stuId": studentId,
     "company": company,
     "positionName": positionName,
     "salary": salary,
     "jobDate":jobDate,
+    "leaveDate":leaveDate,
     "cause":cause
   });
 return res;
