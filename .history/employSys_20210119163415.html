@@ -152,14 +152,9 @@
                 </el-table-column>
                 <el-table-column prop="orRight" label="专业对口" width="100">
                   <template slot-scope="scope">
-                    <el-tag v-if = "scope.row.orRight == '是'"
+                    <el-tag
                     effect="plain">
-                    {{ "是" }}
-                  </el-tag>
-                  <el-tag v-else
-                  type="danger"
-                    effect="plain">
-                    {{ "否" }}
+                    {{ scope.row.orRight }}
                   </el-tag>
                 </template>
                 </el-table-column>
@@ -354,8 +349,7 @@
         this.loginName = JSON.parse(loginInfo);
         if (this.loginName) {
           const roleId = {
-            roleId: this.loginName.roleId,
-            id:this.loginName.id
+            roleId: this.loginName.roleId
           }
           this.schoolListData(roleId)
           if (this.loginName.roleId == 1) {

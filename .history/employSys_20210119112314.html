@@ -151,24 +151,14 @@
                   <template slot-scope="scope">{{ scope.row.empType }}</template>
                 </el-table-column>
                 <el-table-column prop="orRight" label="专业对口" width="100">
-                  <template slot-scope="scope">
-                    <el-tag v-if = "scope.row.orRight == '是'"
-                    effect="plain">
-                    {{ "是" }}
-                  </el-tag>
-                  <el-tag v-else
-                  type="danger"
-                    effect="plain">
-                    {{ "否" }}
-                  </el-tag>
-                </template>
+                  <template slot-scope="scope">{{ scope.row.orRight }}</template>
                 </el-table-column>
-                <el-table-column min-width="100" label="操作">
-                  <!-- <template slot="header" slot-scope="scope">
+                <el-table-column min-width="100">
+                  <template slot="header" slot-scope="scope">
                     <el-button icon="el-icon-back" round size="mini" @click="handleClickBack"
                       style="padding: 5px 12px;">
                     </el-button>
-                  </template> -->
+                  </template>
                   <template slot-scope="scope">
                     <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
                     <el-button v-show="roleBool" @click="deleteStudent(scope.row)" type="text" size="small">删除</el-button>
@@ -354,8 +344,7 @@
         this.loginName = JSON.parse(loginInfo);
         if (this.loginName) {
           const roleId = {
-            roleId: this.loginName.roleId,
-            id:this.loginName.id
+            roleId: this.loginName.roleId
           }
           this.schoolListData(roleId)
           if (this.loginName.roleId == 1) {
@@ -447,15 +436,14 @@
 
         },
         handleSelectionChange(val) {
-          // console.log(val)
-          val.forEach((element , index)=> {
-            val[index] = {
-              "collegeId":element.collegeId,
-              "gradeid":element.gradeid
-            }
+          val.forEach(element => {
+            this.multipleSelection.push(element.id)
           });
-          this.multipleSelection = val;
           console.log(this.multipleSelection);
+        },
+        //编辑
+        handleClick(obj) {
+          console.log(obj)
         },
         //返回
         handleClickBack() {
@@ -489,6 +477,7 @@
           //默认导出所有数据
           const dataAllId = []
           this.tableData.forEach(element => {
+           
             dataAllId.push({
               "collegeId":element.collegeId,
               "gradeid":element.gradeid
@@ -498,21 +487,21 @@
           this.$message('默认导出所有数据！');
           const arrId = this.multipleSelection.length > 0 ? this.multipleSelection : dataAllId
           // if (this.multipleSelection.length > 0) {
-          await downloadDataApi(arrId).then(result => {
-            let url = window.URL.createObjectURL(result);
-            let link = document.createElement('a');
-            link.style.display = 'none'
-            link.href = url;
-            link.setAttribute('id', 'downloadLink')
-            link.setAttribute('download', '学生就业信息表.xls');
-            document.body.appendChild(link)
-            link.click();
+          // await downloadDataApi(arrId).then(result => {
+          //   let url = window.URL.createObjectURL(result);
+          //   let link = document.createElement('a');
+          //   link.style.display = 'none'
+          //   link.href = url;
+          //   link.setAttribute('id', 'downloadLink')
+          //   link.setAttribute('download', '学生就业信息表.xls');
+          //   document.body.appendChild(link)
+          //   link.click();
 
-            // 删除添加的a链接
-            let objLink = document.getElementById('downloadLink')
-            document.body.removeChild(objLink)
-            this.multipleSelection.length = 0;
-          })
+          //   // 删除添加的a链接
+          //   let objLink = document.getElementById('downloadLink')
+          //   document.body.removeChild(objLink)
+          //   this.multipleSelection.length = 0;
+          // })
           // }else{
           //   this.$message('请先选择要导出数据的学校！');
           // }

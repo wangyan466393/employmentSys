@@ -60,7 +60,6 @@ const uploadDataApi = async (fileFormData)=>{
       console.log(res);
       if (res.data == "success") {
         alert('导入成功');
-        location.reload() 
       } else {
         alert('导入失败，请重试！');
       }

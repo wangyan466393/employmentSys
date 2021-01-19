@@ -354,8 +354,7 @@
         this.loginName = JSON.parse(loginInfo);
         if (this.loginName) {
           const roleId = {
-            roleId: this.loginName.roleId,
-            id:this.loginName.id
+            roleId: this.loginName.roleId
           }
           this.schoolListData(roleId)
           if (this.loginName.roleId == 1) {

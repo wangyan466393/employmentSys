@@ -55,12 +55,12 @@ const uploadDataApi = async (fileFormData)=>{
         headers: {
           "Content-Type": "multipart/form-data,charset=UTF-8",
         }
-      }  
+      }
+      
     ).then((res) => {
       console.log(res);
       if (res.data == "success") {
         alert('导入成功');
-        location.reload() 
       } else {
         alert('导入失败，请重试！');
       }
