@@ -153,10 +153,10 @@
                 </el-table-column>
                 <el-table-column prop="orRight" label="专业对口" width="100">
                   <template slot-scope="scope">
-                    <el-tag v-if="scope.row.orRight == '是'" >
+                    <el-tag v-if="scope.row.orRight == '是'" effect="plain">
                       {{ "是" }}
                     </el-tag>
-                    <el-tag v-else type="danger" >
+                    <el-tag v-else type="danger" effect="plain">
                       {{ "否" }}
                     </el-tag>
                   </template>

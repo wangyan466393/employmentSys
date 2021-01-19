@@ -138,10 +138,7 @@ html{
 .el-table::before {
     height: 0px !important;
 }
-.el-tag{
-    height: 20px !important;
-    line-height: 20px !important;
-}
+
 .wy_login-box{
     background: url('../imgs/wy_bg.png') no-repeat;
     background-size: cover;

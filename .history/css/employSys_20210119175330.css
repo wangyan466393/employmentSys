@@ -139,8 +139,8 @@ html{
     height: 0px !important;
 }
 .el-tag{
-    height: 20px !important;
-    line-height: 20px !important;
+    height: 20px;
+    line-height: 20px;
 }
 .wy_login-box{
     background: url('../imgs/wy_bg.png') no-repeat;

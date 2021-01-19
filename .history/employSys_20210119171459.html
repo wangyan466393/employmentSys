@@ -25,7 +25,7 @@
           @click="loginout"></i>
       </div>
     </div>
-    <div class="main">
+    <div class="main" v-cloak>
       <div class="content">
         <div class="content_top">
           <div class="content_title"></div>
@@ -153,13 +153,16 @@
                 </el-table-column>
                 <el-table-column prop="orRight" label="专业对口" width="100">
                   <template slot-scope="scope">
-                    <el-tag v-if="scope.row.orRight == '是'" >
-                      {{ "是" }}
-                    </el-tag>
-                    <el-tag v-else type="danger" >
-                      {{ "否" }}
-                    </el-tag>
-                  </template>
+                    <el-tag v-if = "scope.row.orRight == '是'"
+                    effect="plain">
+                    {{ "是" }}
+                  </el-tag>
+                  <el-tag v-else
+                  type="danger"
+                    effect="plain">
+                    {{ "否" }}
+                  </el-tag>
+                </template>
                 </el-table-column>
                 <el-table-column min-width="100" label="操作">
                   <!-- <template slot="header" slot-scope="scope">
@@ -169,8 +172,7 @@
                   </template> -->
                   <template slot-scope="scope">
                     <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
-                    <el-button v-show="roleBool" @click="deleteStudent(scope.row)" type="text" size="small">删除
-                    </el-button>
+                    <el-button v-show="roleBool" @click="deleteStudent(scope.row)" type="text" size="small">删除</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -188,148 +190,143 @@
         </div>
       </div>
     </div>
-    <div v-cloak>
+    <!-- <el-drawer class="wy_studentDeilDraw" title="我是标题" :before-close="handleClose" :visible.sync="drawerDetails"
+      :with-header="false">
+      <el-row>
+        <el-col :span="8" style="text-align:center">
+          <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image>
+        </el-col>
+        <el-col :span="16">
+          <el-row class="wy_row">
+            <el-col :span="24">姓名：{{studentDetail.name}}</el-col>
+          </el-row>
+          <el-row class="wy_row">
+            <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
+            <el-col :span="12">籍贯：{{studentDetail.nativePlace}}市</el-col>
+          </el-row>
+          <el-row class="wy_row">
+            <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
 
+          </el-row>
+          <el-row class="wy_row">
 
-      <el-drawer class="wy_studentDeilDraw" title="我是标题" :before-close="handleClose" :visible.sync="drawerDetails"
-        :with-header="false">
-        <el-row>
-          <el-col :span="8" style="text-align:center">
-            <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image>
-          </el-col>
-          <el-col :span="16">
-            <el-row class="wy_row">
-              <el-col :span="24">姓名：{{studentDetail.name}}</el-col>
-            </el-row>
-            <el-row class="wy_row">
-              <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
-              <el-col :span="12">籍贯：{{studentDetail.nativePlace}}市</el-col>
-            </el-row>
-            <el-row class="wy_row">
-              <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
+            <el-col :span="24">毕业院校：{{studentDetail.collegeName}}</el-col>
 
-            </el-row>
-            <el-row class="wy_row">
-
-              <el-col :span="24">毕业院校：{{studentDetail.collegeName}}</el-col>
-
-            </el-row>
-            <el-row class="wy_row">
-              <el-col :span="12">联系电话：{{studentDetail.phone}}</el-col>
-              <el-col :span="12">所学专业：{{studentDetail.subjectName}}</el-col>
-            </el-row>
+          </el-row>
+          <el-row class="wy_row">
+            <el-col :span="12">联系电话：{{studentDetail.phone}}</el-col>
+            <el-col :span="12">所学专业：{{studentDetail.subjectName}}</el-col>
+          </el-row>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span='7' class="wy_left_col">
+          个人技能
+        </el-col>
+        <el-col :span='15'>
+          <el-divider></el-divider>
+        </el-col>
+        <el-row class="wy_desci">
+          <el-col :span='22' :push='2'>
+            <span v-if='studentDetail.skill'>{{studentDetail.skill}}</span>
+            <span v-else>暂无个人技能</span>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span='7' class="wy_left_col">
-            个人技能
-          </el-col>
-          <el-col :span='15'>
-            <el-divider></el-divider>
-          </el-col>
-          <el-row class="wy_desci">
-            <el-col :span='22' :push='2'>
-              <span v-if='studentDetail.skill'>{{studentDetail.skill}}</span>
-              <span v-else>暂无个人技能</span>
-            </el-col>
-          </el-row>
 
+      </el-row>
+      <el-row>
+        <el-col :span='7' class="wy_left_col">
+          工作经历
+        </el-col>
+        <el-col :span='15'>
+          <el-divider></el-divider>
+        </el-col>
+
+        <el-row class="wy_desci" v-if='studentWorkExperience.length!=0'>
+          <el-col style="margin-bottom:12px;" class="wy_Experience" :span='22' :push='2' v-for='item in studentWorkExperience'>
+            <span>{{item.company}}</span>
+            <span style="float:right;">时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
+            <br>
+            <span>岗位:{{item.positionName}}</span>
+            <span style="float:right">薪资：{{item.salary}}/月</span>
+            <br>
+            <span v-if='item.cause'>离职原因：{{item.cause}}</span>
+          </el-col>
         </el-row>
-        <el-row>
-          <el-col :span='7' class="wy_left_col">
-            工作经历
+        <el-row v-else class="wy_desci">
+          <el-col :span='22' :push='2'>
+            暂无工作经历
           </el-col>
-          <el-col :span='15'>
-            <el-divider></el-divider>
-          </el-col>
-
-          <el-row class="wy_desci" v-if='studentWorkExperience.length!=0'>
-            <el-col style="margin-bottom:12px;" class="wy_Experience" :span='22' :push='2'
-              v-for='item in studentWorkExperience'>
-              <span>{{item.company}}</span>
-              <span style="float:right;">时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
-              <br>
-              <span>岗位:{{item.positionName}}</span>
-              <span style="float:right">薪资：{{item.salary}}/月</span>
-              <br>
-              <span v-if='item.cause'>离职原因：{{item.cause}}</span>
-            </el-col>
-          </el-row>
-          <el-row v-else class="wy_desci">
-            <el-col :span='22' :push='2'>
-              暂无工作经历
-            </el-col>
-          </el-row>
-          <el-row v-if='roleBool'>
-            <el-col :span='4' :push='18'>
-              <el-button type="primary" @click="addVisible = true" round>新增经历</el-button>
-            </el-col>
-          </el-row>
         </el-row>
-
-        <el-row>
-          <el-col :span='7' class="wy_left_col">
-            自我评价
+        <el-row v-if='roleBool'>
+          <el-col :span='4' :push='18'>
+            <el-button type="primary" @click="addVisible = true" round>新增经历</el-button>
           </el-col>
-          <el-col :span='15'>
-            <el-divider></el-divider>
-          </el-col>
-          <el-row class="wy_desci">
-            <el-col :span='22' :push='2'>
-              <span v-if='studentDetail.summary'> {{studentDetail.summary}}</span>
-              <span v-else>暂无自我评价</span>
-            </el-col>
-          </el-row>
         </el-row>
-      </el-drawer>
-      <el-dialog title="新增工作经历" :visible.sync="addVisible" width="30%" :before-close="handleClose">
-        <span>
-          <div class="demo-input-suffix">
-            入职公司：
-            <el-input placeholder="请输入入职公司" v-model='workExperience.company'>
-            </el-input>
-          </div>
+      </el-row>
 
-          <div class="demo-input-suffix">
-            入职岗位：
-            <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
-            </el-input>
-          </div>
-          <div class="demo-input-suffix">
-            入职薪水：
-            <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
-            </el-input>
-          </div>
-
-          <div class="demo-input-suffix">
-            入职时间：
-            <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
-            </el-date-picker>
-          </div>
-          <div class="demo-input-suffix">
-            <pre style="display:inline-block;vertical-align: middle;">
+      <el-row>
+        <el-col :span='7' class="wy_left_col">
+          自我评价
+        </el-col>
+        <el-col :span='15'>
+          <el-divider></el-divider>
+        </el-col>
+        <el-row class="wy_desci">
+          <el-col :span='22' :push='2'>
+            <span v-if='studentDetail.summary'> {{studentDetail.summary}}</span>
+            <span v-else>暂无自我评价</span>
+          </el-col>
+        </el-row>
+      </el-row>
+    </el-drawer> -->
+    <el-dialog title="新增工作经历" :visible.sync="addVisible" width="30%" :before-close="handleClose">
+      <span>
+        <div class="demo-input-suffix">
+          入职公司：
+          <el-input placeholder="请输入入职公司" v-model='workExperience.company'>
+          </el-input>
+        </div>
+        
+        <div class="demo-input-suffix">
+          入职岗位：
+          <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
+          </el-input>
+        </div>
+        <div class="demo-input-suffix">
+          入职薪水：
+          <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
+          </el-input>
+        </div>
+        
+        <div class="demo-input-suffix">
+          入职时间：
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
+          </el-date-picker>
+        </div>
+        <div class="demo-input-suffix">
+          <pre style="display:inline-block;vertical-align: middle;">
 上家公司
 离职时间：
           </pre>
-            <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.leaveDate'>
-            </el-date-picker>
-          </div>
-          <div class="demo-input-suffix">
-            <pre style="display:inline-block;vertical-align: middle;">
+          <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.leaveDate'>
+          </el-date-picker>
+        </div>
+        <div class="demo-input-suffix">
+          <pre style="display:inline-block;vertical-align: middle;">
 上家公司
 离职原因：
           </pre>
-            <el-input v-model='workExperience.cause' type="textarea" :autosize="{ minRows: 2, maxRows: 4}"
-              placeholder="请输入内容">
-            </el-input>
-          </div>
-        </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="addVisible = false">取 消</el-button>
-          <el-button type="primary" @click="addWorkExperience">确 定</el-button>
-        </span>
-      </el-dialog>
-    </div>
+          <el-input v-model='workExperience.cause' type="textarea" :autosize="{ minRows: 2, maxRows: 4}"
+            placeholder="请输入内容">
+          </el-input>
+        </div>
+      </span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addWorkExperience">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
   <script src="js/jquery-1.11.3.js"></script>
   <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.4/vue.min.js"></script>
@@ -348,7 +345,7 @@
             positionName: '',//入职岗位
             salary: '',//入职薪资
             jobDate: '',//入职时间
-            leaveDate: '',//上家公司离职时间
+            leaveDate:'',//上家公司离职时间
             cause: ''//上家公司离职原因
           },
           studentId: '',//学生id
@@ -375,7 +372,7 @@
         if (this.loginName) {
           const roleId = {
             roleId: this.loginName.roleId,
-            id: this.loginName.id
+            id:this.loginName.id
           }
           this.schoolListData(roleId)
           if (this.loginName.roleId == 1) {
@@ -402,22 +399,22 @@
       },
       methods: {
         //删除指定学生
-        async deleteStudent(row) {
+        async deleteStudent(row){
           this.$confirm('确认要删除此学生信息吗？是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          }).then(() => {
-            alert("删除成功！")
-            deleteStuApi(row.id);  //删除
-            location.reload()    //重新加载
-          }).catch(() => {
-            this.$message({
-              type: 'info',
-              message: '已取消删除'
-            });
-          });
-        },
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          alert("删除成功！")
+          deleteStuApi(row.id);  //删除
+          location.reload()    //重新加载
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      },
         // 点击确定实现新增
         async addWorkExperience() {
           let stuentWork = await addWorkExperienceApi(this.studentId, this.workExperience.company, this.workExperience.positionName, this.workExperience.salary, this.format(this.workExperience.jobDate, "yyyy/MM/dd"), this.format(this.workExperience.leaveDate, "yyyy/MM/dd"), this.workExperience.cause);
@@ -428,9 +425,9 @@
               type: 'success'
             });
             this.addVisible = false;
-            this.workExperience = {};
+            this.workExperience={};
             this.studentWE()
-          } else {
+          }else{
             console.log('cuowu');
             this.$message.error('填写错误，请重新填写')
           }
@@ -440,10 +437,10 @@
           this.studentId = data.id;
           this.drawerDetails = true;
           this.studentDetail = await studentDetailApi(data.id);
-          this.studentAvatar = await studentAvatarApi(data.id);
+          this.studentAvatar = await studentAvatarApi(data.id); 
           this.studentWE();
         },
-        async studentWE() {
+        async studentWE(){
           this.studentWorkExperience = await studentWorkExperienceApi(this.studentId);
           console.log(this.studentWorkExperience);
         },
@@ -481,10 +478,10 @@
         },
         handleSelectionChange(val) {
           // console.log(val)
-          val.forEach((element, index) => {
+          val.forEach((element , index)=> {
             val[index] = {
-              "collegeId": element.collegeId,
-              "gradeid": element.gradeid
+              "collegeId":element.collegeId,
+              "gradeid":element.gradeid
             }
           });
           this.multipleSelection = val;
@@ -523,8 +520,8 @@
           const dataAllId = []
           this.tableData.forEach(element => {
             dataAllId.push({
-              "collegeId": element.collegeId,
-              "gradeid": element.gradeid
+              "collegeId":element.collegeId,
+              "gradeid":element.gradeid
             })
           });
           console.log(dataAllId)
