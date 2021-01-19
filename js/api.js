@@ -86,14 +86,20 @@ const studentAvatarApi = async (id) => {
   const { data } = await request.get(`/student/selectPhoto?id=${id}`);
   return data;
 }
+// 获取学生工作经历
+const studentWorkExperienceApi = async (id) => {
+   let {data} = await  request.get(`/student/selectWorkExperience?stuid=${id}`);
+   return data;
+}
 // 点击实现新增
-const addWorkExperienceApi = async (studentId,company,positionName,salary,jobDate,cause) => {
+const addWorkExperienceApi = async (studentId,company,positionName,salary,jobDate,leaveDate,cause) => {
   const res = await requestPost("/student/updateJob", {
     "stuId": studentId,
     "company": company,
     "positionName": positionName,
     "salary": salary,
     "jobDate":jobDate,
+    "leaveDate":leaveDate,
     "cause":cause
   });
 return res;
