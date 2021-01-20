@@ -366,7 +366,6 @@
           multipleSelection: [],   //选中数据
           loginName: "",   //用户本地登录信息
           roleBool: false,   //是否显示管理员的权限操作
-          stuPramas:{}
 
         }
       },
@@ -404,16 +403,20 @@
       methods: {
         //删除指定学生
         async deleteStudent(row) {
-          if(confirm("确认要删除此学生信息吗？")){
-            const res = await deleteStuApi(row.id);  //删除
-            console.log(res);
-            if (res === 1) {
-              this.$message.success("删除成功！")
-              this.stusListData =  await studentListDataApi(this.stuPramas);
-            }else{
-              this.$message.error("删除失败！");
-            }
-          }
+          this.$confirm('确认要删除此学生信息吗？是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            alert("删除成功！")
+            deleteStuApi(row.id);  //删除
+            location.reload()    //重新加载
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
         },
         // 点击确定实现新增
         async addWorkExperience() {
@@ -528,8 +531,7 @@
           
           const arrId = this.multipleSelection.length > 0 ? this.multipleSelection : dataAllId
           if (this.multipleSelection.length > 0) {
-            this.$message.success('已导出所选学校数据！');
-            this.$refs.multipleTable.clearSelection();
+
           }else{
             this.$message('默认导出所有数据！');
           }
@@ -558,11 +560,11 @@
           this.searchSchool = '';
           this.showTable = false;
           this.currentPage = 1;
-          this.stuPramas = {
+          let stuPramas = {
             "collegeId": row.collegeId,
             "gradeid": row.gradeid
           }
-          this.stusListData = await studentListDataApi(this.stuPramas);
+          this.stusListData = await studentListDataApi(stuPramas);
 
         },
         //退出

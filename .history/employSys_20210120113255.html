@@ -31,7 +31,7 @@
           <div class="content_title"></div>
           <div class="content_handle">
             <!-- <a href="#" class="icon_edit">数据修改</a> -->
-            <template v-if="roleBool && showTable">
+            <template v-if="roleBool">
               <a href="javascript:;" class="file"> 导入数据
                 <input type="file" ref="fileInput" multiple="multiple" class="uploadExcel" accept=".xls, .xlsx"
                   id="importExcel" @change="uploadData" />
@@ -116,7 +116,7 @@
               </el-table-column> -->
                 <el-table-column label="序号" width="60" type="index">
                 </el-table-column>
-                <el-table-column label="姓名"  min-width="100">
+                <el-table-column label="姓名" >
                   <template slot-scope="scope">
                     {{ scope.row.name }}
                     <span v-if="scope.row.orStar" class="start_ljp"></span>
@@ -366,7 +366,6 @@
           multipleSelection: [],   //选中数据
           loginName: "",   //用户本地登录信息
           roleBool: false,   //是否显示管理员的权限操作
-          stuPramas:{}
 
         }
       },
@@ -404,16 +403,20 @@
       methods: {
         //删除指定学生
         async deleteStudent(row) {
-          if(confirm("确认要删除此学生信息吗？")){
-            const res = await deleteStuApi(row.id);  //删除
-            console.log(res);
-            if (res === 1) {
-              this.$message.success("删除成功！")
-              this.stusListData =  await studentListDataApi(this.stuPramas);
-            }else{
-              this.$message.error("删除失败！");
-            }
-          }
+          this.$confirm('确认要删除此学生信息吗？是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            alert("删除成功！")
+            deleteStuApi(row.id);  //删除
+            location.reload()    //重新加载
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+          });
         },
         // 点击确定实现新增
         async addWorkExperience() {
@@ -525,14 +528,9 @@
             })
           });
           console.log(dataAllId)
-          
+          this.$message('默认导出所有数据！');
           const arrId = this.multipleSelection.length > 0 ? this.multipleSelection : dataAllId
-          if (this.multipleSelection.length > 0) {
-            this.$message.success('已导出所选学校数据！');
-            this.$refs.multipleTable.clearSelection();
-          }else{
-            this.$message('默认导出所有数据！');
-          }
+          // if (this.multipleSelection.length > 0) {
           await downloadDataApi(arrId).then(result => {
             let url = window.URL.createObjectURL(result);
             let link = document.createElement('a');
@@ -548,6 +546,9 @@
             document.body.removeChild(objLink)
             this.multipleSelection.length = 0;
           })
+          // }else{
+          //   this.$message('请先选择要导出数据的学校！');
+          // }
         },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {
@@ -558,11 +559,11 @@
           this.searchSchool = '';
           this.showTable = false;
           this.currentPage = 1;
-          this.stuPramas = {
+          let stuPramas = {
             "collegeId": row.collegeId,
             "gradeid": row.gradeid
           }
-          this.stusListData = await studentListDataApi(this.stuPramas);
+          this.stusListData = await studentListDataApi(stuPramas);
 
         },
         //退出
