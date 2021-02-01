@@ -261,9 +261,9 @@
             <el-col style="margin-bottom:12px;" class="wy_Experience" :span='22' :push='2'
               v-for='item in studentWorkExperience'>
               <span>{{item.company}}</span>
-              <span style="float:right;">时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
+              <span style="float:right;">岗位:{{item.positionName}}</span>
               <br>
-              <span>岗位:{{item.positionName}}</span>
+              <span >时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
               <span style="float:right">薪资：{{item.salary}}/月</span>
               <br>
               <span >公司地点:{{item.address}} </span>
