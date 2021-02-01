@@ -138,8 +138,6 @@
                 </el-table-column>
                 <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="100">
                 </el-table-column>
-                <el-table-column prop="company" label="曾入职公司" show-overflow-tooltip min-width="100">
-                </el-table-column>
                 <el-table-column label="薪资(元)" show-overflow-tooltip min-width="100">
                   <template slot-scope="scope">{{ scope.row.salary ? "¥" + scope.row.salary.toFixed(2) : "¥0.00"
                     }}</template>
@@ -536,7 +534,9 @@
         async downloadData() {
            //默认导出所有数据
            const dataAllId = []
+           
           if (this.showTable) {
+           
             this.tableData.forEach(element => {
               dataAllId.push({
                 "collegeId": element.collegeId,
@@ -564,7 +564,7 @@
             });
             const arrId = this.stuListId.length > 0 ? this.stuListId : dataAllId
             if (this.stuListId.length > 0) {
-              this.$message.success('已导出所选学生信息数据！');
+              this.$message.success('已导出此学校学生信息数据！');
               this.$refs.multipleStuTable.clearSelection();
             } else {
               this.$message('默认导出所有学生数据！');

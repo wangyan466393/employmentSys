@@ -109,16 +109,15 @@
             <!-- 院校对应学生数据 -->
             <template>
               <el-table v-show=" !showTable "
-                ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
                 <el-table-column type="selection" width="55">
-                </el-table-column>
+              </el-table-column>
                 <el-table-column label="序号" width="60" type="index">
                 </el-table-column>
-                <el-table-column label="姓名" min-width="100">
+                <el-table-column label="姓名"  min-width="100">
                   <template slot-scope="scope">
                     {{ scope.row.name }}
                     <span v-if="scope.row.orStar" class="start_ljp"></span>
@@ -138,8 +137,6 @@
                 </el-table-column>
                 <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="100">
                 </el-table-column>
-                <el-table-column prop="company" label="曾入职公司" show-overflow-tooltip min-width="100">
-                </el-table-column>
                 <el-table-column label="薪资(元)" show-overflow-tooltip min-width="100">
                   <template slot-scope="scope">{{ scope.row.salary ? "¥" + scope.row.salary.toFixed(2) : "¥0.00"
                     }}</template>
@@ -157,10 +154,10 @@
                 </el-table-column>
                 <el-table-column prop="orRight" label="专业对口" width="100">
                   <template slot-scope="scope">
-                    <el-tag v-if="scope.row.orRight == '是'">
+                    <el-tag v-if="scope.row.orRight == '是'" >
                       {{ "是" }}
                     </el-tag>
-                    <el-tag v-else type="danger">
+                    <el-tag v-else type="danger" >
                       {{ "否" }}
                     </el-tag>
                   </template>
@@ -367,11 +364,10 @@
           currentPage: 1,  //当前页码
           tableData: [],  // 学校数据
           stusListData: [],   //指定学校下的学生列表 数据
-          stuListId: [],   //导出数据学生id
-          multipleSelection: [],   //选中学校数据
+          multipleSelection: [],   //选中数据
           loginName: "",   //用户本地登录信息
           roleBool: false,   //是否显示管理员的权限操作
-          stuPramas: {}
+          stuPramas:{}
 
         }
       },
@@ -387,9 +383,9 @@
           if (this.loginName.roleId == 1) {
             this.roleBool = true;
           }
-        } else {
-          this.$message.warning("请先进行登录后再查看数据！");
-          return;
+        }else{
+        	this.$message.warning("请先进行登录后再查看数据！");
+        	return;
         }
       },
 
@@ -412,13 +408,13 @@
       methods: {
         //删除指定学生
         async deleteStudent(row) {
-          if (confirm("确认要删除此学生信息吗？")) {
+          if(confirm("确认要删除此学生信息吗？")){
             const res = await deleteStuApi(row.id);  //删除
             console.log(res);
             if (res === 1) {
               this.$message.success("删除成功！")
-              this.stusListData = await studentListDataApi(this.stuPramas);
-            } else {
+              this.stusListData =  await studentListDataApi(this.stuPramas);
+            }else{
               this.$message.error("删除失败！");
             }
           }
@@ -497,12 +493,8 @@
           console.log(this.multipleSelection);
         },
         //选择学生
-        handleSelectStudent(val) {
-          val.forEach((element, index) => {
-            val[index] = element.id
-          });
-          this.stuListId = val;
-          console.log(this.stuListId);
+        handleSelectStudent(){
+
         },
         //返回
         handleClickBack() {
@@ -534,68 +526,40 @@
         },
         //导出数据
         async downloadData() {
-           //默认导出所有数据
-           const dataAllId = []
-          if (this.showTable) {
-            this.tableData.forEach(element => {
-              dataAllId.push({
-                "collegeId": element.collegeId,
-                "gradeid": element.gradeid
-              })
-            });
-            if (dataAllId.length == 0) {
-              this.$message.warning("没有可导出的数据！");
-              return;
-            }
-            const arrId = this.multipleSelection.length > 0 ? this.multipleSelection : dataAllId
-            if (this.multipleSelection.length > 0) {
-              this.$message.success('已导出所选学校数据！');
-              this.$refs.multipleTable.clearSelection();
-            } else {
-              this.$message('默认导出所有院校数据！');
-            }
-            await downloadDataApi(arrId).then(result => {
-              this.downFunc(result)
+          //默认导出所有数据
+          const dataAllId = []
+          this.tableData.forEach(element => {
+            dataAllId.push({
+              "collegeId": element.collegeId,
+              "gradeid": element.gradeid
             })
-          } else {
-            //导出学生数据
-            this.stusListData.forEach(element => {
-              dataAllId.push(element.id);
-            });
-            const arrId = this.stuListId.length > 0 ? this.stuListId : dataAllId
-            if (this.stuListId.length > 0) {
-              this.$message.success('已导出所选学生信息数据！');
-              this.$refs.multipleStuTable.clearSelection();
-            } else {
-              this.$message('默认导出所有学生数据！');
+          });
+           if(dataAllId.length == 0){
+               this.$message.warning("没有可导出的数据！");
+               return;
             }
-            await downloadStudentDataApi(arrId).then(result => {
-              this.downFunc(result)
-            })
+          const arrId = this.multipleSelection.length > 0 ? this.multipleSelection : dataAllId
+          if (this.multipleSelection.length > 0) {
+            this.$message.success('已导出所选学校数据！');
+            this.$refs.multipleTable.clearSelection();
+          }else{
+            this.$message('默认导出所有数据！');
           }
-        },
-        //下载
-        downFunc(result){
-          let url = window.URL.createObjectURL(result);
-              let link = document.createElement('a');
-              link.style.display = 'none'
-              link.href = url;
-              link.setAttribute('id', 'downloadLink')
-              let excelName ;
-              if (this.showTable) {
-                excelName = "学校就业信息表.xls"
-              }else{
-                excelName = "学生就业信息表.xls"
-              }
-              link.setAttribute('download', excelName);
-              document.body.appendChild(link)
-              link.click();
+          await downloadDataApi(arrId).then(result => {
+            let url = window.URL.createObjectURL(result);
+            let link = document.createElement('a');
+            link.style.display = 'none'
+            link.href = url;
+            link.setAttribute('id', 'downloadLink')
+            link.setAttribute('download', '学生就业信息表.xls');
+            document.body.appendChild(link)
+            link.click();
 
-              // 删除添加的a链接
-              let objLink = document.getElementById('downloadLink')
-              document.body.removeChild(objLink)
-              this.multipleSelection.length = 0;
-              this.stuListId.length = 0;
+            // 删除添加的a链接
+            let objLink = document.getElementById('downloadLink')
+            document.body.removeChild(objLink)
+            this.multipleSelection.length = 0;
+          })
         },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {

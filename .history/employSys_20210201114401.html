@@ -109,7 +109,6 @@
             <!-- 院校对应学生数据 -->
             <template>
               <el-table v-show=" !showTable "
-                ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
@@ -137,8 +136,6 @@
                   <template slot-scope="scope">{{ scope.row.phone }}</template>
                 </el-table-column>
                 <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="100">
-                </el-table-column>
-                <el-table-column prop="company" label="曾入职公司" show-overflow-tooltip min-width="100">
                 </el-table-column>
                 <el-table-column label="薪资(元)" show-overflow-tooltip min-width="100">
                   <template slot-scope="scope">{{ scope.row.salary ? "¥" + scope.row.salary.toFixed(2) : "¥0.00"
@@ -367,8 +364,8 @@
           currentPage: 1,  //当前页码
           tableData: [],  // 学校数据
           stusListData: [],   //指定学校下的学生列表 数据
-          stuListId: [],   //导出数据学生id
-          multipleSelection: [],   //选中学校数据
+          stuListId:[],   //导出数据学生id
+          multipleSelection: [],   //选中数据
           loginName: "",   //用户本地登录信息
           roleBool: false,   //是否显示管理员的权限操作
           stuPramas: {}
@@ -498,11 +495,9 @@
         },
         //选择学生
         handleSelectStudent(val) {
-          val.forEach((element, index) => {
-            val[index] = element.id
-          });
+          console.log(val)
           this.stuListId = val;
-          console.log(this.stuListId);
+          console.log(this.multipleSelection);
         },
         //返回
         handleClickBack() {
@@ -533,10 +528,10 @@
           await uploadDataApi(fileFormData);
         },
         //导出数据
-        async downloadData() {
-           //默认导出所有数据
-           const dataAllId = []
+        downloadData() {
           if (this.showTable) {
+            //默认导出所有数据
+            const dataAllId = []
             this.tableData.forEach(element => {
               dataAllId.push({
                 "collegeId": element.collegeId,
@@ -552,50 +547,31 @@
               this.$message.success('已导出所选学校数据！');
               this.$refs.multipleTable.clearSelection();
             } else {
-              this.$message('默认导出所有院校数据！');
+              this.$message('默认导出所有数据！');
             }
-            await downloadDataApi(arrId).then(result => {
-              this.downFunc(result)
-            })
+            ff (arrId)
           } else {
-            //导出学生数据
-            this.stusListData.forEach(element => {
-              dataAllId.push(element.id);
-            });
-            const arrId = this.stuListId.length > 0 ? this.stuListId : dataAllId
-            if (this.stuListId.length > 0) {
-              this.$message.success('已导出所选学生信息数据！');
-              this.$refs.multipleStuTable.clearSelection();
-            } else {
-              this.$message('默认导出所有学生数据！');
-            }
-            await downloadStudentDataApi(arrId).then(result => {
-              this.downFunc(result)
-            })
-          }
-        },
-        //下载
-        downFunc(result){
-          let url = window.URL.createObjectURL(result);
-              let link = document.createElement('a');
-              link.style.display = 'none'
-              link.href = url;
-              link.setAttribute('id', 'downloadLink')
-              let excelName ;
-              if (this.showTable) {
-                excelName = "学校就业信息表.xls"
-              }else{
-                excelName = "学生就业信息表.xls"
-              }
-              link.setAttribute('download', excelName);
-              document.body.appendChild(link)
-              link.click();
 
-              // 删除添加的a链接
-              let objLink = document.getElementById('downloadLink')
-              document.body.removeChild(objLink)
-              this.multipleSelection.length = 0;
-              this.stuListId.length = 0;
+          }
+
+          
+        },
+        async  ff (dataId){
+          await downloadDataApi(arrId).then(result => {
+            let url = window.URL.createObjectURL(result);
+            let link = document.createElement('a');
+            link.style.display = 'none'
+            link.href = url;
+            link.setAttribute('id', 'downloadLink')
+            link.setAttribute('download', '学生就业信息表.xls');
+            document.body.appendChild(link)
+            link.click();
+
+            // 删除添加的a链接
+            let objLink = document.getElementById('downloadLink')
+            document.body.removeChild(objLink)
+            this.multipleSelection.length = 0;
+          })
         },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {

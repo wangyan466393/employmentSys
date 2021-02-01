@@ -47,9 +47,9 @@ const downloadDataApi = async (sclId) => {
   })
 }
 //导出指定学校下的学生数据
-const downloadStudentDataApi = async (stuId) => {
+const downloadStudentDataApi = async (sclId) => {
   return new Promise((resolve, reject) => {
-    request.post('/student/exportExcelStu', stuId, {
+    request.post('/student/exportExcelStu', sclId, {
       responseType: 'blob'
     }).then(result => {
       resolve(result.data)
