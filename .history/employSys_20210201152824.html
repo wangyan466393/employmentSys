@@ -519,7 +519,7 @@
           if (this.showTable) {
             return data.college.toLowerCase().includes(this.searchSchool.toLowerCase()) || data.grade.toLowerCase().includes(this.searchSchool.toLowerCase())
           } else {
-            return data.name.toLowerCase().includes(this.searchStudent.toLowerCase()) || (data.company ? data.company.toLowerCase().includes(this.searchStudent.toLowerCase()) : data.company) || (data.companyList ? data.companyList.join('').toLowerCase().includes(this.searchStudent.toLowerCase()) : data.companyList.join(''))
+            return data.name.toLowerCase().includes(this.searchStudent.toLowerCase()) || (data.company ? data.company.toLowerCase().includes(this.searchStudent.toLowerCase()) : data.company) || (data.companyList ? data.companyList.toLowerCase().includes(this.searchStudent.toLowerCase()) : data.companyList)
           }
 
         },
