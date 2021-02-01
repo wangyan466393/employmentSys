@@ -10,9 +10,14 @@ const requestPost = (url, data) => {
       "Content-Type": "application/json;charset=UTF-8",
     },
   };
+  
   return request.post(url, params, requestConfig);
 };
-
+// request.interceptors.response.use(
+//   res=>{
+//     Promise.resolve(res)
+//   }
+// )
 // 登录的API
 const loginApi = async (userAccount, userPassword) => {
   const { data } = await requestPost("/user/login", {
@@ -98,15 +103,17 @@ const studentWorkExperienceApi = async (id) => {
    return data;
 }
 // 点击实现新增
-const addWorkExperienceApi = async (studentId,company,positionName,salary,jobDate,leaveDate,cause) => {
+const addWorkExperienceApi = async (studentId,company,positionName,address,jobNumber,salary,jobDate,leaveDate,cause) => {
   const res = await requestPost("/student/updateJob", {
     "stuId": studentId,
     "company": company,
     "positionName": positionName,
+    "address":address,
+    "jobNumber":jobNumber,
     "salary": salary,
     "jobDate":jobDate,
     "leaveDate":leaveDate,
     "cause":cause
   });
-return res;
+  return res;
 };
