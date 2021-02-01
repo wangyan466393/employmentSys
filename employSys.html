@@ -207,7 +207,6 @@
             </el-row>
             <el-row class="wy_row">
               <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
-
             </el-row>
             <el-row class="wy_row">
 
@@ -229,7 +228,15 @@
           </el-col>
           <el-row class="wy_desci">
             <el-col :span='22' :push='2'>
-              <span v-if='studentDetail.skill'>{{studentDetail.skill}}</span>
+              <p v-if='studentDetail.credential'>
+                  证书：{{studentDetail.credential}}
+              </p>
+              <p v-if='studentDetail.megagame'>
+                  大赛经验：{{studentDetail.megagame}}
+              </p>
+              <span v-if='studentDetail.skill'>
+                {{studentDetail.skill}}
+              </span>
               <span v-else>暂无个人技能</span>
             </el-col>
           </el-row>
@@ -252,6 +259,10 @@
               <span>岗位:{{item.positionName}}</span>
               <span style="float:right">薪资：{{item.salary}}/月</span>
               <br>
+              <span >公司地点:{{item.address}} </span>
+              <span style="float:right" v-if='item.jobNumber'>工号:{{item.jobNumber}} </span>
+              <br>
+              
               <span v-if='item.cause'>离职原因：{{item.cause}}</span>
             </el-col>
           </el-row>
@@ -288,13 +299,24 @@
             入职公司：
             <el-input placeholder="请输入入职公司" v-model='workExperience.company'>
             </el-input>
+            <span style="color:red;">*</span>
           </div>
-
           <div class="demo-input-suffix">
             入职岗位：
             <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
             </el-input>
           </div>
+          <div class="demo-input-suffix">
+              公司地点：
+              <el-input placeholder="请输入入职岗位" v-model='workExperience.address'>
+              </el-input>
+              <span style="color:red;">*</span>
+            </div>
+          <div class="demo-input-suffix">
+              入职工号：
+              <el-input placeholder="请输入入职工号" v-model='workExperience.jobNumber'>
+              </el-input>
+            </div>
           <div class="demo-input-suffix">
             入职薪水：
             <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
@@ -346,10 +368,16 @@
           workExperience: {   //新增工作经历
             company: '',//入职公司
             positionName: '',//入职岗位
+            address:'',//公司地点
+            jobNumber:'',//入职工号
             salary: '',//入职薪资
             jobDate: '',//入职时间
             leaveDate: '',//上家公司离职时间
             cause: ''//上家公司离职原因
+          },
+          rules:{
+            company :[{required: true, message: '请输入', trigger: 'blur'}],
+            address :[{required: true, message: '请输入', trigger: 'blur'}]
           },
           studentId: '',//学生id
           studentAvatar: {},//学生头像
@@ -416,10 +444,19 @@
           }
         },
         // 点击确定实现新增
-        async addWorkExperience() {
-          let stuentWork = await addWorkExperienceApi(this.studentId, this.workExperience.company, this.workExperience.positionName, this.workExperience.salary, this.format(this.workExperience.jobDate, "yyyy/MM/dd"), this.format(this.workExperience.leaveDate, "yyyy/MM/dd"), this.workExperience.cause);
+        async addWorkExperience() {                                                                                                                                             
+          let stuentWork = await addWorkExperienceApi(
+            this.studentId, 
+            this.workExperience.company, 
+            this.workExperience.positionName,
+            this.workExperience.address,
+            this.workExperience.jobNumber, 
+            this.workExperience.salary, 
+            this.workExperience.jobDate?this.format(this.workExperience.jobDate, "yyyy/MM/dd"):'', 
+            this.workExperience.leaveDate?this.format(this.workExperience.leaveDate, "yyyy/MM/dd"):'', 
+            this.workExperience.cause);
           console.log(stuentWork);
-          if (stuentWork.status == 200) {
+          if (stuentWork.data!='not'&&stuentWork.status == 200) {
             this.$message({
               message: '新增成功',
               type: 'success'
@@ -428,8 +465,7 @@
             this.workExperience = {};
             this.studentWE()
           } else {
-            console.log('cuowu');
-            this.$message.error('填写错误，请重新填写')
+            this.$message.error('公司名称和地点必填，请重新填写')
           }
         },
         // 点击查看学生详情
