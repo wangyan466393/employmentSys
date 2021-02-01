@@ -25,7 +25,7 @@
           @click="loginout"></i>
       </div>
     </div>
-    <div class="main">
+    <div class="main" v-cloak>
       <div class="content">
         <div class="content_top">
           <div class="content_title"></div>
@@ -138,12 +138,9 @@
                 </el-table-column>
                 <el-table-column prop="company" label="入职公司" show-overflow-tooltip min-width="100">
                 </el-table-column>
-                <el-table-column label="曾入职公司" show-overflow-tooltip min-width="100">
-                  <template slot-scope="scope">
-                    {{scope.row.companyList.join("，")}}
-                  </template>
+                <el-table-column prop="workCount" label="曾入职公司" show-overflow-tooltip min-width="100">
                 </el-table-column>
-                <el-table-column prop="workCount" label="换工作(次)" show-overflow-tooltip min-width="100">
+                <el-table-column prop="companyList" label="换工作(次)" show-overflow-tooltip min-width="100">
                 </el-table-column>
                 <el-table-column label="薪资(元)" show-overflow-tooltip min-width="100">
                   <template slot-scope="scope">{{ scope.row.salary ? "¥" + scope.row.salary.toFixed(2) : "¥0.00"
