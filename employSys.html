@@ -261,15 +261,14 @@
             <el-col style="margin-bottom:12px;" class="wy_Experience" :span='22' :push='2'
               v-for='item in studentWorkExperience'>
               <span>{{item.company}}</span>
-              <span style="float:right;">岗位:{{item.positionName}}</span>
+              <span v-if='item.positionName' style="float:right;">岗位:{{item.positionName}}</span>
               <br>
-              <span >时间：{{item.jobDate}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
-              <span style="float:right">薪资：{{item.salary}}/月</span>
+              <span >时间：{{item.jobDate?item.jobDate:'实习'}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
+              <span style="float:right">薪资：{{item.salary}}/月 <span v-if='item.salaryRemark'>+{{item.salaryRemark}}</span> </span>
               <br>
               <span >公司地点:{{item.address}} </span>
               <span style="float:right" v-if='item.jobNumber'>工号:{{item.jobNumber}} </span>
-              <br>
-              
+              <br>   
               <span v-if='item.cause'>离职原因：{{item.cause}}</span>
             </el-col>
           </el-row>
@@ -309,16 +308,17 @@
             <span style="color:red;">*</span>
           </div>
           <div class="demo-input-suffix">
+            入职地点：
+            <el-input placeholder="请输入入职地点" v-model='workExperience.address'>
+            </el-input>
+            <span style="color:red;">*</span>
+          </div>
+          <div class="demo-input-suffix">
             入职岗位：
             <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
             </el-input>
           </div>
-          <div class="demo-input-suffix">
-              公司地点：
-              <el-input placeholder="请输入入职岗位" v-model='workExperience.address'>
-              </el-input>
-              <span style="color:red;">*</span>
-            </div>
+          
           <div class="demo-input-suffix">
               入职工号：
               <el-input placeholder="请输入入职工号" v-model='workExperience.jobNumber'>
@@ -327,6 +327,11 @@
           <div class="demo-input-suffix">
             入职薪水：
             <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
+            </el-input>
+          </div>
+          <div class="demo-input-suffix">
+            入职福利：
+            <el-input  placeholder="请输入其他福利" v-model='workExperience.salaryRemark'>
             </el-input>
           </div>
 
@@ -378,6 +383,7 @@
             address:'',//公司地点
             jobNumber:'',//入职工号
             salary: '',//入职薪资
+            salaryRemark: '',//福利
             jobDate: '',//入职时间
             leaveDate: '',//上家公司离职时间
             cause: ''//上家公司离职原因
@@ -463,6 +469,7 @@
             this.workExperience.address,
             this.workExperience.jobNumber, 
             this.workExperience.salary, 
+            this.workExperience.salaryRemark, 
             this.workExperience.jobDate?this.format(this.workExperience.jobDate, "yyyy/MM/dd"):'', 
             this.workExperience.leaveDate?this.format(this.workExperience.leaveDate, "yyyy/MM/dd"):'', 
             this.workExperience.cause);
