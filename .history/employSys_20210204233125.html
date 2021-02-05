@@ -103,7 +103,7 @@
               <el-table-column label="操作" width="100">
                 <template slot-scope="scope">
                   <el-button @click="studentListData(scope.row)" type="text" size="small">查看</el-button>
-                  <el-button @click.native.stop="deleteClass(scope.row)" type="text" size="small" style="color:red;">删除</el-button>
+                  <el-button @click="deleteClass(scope.row)" type="text" size="small">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -465,16 +465,8 @@
           }
         },
         //删除指定班级
-        async deleteClass(val){
-          console.log(val)
-          let data = await deleteSclClassApi(val.collegeId,val.gradeid,val.banname);
-          if (data == "delete success") {
-            alert("删除成功！");
-            location.reload();
-          } else {
-            alert("删除失败！");
-          }
-          console.log(data);
+        async deleteClass(){
+          await deleteSclClassApi()
         },
         // 点击确定实现新增
         async addWorkExperience() {                                                                                                                                             

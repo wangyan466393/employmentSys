@@ -100,10 +100,9 @@
               <el-table-column label="专业对口率(%)" show-overflow-tooltip min-width="120">
                 <template slot-scope="scope">{{ (scope.row.subjectRate * 100).toFixed(2) + "%" }}</template>
               </el-table-column>
-              <el-table-column label="操作" width="100">
+              <el-table-column label="操作" width="60">
                 <template slot-scope="scope">
                   <el-button @click="studentListData(scope.row)" type="text" size="small">查看</el-button>
-                  <el-button @click.native.stop="deleteClass(scope.row)" type="text" size="small" style="color:red;">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -463,18 +462,6 @@
               this.$message.error("删除失败！");
             }
           }
-        },
-        //删除指定班级
-        async deleteClass(val){
-          console.log(val)
-          let data = await deleteSclClassApi(val.collegeId,val.gradeid,val.banname);
-          if (data == "delete success") {
-            alert("删除成功！");
-            location.reload();
-          } else {
-            alert("删除失败！");
-          }
-          console.log(data);
         },
         // 点击确定实现新增
         async addWorkExperience() {                                                                                                                                             

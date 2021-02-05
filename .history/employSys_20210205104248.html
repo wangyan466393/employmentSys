@@ -469,8 +469,7 @@
           console.log(val)
           let data = await deleteSclClassApi(val.collegeId,val.gradeid,val.banname);
           if (data == "delete success") {
-            alert("删除成功！");
-            location.reload();
+            alert("删除成功！")
           } else {
             alert("删除失败！");
           }

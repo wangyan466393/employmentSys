@@ -467,13 +467,7 @@
         //删除指定班级
         async deleteClass(val){
           console.log(val)
-          let data = await deleteSclClassApi(val.collegeId,val.gradeid,val.banname);
-          if (data == "delete success") {
-            alert("删除成功！");
-            location.reload();
-          } else {
-            alert("删除失败！");
-          }
+          let data = await deleteSclClassApi(val.collegeId,val.gradeid,val.banname)
           console.log(data);
         },
         // 点击确定实现新增
