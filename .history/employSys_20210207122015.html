@@ -113,7 +113,6 @@
               <el-table v-show=" !showTable " ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
-                @row-click="handleClickDetails"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
                 <el-table-column type="selection" width="55">
@@ -184,7 +183,7 @@
                   </template> -->
                   <template slot-scope="scope">
                     <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
-                    <el-button v-show="roleBool" @click.native.stop="deleteStudent(scope.row)" type="text" size="small">删除
+                    <el-button v-show="roleBool" @click="deleteStudent(scope.row)" type="text" size="small">删除
                     </el-button>
                   </template>
                 </el-table-column>
