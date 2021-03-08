@@ -250,7 +250,7 @@ input:-ms-input-placeholder {
     line-height:42px;
 }
 .wy_studentDeilDraw .el-drawer__body{
-    padding: 20px;
+    padding:0 20px 20px;
 }
 .wy_studentDeilDraw .el-drawer{
     width:640px!important;
@@ -287,4 +287,7 @@ input:-ms-input-placeholder {
 }
 .el-drawer.rtl{
     overflow-y: auto;
+}
+.el-drawer__header{
+    margin-bottom: 0;
 }
