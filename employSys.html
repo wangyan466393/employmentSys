@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/employSys.css">
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/employSys.css">
+  
   <title>就业实习跟踪系统</title>
 </head>
 
@@ -202,19 +203,21 @@
       </div>
     </div>
     <div v-cloak>
-      <el-drawer class="wy_studentDeilDraw" title="我是标题" :before-close="handleClose" :visible.sync="drawerDetails"
-        :with-header="false">
+      <el-drawer class="wy_studentDeilDraw" :before-close="handleClose" :visible.sync="drawerDetails"
+        >
         <el-row>
-          <el-col :span="8" style="text-align:center">
-            <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image>
+          
+          <el-col :span="2" style="height: 200px;margin-bottom: 20px;">
+            <!-- <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image> -->
           </el-col>
-          <el-col :span="16">
+          <el-col :span="20">
             <el-row class="wy_row">
-              <el-col :span="24">姓名：{{studentDetail.name}}</el-col>
+              <el-col :span="14">姓名：{{studentDetail.name}}</el-col>
+              <el-col :span="10">性别：{{studentDetail.gender}}</el-col>
             </el-row>
             <el-row class="wy_row">
-              <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
-              <el-col :span="12">籍贯：{{studentDetail.nativePlace}}市</el-col>
+              <el-col :span="14">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
+              <el-col :span="10">籍贯：{{studentDetail.nativePlace}}市</el-col>
             </el-row>
             <el-row class="wy_row">
               <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
@@ -225,8 +228,8 @@
 
             </el-row>
             <el-row class="wy_row">
-              <el-col :span="12">联系电话：{{studentDetail.phone}}</el-col>
-              <el-col :span="12">所学专业：{{studentDetail.subjectName}}</el-col>
+              <el-col :span="14">联系电话：{{studentDetail.phone}}</el-col>
+              <el-col :span="10">所学专业：{{studentDetail.subjectName}}</el-col>
             </el-row>
           </el-col>
         </el-row>
@@ -271,7 +274,7 @@
               <span style="float:right">薪资：{{item.salary}}/月 <span v-if='item.salaryRemark'>+{{item.salaryRemark}}</span> </span>
               <br>
               <span >公司地点:{{item.address}} </span>
-              <span style="float:right" v-if='item.jobNumber'>工号:{{item.jobNumber}} </span>
+              <!-- <span style="float:right" v-if='item.jobNumber'>工号:{{item.jobNumber}} </span> -->
               <br>   
               <span v-if='item.cause'>离职原因：{{item.cause}}</span>
             </el-col>
@@ -321,13 +324,12 @@
             入职岗位：
             <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
             </el-input>
-          </div>
-          
-          <div class="demo-input-suffix">
+          </div>          
+          <!-- <div class="demo-input-suffix">
               入职工号：
               <el-input placeholder="请输入入职工号" v-model='workExperience.jobNumber'>
               </el-input>
-            </div>
+            </div> -->
           <div class="demo-input-suffix">
             入职薪水：
             <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
@@ -338,7 +340,6 @@
             <el-input  placeholder="请输入其他福利" v-model='workExperience.salaryRemark'>
             </el-input>
           </div>
-
           <div class="demo-input-suffix">
             入职时间：
             <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
