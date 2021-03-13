@@ -118,7 +118,7 @@
                 @selection-change="handleSelectStudent"
                 @row-click="handleClickDetails"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
-                style="width: 100%;padding: 10px;border: none;" :max-height="tableMaxHeight">
+                style="width: 100%;padding: 10px;border: none;">
                 <el-table-column type="selection" width="55">
                 </el-table-column>
                 <el-table-column label="序号" width="60" type="index">
@@ -457,7 +457,7 @@
           //3页 10 15   3-1 *5
         },
         tableMaxHeight() {
-          return window.innerHeight - 100 + 'px';
+          return window.innerHeight - 300 + 'px';
         }
       },
       methods: {

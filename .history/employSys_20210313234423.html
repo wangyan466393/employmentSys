@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/employSys.css">
   <!-- 引入样式 -->
   <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/element-ui/2.14.1/theme-chalk/index.css">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/employSys.css">
+  
   <title>就业实习跟踪系统</title>
 </head>
 
@@ -56,7 +57,9 @@
               :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
               :data="searchSchool ? tableData.filter(data => !searchSchool || searchFilter(data)) : pageFilter"
               @selection-change="handleSelectionChange" tooltip-effect="dark" @row-click="studentListData"
-              style="width: 100%;padding: 10px;border: none;">
+              style="width: 100%;padding: 10px;border: none;"
+              :height="tableMaxHeight"
+              >
               <el-table-column type="selection" width="55">
               </el-table-column>
               <el-table-column label="序号" width="60" type="index">
@@ -103,16 +106,17 @@
               <el-table-column label="操作" width="100">
                 <template slot-scope="scope">
                   <el-button @click="studentListData(scope.row)" type="text" size="small">查看</el-button>
-                  <el-button @click.native.stop="deleteClass(scope.row)" type="text" size="small" style="color:red;">删除</el-button>
+                  <el-button @click.native.stop="deleteClass(scope.row)" type="text" size="small" style="color:red;">删除
+                  </el-button>
                 </template>
               </el-table-column>
             </el-table>
             <!-- 院校对应学生数据 -->
             <template>
-              <el-table v-show=" !showTable "
-                ref="multipleStuTable"
+              <el-table v-show=" !showTable " ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
+                @row-click="handleClickDetails"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;">
                 <el-table-column type="selection" width="55">
@@ -155,9 +159,10 @@
                 </el-table-column>
                 <el-table-column prop="workCount" label="换工作(次)" show-overflow-tooltip min-width="100">
                 </el-table-column>
-                
+
                 <el-table-column label="入职日期" width="120">
-                  <template slot-scope="scope">{{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") : ""}}</template>
+                  <template slot-scope="scope">{{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") :
+                    ""}}</template>
                 </el-table-column>
                 <el-table-column prop="subjectName" label="专业方向" min-width="100">
                 </el-table-column>
@@ -182,7 +187,7 @@
                   </template> -->
                   <template slot-scope="scope">
                     <el-button @click="handleClickDetails(scope.row)" type="text" size="small">详情</el-button>
-                    <el-button v-show="roleBool" @click="deleteStudent(scope.row)" type="text" size="small">删除
+                    <el-button v-show="roleBool" @click.native.stop="deleteStudent(scope.row)" type="text" size="small">删除
                     </el-button>
                   </template>
                 </el-table-column>
@@ -202,19 +207,21 @@
       </div>
     </div>
     <div v-cloak>
-      <el-drawer class="wy_studentDeilDraw" title="我是标题" :before-close="handleClose" :visible.sync="drawerDetails"
-        :with-header="false">
+      <el-drawer class="wy_studentDeilDraw" :before-close="handleClose" :visible.sync="drawerDetails"
+        >
         <el-row>
-          <el-col :span="8" style="text-align:center">
-            <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image>
+          
+          <el-col :span="2" style="height: 200px;margin-bottom: 20px;">
+            <!-- <el-image style="width: 140px; height: 200px" :src=`${baseUrl}${studentAvatar}` fit="fill"></el-image> -->
           </el-col>
-          <el-col :span="16">
+          <el-col :span="20">
             <el-row class="wy_row">
-              <el-col :span="24">姓名：{{studentDetail.name}}</el-col>
+              <el-col :span="14">姓名：{{studentDetail.name}}</el-col>
+              <el-col :span="10">性别：{{studentDetail.gender}}</el-col>
             </el-row>
             <el-row class="wy_row">
-              <el-col :span="12">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
-              <el-col :span="12">籍贯：{{studentDetail.nativePlace}}市</el-col>
+              <el-col :span="14">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
+              <el-col :span="10">籍贯：{{studentDetail.nativePlace}}市</el-col>
             </el-row>
             <el-row class="wy_row">
               <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
@@ -225,8 +232,8 @@
 
             </el-row>
             <el-row class="wy_row">
-              <el-col :span="12">联系电话：{{studentDetail.phone}}</el-col>
-              <el-col :span="12">所学专业：{{studentDetail.subjectName}}</el-col>
+              <el-col :span="14">联系电话：{{studentDetail.phone}}</el-col>
+              <el-col :span="10">所学专业：{{studentDetail.subjectName}}</el-col>
             </el-row>
           </el-col>
         </el-row>
@@ -240,10 +247,10 @@
           <el-row class="wy_desci">
             <el-col :span='22' :push='2'>
               <p v-if='studentDetail.credential'>
-                  证书：{{studentDetail.credential}}
+                证书：{{studentDetail.credential}}
               </p>
               <p v-if='studentDetail.megagame'>
-                  大赛经验：{{studentDetail.megagame}}
+                大赛经验：{{studentDetail.megagame}}
               </p>
               <span v-if='studentDetail.skill'>
                 {{studentDetail.skill}}
@@ -267,12 +274,13 @@
               <span>{{item.company}}</span>
               <span v-if='item.positionName' style="float:right;">岗位:{{item.positionName}}</span>
               <br>
-              <span >时间：{{item.jobDate?item.jobDate:'实习'}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
-              <span style="float:right">薪资：{{item.salary}}/月 <span v-if='item.salaryRemark'>+{{item.salaryRemark}}</span> </span>
+              <span>时间：{{item.jobDate?item.jobDate:'实习'}}-{{item.leaveDate?item.leaveDate:'至今'}}</span>
+              <span style="float:right">薪资：{{item.salary}}/月 <span
+                  v-if='item.salaryRemark'>+{{item.salaryRemark}}</span> </span>
               <br>
-              <span >公司地点:{{item.address}} </span>
+              <span>公司地点:{{item.address}} </span>
               <span style="float:right" v-if='item.jobNumber'>工号:{{item.jobNumber}} </span>
-              <br>   
+              <br>
               <span v-if='item.cause'>离职原因：{{item.cause}}</span>
             </el-col>
           </el-row>
@@ -322,12 +330,12 @@
             <el-input placeholder="请输入入职岗位" v-model='workExperience.positionName'>
             </el-input>
           </div>
-          
+
           <div class="demo-input-suffix">
-              入职工号：
-              <el-input placeholder="请输入入职工号" v-model='workExperience.jobNumber'>
-              </el-input>
-            </div>
+            入职工号：
+            <el-input placeholder="请输入入职工号" v-model='workExperience.jobNumber'>
+            </el-input>
+          </div>
           <div class="demo-input-suffix">
             入职薪水：
             <el-input type="number" placeholder="请输入入职薪水" v-model='workExperience.salary'>
@@ -335,10 +343,9 @@
           </div>
           <div class="demo-input-suffix">
             入职福利：
-            <el-input  placeholder="请输入其他福利" v-model='workExperience.salaryRemark'>
+            <el-input placeholder="请输入其他福利" v-model='workExperience.salaryRemark'>
             </el-input>
           </div>
-
           <div class="demo-input-suffix">
             入职时间：
             <el-date-picker type="date" placeholder="选择日期" v-model='workExperience.jobDate'>
@@ -384,17 +391,17 @@
           workExperience: {   //新增工作经历
             company: '',//入职公司
             positionName: '',//入职岗位
-            address:'',//公司地点
-            jobNumber:'',//入职工号
+            address: '',//公司地点
+            jobNumber: '',//入职工号
             salary: '',//入职薪资
             salaryRemark: '',//福利
             jobDate: '',//入职时间
             leaveDate: '',//上家公司离职时间
             cause: ''//上家公司离职原因
           },
-          rules:{
-            company :[{required: true, message: '请输入', trigger: 'blur'}],
-            address :[{required: true, message: '请输入', trigger: 'blur'}]
+          rules: {
+            company: [{ required: true, message: '请输入', trigger: 'blur' }],
+            address: [{ required: true, message: '请输入', trigger: 'blur' }]
           },
           studentId: '',//学生id
           studentAvatar: {},//学生头像
@@ -430,7 +437,7 @@
           }
         } else {
           this.$message.warning("请先进行登录后再查看数据！");
-          localtion.href="login.html";
+          location.href = "login.html";
           return;
         }
       },
@@ -449,7 +456,9 @@
           //2页 5 10   2-1 *5
           //3页 10 15   3-1 *5
         },
-
+        tableMaxHeight() {
+          return window.innerHeight - 170 + 'px';
+        }
       },
       methods: {
         //删除指定学生
@@ -466,32 +475,32 @@
           }
         },
         //删除指定班级
-        async deleteClass(val){
-          console.log(val)
-          let data = await deleteSclClassApi(val.collegeId,val.gradeid,val.banname);
-          if (data == "delete success") {
-            alert("删除成功！");
-            location.reload();
-          } else {
-            alert("删除失败！");
+        async deleteClass(val) {
+          if (confirm("确认要删除此班级数据吗？")) {
+            let data = await deleteSclClassApi(val.collegeId, val.gradeid, val.banname);
+            if (data == "delete success") {
+              alert("删除成功！");
+              location.reload();
+            } else {
+              alert("删除失败！");
+            }
           }
-          console.log(data);
         },
         // 点击确定实现新增
-        async addWorkExperience() {                                                                                                                                             
+        async addWorkExperience() {
           let stuentWork = await addWorkExperienceApi(
-            this.studentId, 
-            this.workExperience.company, 
+            this.studentId,
+            this.workExperience.company,
             this.workExperience.positionName,
             this.workExperience.address,
-            this.workExperience.jobNumber, 
-            this.workExperience.salary, 
-            this.workExperience.salaryRemark, 
-            this.workExperience.jobDate?this.format(this.workExperience.jobDate, "yyyy/MM/dd"):'', 
-            this.workExperience.leaveDate?this.format(this.workExperience.leaveDate, "yyyy/MM/dd"):'', 
+            this.workExperience.jobNumber,
+            this.workExperience.salary,
+            this.workExperience.salaryRemark,
+            this.workExperience.jobDate ? this.format(this.workExperience.jobDate, "yyyy/MM/dd") : '',
+            this.workExperience.leaveDate ? this.format(this.workExperience.leaveDate, "yyyy/MM/dd") : '',
             this.workExperience.cause);
           console.log(stuentWork);
-          if (stuentWork.data!='not'&&stuentWork.status == 200) {
+          if (stuentWork.data != 'not' && stuentWork.status == 200) {
             this.$message({
               message: '新增成功',
               type: 'success'
@@ -596,8 +605,8 @@
         },
         //导出数据
         async downloadData() {
-           //默认导出所有数据
-           const dataAllId = []
+          //默认导出所有数据
+          const dataAllId = []
           if (this.showTable) {
             this.tableData.forEach(element => {
               dataAllId.push({
@@ -637,27 +646,27 @@
           }
         },
         //下载
-        downFunc(result){
+        downFunc(result) {
           let url = window.URL.createObjectURL(result);
-              let link = document.createElement('a');
-              link.style.display = 'none'
-              link.href = url;
-              link.setAttribute('id', 'downloadLink')
-              let excelName ;
-              if (this.showTable) {
-                excelName = "学校就业信息表.xls"
-              }else{
-                excelName = "学生就业信息表.xls"
-              }
-              link.setAttribute('download', excelName);
-              document.body.appendChild(link)
-              link.click();
+          let link = document.createElement('a');
+          link.style.display = 'none'
+          link.href = url;
+          link.setAttribute('id', 'downloadLink')
+          let excelName;
+          if (this.showTable) {
+            excelName = "学校就业信息表.xls"
+          } else {
+            excelName = "学生就业信息表.xls"
+          }
+          link.setAttribute('download', excelName);
+          document.body.appendChild(link)
+          link.click();
 
-              // 删除添加的a链接
-              let objLink = document.getElementById('downloadLink')
-              document.body.removeChild(objLink)
-              this.multipleSelection.length = 0;
-              this.stuListId.length = 0;
+          // 删除添加的a链接
+          let objLink = document.getElementById('downloadLink')
+          document.body.removeChild(objLink)
+          this.multipleSelection.length = 0;
+          this.stuListId.length = 0;
         },
         //通过用户查询学校学生信息
         async schoolListData(roleId) {
@@ -671,7 +680,7 @@
           this.stuPramas = {
             "collegeId": row.collegeId,
             "gradeid": row.gradeid,
-            "subjectid":row.subjectId
+            "subjectid": row.subjectId
           }
           this.stusListData = await studentListDataApi(this.stuPramas);
 
