@@ -273,8 +273,10 @@
                   </span>
               </el-col>
               <el-col :span="10">专业：
-                  {{studentDetail.subjectName}}
-                  
+                  <span v-if='reviseInfo == false'> {{studentDetail.subjectName}}</span>
+                  <span v-else>
+                    <el-input style="width:64%;"  v-model="studentDetail.subjectName"></el-input>
+                  </span>
               </el-col>
             </el-row>
             
@@ -591,6 +593,7 @@
              this.studentId,
              this.studentDetail.name,
              this.studentDetail.phone,
+             this.studentDetail.nativePlace,
              this.studentDetail.skill,
              this.studentDetail.Megagame,
              this.studentDetail.credential
@@ -598,11 +601,6 @@
            console.log(studentInfoAll);
            if(studentInfoAll.status==200){
             this.reviseInfo=false;
-           }else{
-            this.$message({
-              message: '手机号码最多11位！！！',
-              type: 'warning'
-            });
            }
         },
         // 点击确定实现新增
