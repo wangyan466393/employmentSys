@@ -287,6 +287,9 @@ input:-ms-input-placeholder {
     color: #999999;
     line-height: 30px;
 }
+.wy_desci p{
+    margin: 10px 0;
+}
 .demo-input-suffix .el-input{
     width: 74%;
     margin: 12px 0;
