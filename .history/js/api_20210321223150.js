@@ -136,7 +136,7 @@ const reviseStudentInfoApi = async(studentId,name,phone,navigator,skill,Megagame
     "phone":phone,
     "navigator":navigator,
     "skill":skill,
-    "megagame":Megagame,
+    "Megagame":Megagame,
     "credential":credential
   });
   return res;

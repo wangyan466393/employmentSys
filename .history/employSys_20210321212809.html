@@ -175,17 +175,10 @@
                 <el-table-column label="入职日期" width="120">
                   
                   <template slot-scope="scope">
-                    <div  @click.stop="editStudentInfo(scope.row.id)">
+                    <div  @click.native.stop="editStudentInfo">
 
-                      <el-date-picker
-                      v-if="scope.row.id == editInfo && editStatus"
-                      v-model="editDate"
-                      value-format="yyyy/MM/dd"
-                      type="date"
-                      @change="saveInfo(scope.row.id)"
-                      placeholder="选择日期">
-                    </el-date-picker>
-                    <!-- <el-input  v-model="editName" autofocus @blur="saveInfo(scope.row.id)"   placeholder="请输入内容"></el-input> -->
+                    
+                    <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" autofocus @blur="saveInfo(scope.row.id)" @change="saveInfo(scope.row.id)"  placeholder="请输入内容"></el-input>
                     <div v-else>
                       {{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") :""}}
                     </div>
@@ -235,7 +228,7 @@
       </div>
     </div>
     <div v-cloak>
-        <el-drawer class="wy_studentDeilDraw" :before-close="handleClose" :visible.sync="drawerDetails"
+      <el-drawer class="wy_studentDeilDraw" :before-close="handleClose" :visible.sync="drawerDetails"
         >
         <el-row>
           
@@ -244,23 +237,12 @@
           </el-col>
           <el-col :span="20">
             <el-row class="wy_row">
-              <el-col :span="14">学生姓名：
-                  <span v-if='reviseInfo == false'>{{studentDetail.name}}</span>
-                  <span v-else>
-                    <el-input style="width:64%;"  v-model="studentDetail.name"></el-input>
-                  </span>
-              </el-col>
-              <el-col :span="10">籍贯：
-                  <span v-if='reviseInfo == false'>{{studentDetail.nativePlace}}</span>
-                  <span v-else>
-                    <el-input style="width:64%;"  v-model="studentDetail.nativePlace"></el-input>
-                  </span>
-              </el-col>
-              
+              <el-col :span="14">姓名：{{studentDetail.name}}</el-col>
+              <el-col :span="10">性别：{{studentDetail.gender}}</el-col>
             </el-row>
             <el-row class="wy_row">
-              <el-col :span="14">学生年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
-              <el-col :span="10">性别：{{studentDetail.gender}}</el-col>
+              <el-col :span="14">年龄：{{toAge(studentDetail.birthday)}}岁</el-col>
+              <el-col :span="10">籍贯：{{studentDetail.nativePlace}}市</el-col>
             </el-row>
             <el-row class="wy_row">
               <el-col :span="24">出生年月：{{format(studentDetail.birthday,'yyyy年MM月')}}</el-col>
@@ -271,20 +253,9 @@
 
             </el-row>
             <el-row class="wy_row">
-              <el-col :span="14">联系电话：
-                  <span v-if='reviseInfo == false'> {{studentDetail.phone}}</span>
-                  <span v-else>
-                    <el-input style="width:64%;"  v-model="studentDetail.phone"></el-input>
-                  </span>
-              </el-col>
-              <el-col :span="10">专业：
-                  <span v-if='reviseInfo == false'> {{studentDetail.subjectName}}</span>
-                  <span v-else>
-                    <el-input style="width:64%;"  v-model="studentDetail.subjectName"></el-input>
-                  </span>
-              </el-col>
+              <el-col :span="14">联系电话：{{studentDetail.phone}}</el-col>
+              <el-col :span="10">所学专业：{{studentDetail.subjectName}}</el-col>
             </el-row>
-            
           </el-col>
         </el-row>
         <el-row>
@@ -297,42 +268,19 @@
           <el-row class="wy_desci">
             <el-col :span='22' :push='2'>
               <p v-if='studentDetail.credential'>
-                参赛证书：
-                <span v-if='reviseInfo == false'> {{studentDetail.credential}}</span>
-                <span v-else>
-                  <el-input style="width:64%;"  v-model="studentDetail.credential"></el-input>
-                </span>
+                证书：{{studentDetail.credential}}
               </p>
-              <p >
-                大赛经验：
-                <!-- <span v-if='studentDetail.megagame'></span> -->
-                <span v-if='reviseInfo == false'> {{studentDetail.megagame}}</span>
-                <span v-else>
-                  <el-input style="width:64%;"  v-model="studentDetail.megagame"></el-input>
-                </span>
+              <p v-if='studentDetail.megagame'>
+                大赛经验：{{studentDetail.megagame}}
               </p>
-              <span >
-                  个人技能：
-                  <span v-if='studentDetail.skill'></span>
-                  <span v-if='reviseInfo == false'> {{studentDetail.skill}}</span>
-                  <span v-else>
-                    <el-input style="width:64%;"  v-model="studentDetail.skill"></el-input>
-                  </span>
+              <span v-if='studentDetail.skill'>
+                {{studentDetail.skill}}
               </span>
               <span v-else>暂无个人技能</span>
             </el-col>
           </el-row>
+
         </el-row>
-        <el-row class="wy_row"> 
-            <el-col :span='5' :push='19'>
-              <el-button type="primary" v-if='reviseInfo ==false'  @click='reviseInfo = true'  round>
-                修改
-              </el-button>
-              <el-button type="primary" v-else  @click='reviseStudentInfo'  round>
-                  确定
-                </el-button>
-            </el-col>
-          </el-row>
         <el-row>
           <el-col :span='7' class="wy_left_col">
             工作经历
@@ -461,10 +409,8 @@
         return {
           baseUrl: 'http://47.95.13.193:80/Job-1.0-SNAPSHOT/',
           addVisible: false,//新增弹框默认隐藏
-          reviseInfo:false,//默认是文本显示
           workExperience: {   //新增工作经历
             company: '',//入职公司
-            
             positionName: '',//入职岗位
             address: '',//公司地点
             jobNumber: '',//入职工号
@@ -480,7 +426,7 @@
           },
           editStatus:false,
           editInfo:"",
-          editDate:"",  //修改的入职日期
+          editName:"",  //修改的学生姓名
           studentId: '',//学生id
           studentAvatar: {},//学生头像
           studentWorkExperience: [],//学生经历
@@ -540,7 +486,6 @@
         }
       },
       methods: {
-        
         //删除指定学生
         async deleteStudent(row) {
           if (confirm("确认要删除此学生信息吗？")) {
@@ -567,20 +512,22 @@
           }
         },
         //修改
-        async editStudentInfo(id){
+        async editStudentInfo(){
           console.log("ok");
-          if (this.loginName.roleId == 1) {
-            this.editInfo=id;
-            this.editStatus=true;
-          }
+          // event.stopPropagation();
+          this.editInfo=cell.id;
+          this.editStatus=true;
+          this.editName=cell.name;
+          
          
         },
         //保存修改
         async saveInfo(id){
+          // console.log(editName)
           this.editStatus=false;
           let stuData={
             id:id,
-            jobdate:this.editDate
+            name:this.editName
           }
           let res = await alterStudentInfo(stuData);
           console.log(res);
@@ -591,22 +538,6 @@
             alert("修改失败，请重试!");
           }
           
-        },
-        // 点击确定实现修改
-        async reviseStudentInfo(){
-           let studentInfoAll = await reviseStudentInfoApi(
-             this.studentId,
-             this.studentDetail.name,
-             this.studentDetail.phone,
-             this.studentDetail.nativePlace,
-             this.studentDetail.skill,
-             this.studentDetail.Megagame,
-             this.studentDetail.credential
-           );
-           console.log(studentInfoAll);
-           if(studentInfoAll.status==200){
-            this.reviseInfo=false;
-           }
         },
         // 点击确定实现新增
         async addWorkExperience() {
