@@ -21,8 +21,12 @@
           <img src="imgs/avatar_ljp.png" alt="">
         </span>
         <span class="username">{{loginName.name}}
-          <span class="loginRole">角色：{{loginName.info}}</span>
+          <p class="loginRole">角色：{{loginName.info}}</p>
         </span>
+
+        <!-- <el-tooltip :content="'角色：'+loginName.info" placement="bottom" effect="light">
+          <el-button>{{loginName.name}}</el-button>
+        </el-tooltip> -->
         <el-divider direction="vertical" content-position="center" style="height: 100%;"></el-divider>
         <i class="el-icon-switch-button" style="font-size: 20px;line-height: 50px;cursor: pointer;" title="退出"
           @click="loginout"></i>
