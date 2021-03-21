@@ -130,3 +130,5 @@ const alterStudentInfo = async(stuInfo)=>{
   });
   return res;
 }
+// 点击实现修改
+const reviseStudentInfoApi = async(studentId,)
