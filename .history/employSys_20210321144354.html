@@ -20,13 +20,7 @@
         <span class="avatar">
           <img src="imgs/avatar_ljp.png" alt="">
         </span>
-        <span class="username">{{loginName.name}}
-          <p class="loginRole">角色：{{loginName.info}}</p>
-        </span>
-
-        <!-- <el-tooltip :content="'角色：'+loginName.info" placement="bottom" effect="light">
-          <el-button>{{loginName.name}}</el-button>
-        </el-tooltip> -->
+        <span class="username">{{loginName.name}}</span>
         <el-divider direction="vertical" content-position="center" style="height: 100%;"></el-divider>
         <i class="el-icon-switch-button" style="font-size: 20px;line-height: 50px;cursor: pointer;" title="退出"
           @click="loginout"></i>
@@ -122,7 +116,8 @@
               <el-table v-show=" !showTable " ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
-                @row-click="handleClickDetails"
+                @row-dblclick="handleClickDetails"
+                @cell-click="editStudentInfo"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;" :max-height="tableMaxHeight">
                 <el-table-column type="selection" width="55">
@@ -132,8 +127,8 @@
                 <el-table-column label="姓名" min-width="100">
                   <template slot-scope="scope">
                    
-                    <!-- <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" autofocus @blur="saveInfo(scope.row.id)" @change="saveInfo(scope.row.id)"  placeholder="请输入内容"></el-input> -->
-                    <div >
+                    <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" @change="saveInfo"  placeholder="请输入内容"></el-input>
+                    <div v-else>
                       {{ scope.row.name }}
                       <span v-if="scope.row.orStar" class="start_ljp"></span>
                      </div>
@@ -440,7 +435,6 @@
       },
       created() {
         let loginInfo = localStorage.getItem("loginInfo");
-        console.log(loginInfo);
         this.loginName = JSON.parse(loginInfo);
         if (this.loginName) {
           const roleId = {
@@ -473,7 +467,7 @@
           //3页 10 15   3-1 *5
         },
         tableMaxHeight() {
-          return window.innerHeight - 300 + 'px';
+          return window.innerHeight - 280 + 'px';
         }
       },
       methods: {
@@ -503,32 +497,17 @@
           }
         },
         //修改
-        async editStudentInfo(cell,event){
+        editStudentInfo(cell,event){
           console.log(cell,event);
-          // event.stopPropagation();
           this.editInfo=cell.id;
           this.editStatus=true;
           this.editName=cell.name;
-          
-         
         },
         //保存修改
-        async saveInfo(id){
-          // console.log(editName)
+        async saveInfo(){
+          console.log("ok")
           this.editStatus=false;
-          let stuData={
-            id:id,
-            name:this.editName
-          }
-          let res = await alterStudentInfo(stuData);
-          console.log(res);
-          if(res.data==1){
-            alert("修改成功！");
-            this.stusListData = await studentListDataApi(this.stuPramas);
-          }else{
-            alert("修改失败，请重试!");
-          }
-          
+          await alterStudentInfo();
         },
         // 点击确定实现新增
         async addWorkExperience() {

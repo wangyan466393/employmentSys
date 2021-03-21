@@ -20,13 +20,10 @@
         <span class="avatar">
           <img src="imgs/avatar_ljp.png" alt="">
         </span>
-        <span class="username">{{loginName.name}}
-          <p class="loginRole">角色：{{loginName.info}}</p>
-        </span>
-
-        <!-- <el-tooltip :content="'角色：'+loginName.info" placement="bottom" effect="light">
+        <span class="username">{{loginName.name}}</span>
+        <el-tooltip :content="center" placement="bottom" effect="light">
           <el-button>{{loginName.name}}</el-button>
-        </el-tooltip> -->
+        </el-tooltip>
         <el-divider direction="vertical" content-position="center" style="height: 100%;"></el-divider>
         <i class="el-icon-switch-button" style="font-size: 20px;line-height: 50px;cursor: pointer;" title="退出"
           @click="loginout"></i>
@@ -122,7 +119,8 @@
               <el-table v-show=" !showTable " ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
-                @row-click="handleClickDetails"
+                @row-dblclick="handleClickDetails"
+                @cell-click="editStudentInfo"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;" :max-height="tableMaxHeight">
                 <el-table-column type="selection" width="55">
@@ -132,8 +130,8 @@
                 <el-table-column label="姓名" min-width="100">
                   <template slot-scope="scope">
                    
-                    <!-- <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" autofocus @blur="saveInfo(scope.row.id)" @change="saveInfo(scope.row.id)"  placeholder="请输入内容"></el-input> -->
-                    <div >
+                    <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" autofocus @blur="saveInfo(scope.row.id)" @change="saveInfo(scope.row.id)"  placeholder="请输入内容"></el-input>
+                    <div v-else>
                       {{ scope.row.name }}
                       <span v-if="scope.row.orStar" class="start_ljp"></span>
                      </div>
@@ -433,6 +431,7 @@
           stuListId: [],   //导出数据学生id
           multipleSelection: [],   //选中学校数据
           loginName: "",   //用户本地登录信息
+          loginRole:"",
           roleBool: false,   //是否显示管理员的权限操作
           stuPramas: {}
 
@@ -443,6 +442,7 @@
         console.log(loginInfo);
         this.loginName = JSON.parse(loginInfo);
         if (this.loginName) {
+          this.loginRole = loginName.info;
           const roleId = {
             roleId: this.loginName.roleId,
             id: this.loginName.id

@@ -20,13 +20,7 @@
         <span class="avatar">
           <img src="imgs/avatar_ljp.png" alt="">
         </span>
-        <span class="username">{{loginName.name}}
-          <p class="loginRole">角色：{{loginName.info}}</p>
-        </span>
-
-        <!-- <el-tooltip :content="'角色：'+loginName.info" placement="bottom" effect="light">
-          <el-button>{{loginName.name}}</el-button>
-        </el-tooltip> -->
+        <span class="username">{{loginName.name}}</span>
         <el-divider direction="vertical" content-position="center" style="height: 100%;"></el-divider>
         <i class="el-icon-switch-button" style="font-size: 20px;line-height: 50px;cursor: pointer;" title="退出"
           @click="loginout"></i>
@@ -131,12 +125,8 @@
                 </el-table-column>
                 <el-table-column label="姓名" min-width="100">
                   <template slot-scope="scope">
-                   
-                    <!-- <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" autofocus @blur="saveInfo(scope.row.id)" @change="saveInfo(scope.row.id)"  placeholder="请输入内容"></el-input> -->
-                    <div >
-                      {{ scope.row.name }}
-                      <span v-if="scope.row.orStar" class="start_ljp"></span>
-                     </div>
+                    {{ scope.row.name }}
+                    <span v-if="scope.row.orStar" class="start_ljp"></span>
                   </template>
                 </el-table-column>
                 <el-table-column label="性别" width="60">
@@ -144,8 +134,6 @@
                 </el-table-column>
                 <el-table-column label="班级" width="80">
                   <template slot-scope="scope">{{ scope.row.gradeName }}</template>
-                </el-table-column>
-                <el-table-column prop="collegeName" label="所属学校" show-overflow-tooltip min-width="150">
                 </el-table-column>
                 <el-table-column prop="educationName" label="学历" width="80">
                   <template slot-scope="scope">{{ scope.row.educationName }}</template>
@@ -415,9 +403,6 @@
             company: [{ required: true, message: '请输入', trigger: 'blur' }],
             address: [{ required: true, message: '请输入', trigger: 'blur' }]
           },
-          editStatus:false,
-          editInfo:"",
-          editName:"",  //修改的学生姓名
           studentId: '',//学生id
           studentAvatar: {},//学生头像
           studentWorkExperience: [],//学生经历
@@ -440,7 +425,6 @@
       },
       created() {
         let loginInfo = localStorage.getItem("loginInfo");
-        console.log(loginInfo);
         this.loginName = JSON.parse(loginInfo);
         if (this.loginName) {
           const roleId = {
@@ -473,7 +457,7 @@
           //3页 10 15   3-1 *5
         },
         tableMaxHeight() {
-          return window.innerHeight - 300 + 'px';
+          return window.innerHeight - 280 + 'px';
         }
       },
       methods: {
@@ -501,34 +485,6 @@
               alert("删除失败！");
             }
           }
-        },
-        //修改
-        async editStudentInfo(cell,event){
-          console.log(cell,event);
-          // event.stopPropagation();
-          this.editInfo=cell.id;
-          this.editStatus=true;
-          this.editName=cell.name;
-          
-         
-        },
-        //保存修改
-        async saveInfo(id){
-          // console.log(editName)
-          this.editStatus=false;
-          let stuData={
-            id:id,
-            name:this.editName
-          }
-          let res = await alterStudentInfo(stuData);
-          console.log(res);
-          if(res.data==1){
-            alert("修改成功！");
-            this.stusListData = await studentListDataApi(this.stuPramas);
-          }else{
-            alert("修改失败，请重试!");
-          }
-          
         },
         // 点击确定实现新增
         async addWorkExperience() {

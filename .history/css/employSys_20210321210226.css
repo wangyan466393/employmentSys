@@ -50,8 +50,8 @@ html{
 .loginRole{
     display: none;
     position: absolute;
-    right: 30px;
-    width: 110px;
+    right: 0;
+    width: 120px;
     /* height: 50px; */
     line-height: 30px;
     border: 1px solid #ccc;

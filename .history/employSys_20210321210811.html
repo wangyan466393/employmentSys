@@ -122,7 +122,8 @@
               <el-table v-show=" !showTable " ref="multipleStuTable"
                 :header-cell-style="{color: '#fff', fontSize: '12px', backgroundColor: '#3e85ff'}"
                 @selection-change="handleSelectStudent"
-                @row-click="handleClickDetails"
+                @row-dblclick="handleClickDetails"
+                @cell-click="editStudentInfo"
                 :data="searchStudent ? stusListData.filter( stuData => !searchStudent || searchFilter(stuData)) : pageFilter"
                 style="width: 100%;padding: 10px;border: none;" :max-height="tableMaxHeight">
                 <el-table-column type="selection" width="55">

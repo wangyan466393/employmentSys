@@ -31,8 +31,10 @@ html{
     display: flex;
     justify-content: flex-end;
     width: 50%;
-    text-align: center;
+    text-align: right;
     line-height: 50px;
+    
+    cursor: pointer;
     position: relative;
 }
 .avatar>img{
@@ -45,19 +47,13 @@ html{
     padding-right: 30px;
     margin-left: 10px;
     font-weight: 600;
-    cursor: pointer;
 }
 .loginRole{
-    display: none;
     position: absolute;
-    right: 30px;
-    width: 110px;
+    width: 100px;
     /* height: 50px; */
     line-height: 30px;
     border: 1px solid #ccc;
-}
-.username:hover .loginRole{
-    display: block;
 }
 .login_name .el-divider{
     height: 100% !important;

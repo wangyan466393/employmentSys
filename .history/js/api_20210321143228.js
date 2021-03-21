@@ -124,9 +124,9 @@ const addWorkExperienceApi = async (studentId,company,positionName,address,jobNu
   return res;
 };
 //修改学生信息
-const alterStudentInfo = async(stuInfo)=>{
-  const res = await requestPost("/student/updateStu",stuInfo,{
-    
+const alterStudentInfo = async()=>{
+  const res = await requestPost("/student/updateStu",{
+
   });
   return res;
 }
