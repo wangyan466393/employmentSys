@@ -131,12 +131,11 @@ const alterStudentInfo = async(stuInfo)=>{
   return res;
 }
 // 点击实现修改
-const reviseStudentInfoApi = async(studentId,name,phone,navigator,skill,Megagame,credential)=>{
+const reviseStudentInfoApi = async(studentId,name,phone,skill,Megagame,credential)=>{
   const res = await requestPost("/student/updateJob", {
     "id": studentId,
     "name":name,
     "phone":phone,
-    "navigator":navigator,
     "skill":skill,
     "megagame":Megagame,
     "credential":credential

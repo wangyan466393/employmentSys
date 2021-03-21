@@ -278,10 +278,8 @@
                   </span>
               </el-col>
               <el-col :span="10">专业：
-                  <span v-if='reviseInfo == false'> {{studentDetail.subjectName}}</span>
-                  <span v-else>
-                    <el-input style="width:64%;"  v-model="studentDetail.subjectName"></el-input>
-                  </span>
+                  {{studentDetail.subjectName}}
+                  
               </el-col>
             </el-row>
             
@@ -569,11 +567,10 @@
         //修改
         async editStudentInfo(id){
           console.log("ok");
-          // event.stopPropagation();
-          this.editInfo=id;
-          this.editStatus=true;
-          // this.editDate=cell.name;
-          
+          if (this.loginName.roleId == 1) {
+            this.editInfo=id;
+            this.editStatus=true;
+          }
          
         },
         //保存修改
@@ -581,7 +578,7 @@
           this.editStatus=false;
           let stuData={
             id:id,
-            jobDate:this.editDate
+            jobdate:this.editDate
           }
           let res = await alterStudentInfo(stuData);
           console.log(res);
@@ -599,7 +596,6 @@
              this.studentId,
              this.studentDetail.name,
              this.studentDetail.phone,
-             this.studentDetail.nativePlace,
              this.studentDetail.skill,
              this.studentDetail.Megagame,
              this.studentDetail.credential
@@ -607,6 +603,11 @@
            console.log(studentInfoAll);
            if(studentInfoAll.status==200){
             this.reviseInfo=false;
+           }else{
+            this.$message({
+              message: '手机号码最多11位！！！',
+              type: 'warning'
+            });
            }
         },
         // 点击确定实现新增
