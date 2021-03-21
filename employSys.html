@@ -173,8 +173,24 @@
                 </el-table-column>
 
                 <el-table-column label="入职日期" width="120">
-                  <template slot-scope="scope">{{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") :
-                    ""}}</template>
+                  
+                  <template slot-scope="scope">
+                    <div  @click.stop="editStudentInfo(scope.row.id)">
+
+                      <el-date-picker
+                      v-if="scope.row.id == editInfo && editStatus"
+                      v-model="editDate"
+                      value-format="yyyy/MM/dd"
+                      type="date"
+                      @change="saveInfo(scope.row.id)"
+                      placeholder="选择日期">
+                    </el-date-picker>
+                    <!-- <el-input  v-model="editName" autofocus @blur="saveInfo(scope.row.id)"   placeholder="请输入内容"></el-input> -->
+                    <div v-else>
+                      {{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") :""}}
+                    </div>
+                  </div>
+                  </template>
                 </el-table-column>
                 <el-table-column prop="subjectName" label="专业方向" min-width="100">
                 </el-table-column>
@@ -219,7 +235,7 @@
       </div>
     </div>
     <div v-cloak>
-      <el-drawer class="wy_studentDeilDraw" :before-close="handleClose" :visible.sync="drawerDetails"
+        <el-drawer class="wy_studentDeilDraw" :before-close="handleClose" :visible.sync="drawerDetails"
         >
         <el-row>
           
@@ -281,28 +297,23 @@
           <el-row class="wy_desci">
             <el-col :span='22' :push='2'>
               <p v-if='studentDetail.credential'>
-<<<<<<< HEAD
-                证书：{{studentDetail.credential}}
-              </p>
-              <p v-if='studentDetail.megagame'>
-                大赛经验：{{studentDetail.megagame}}
-=======
                 参赛证书：
                 <span v-if='reviseInfo == false'> {{studentDetail.credential}}</span>
                 <span v-else>
                   <el-input style="width:64%;"  v-model="studentDetail.credential"></el-input>
                 </span>
               </p>
-              <p v-if='studentDetail.megagame'>
+              <p >
                 大赛经验：
+                <!-- <span v-if='studentDetail.megagame'></span> -->
                 <span v-if='reviseInfo == false'> {{studentDetail.megagame}}</span>
                 <span v-else>
                   <el-input style="width:64%;"  v-model="studentDetail.megagame"></el-input>
                 </span>
->>>>>>> wangyan
               </p>
-              <span v-if='studentDetail.skill'>
+              <span >
                   个人技能：
+                  <span v-if='studentDetail.skill'></span>
                   <span v-if='reviseInfo == false'> {{studentDetail.skill}}</span>
                   <span v-else>
                     <el-input style="width:64%;"  v-model="studentDetail.skill"></el-input>
@@ -453,6 +464,7 @@
           reviseInfo:false,//默认是文本显示
           workExperience: {   //新增工作经历
             company: '',//入职公司
+            
             positionName: '',//入职岗位
             address: '',//公司地点
             jobNumber: '',//入职工号
@@ -468,7 +480,7 @@
           },
           editStatus:false,
           editInfo:"",
-          editName:"",  //修改的学生姓名
+          editDate:"",  //修改的入职日期
           studentId: '',//学生id
           studentAvatar: {},//学生头像
           studentWorkExperience: [],//学生经历
@@ -524,10 +536,11 @@
           //3页 10 15   3-1 *5
         },
         tableMaxHeight() {
-          return window.innerHeight - 100 + 'px';
+          return window.innerHeight - 300 + 'px';
         }
       },
       methods: {
+        
         //删除指定学生
         async deleteStudent(row) {
           if (confirm("确认要删除此学生信息吗？")) {
@@ -554,22 +567,21 @@
           }
         },
         //修改
-        async editStudentInfo(cell,event){
-          console.log(cell,event);
+        async editStudentInfo(id){
+          console.log("ok");
           // event.stopPropagation();
-          this.editInfo=cell.id;
+          this.editInfo=id;
           this.editStatus=true;
-          this.editName=cell.name;
+          // this.editDate=cell.name;
           
          
         },
         //保存修改
         async saveInfo(id){
-          // console.log(editName)
           this.editStatus=false;
           let stuData={
             id:id,
-            name:this.editName
+            jobDate:this.editDate
           }
           let res = await alterStudentInfo(stuData);
           console.log(res);
@@ -579,11 +591,23 @@
           }else{
             alert("修改失败，请重试!");
           }
-          }
+          
         },
         // 点击确定实现修改
         async reviseStudentInfo(){
-          
+           let studentInfoAll = await reviseStudentInfoApi(
+             this.studentId,
+             this.studentDetail.name,
+             this.studentDetail.phone,
+             this.studentDetail.nativePlace,
+             this.studentDetail.skill,
+             this.studentDetail.Megagame,
+             this.studentDetail.credential
+           );
+           console.log(studentInfoAll);
+           if(studentInfoAll.status==200){
+            this.reviseInfo=false;
+           }
         },
         // 点击确定实现新增
         async addWorkExperience() {
@@ -835,7 +859,7 @@
           })
         }
       }
-    )
+    })
   </script>
 </body>
 
