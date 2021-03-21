@@ -172,25 +172,10 @@
                 <el-table-column prop="workCount" label="换工作(次)" show-overflow-tooltip min-width="100">
                 </el-table-column>
 
-                <el-table-column label="入职日期" width="120">
-                  
-                  <template slot-scope="scope">
-                    <div  @click.stop="editStudentInfo(scope.row.id)">
-
-                      <el-date-picker
-                      v-if="scope.row.id == editInfo && editStatus"
-                      v-model="editDate"
-                      value-format="yyyy/MM/dd"
-                      type="date"
-                      @change="saveInfo(scope.row.id)"
-                      placeholder="选择日期">
-                    </el-date-picker>
-                    <!-- <el-input  v-model="editName" autofocus @blur="saveInfo(scope.row.id)"   placeholder="请输入内容"></el-input> -->
-                    <div v-else>
-                      {{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") :""}}
-                    </div>
-                  </div>
-                  </template>
+                <el-table-column label="入职日期" width="120" @click.native.stop="editStudentInfo">
+                  <el-input v-if="scope.row.id == editInfo && editStatus" v-model="editName" autofocus @blur="saveInfo(scope.row.id)" @change="saveInfo(scope.row.id)"  placeholder="请输入内容"></el-input>
+                  <template slot-scope="scope">{{ scope.row.jobdate ? format(scope.row.jobdate ,"yyyy-MM-dd") :
+                    ""}}</template>
                 </el-table-column>
                 <el-table-column prop="subjectName" label="专业方向" min-width="100">
                 </el-table-column>
@@ -433,7 +418,7 @@
           },
           editStatus:false,
           editInfo:"",
-          editDate:"",  //修改的入职日期
+          editName:"",  //修改的学生姓名
           studentId: '',//学生id
           studentAvatar: {},//学生头像
           studentWorkExperience: [],//学生经历
@@ -519,20 +504,22 @@
           }
         },
         //修改
-        async editStudentInfo(id){
-          console.log("ok");
-          if (this.loginName.roleId == 1) {
-            this.editInfo=id;
-            this.editStatus=true;
-          }
+        async editStudentInfo(cell,event){
+          console.log(cell,event);
+          // event.stopPropagation();
+          this.editInfo=cell.id;
+          this.editStatus=true;
+          this.editName=cell.name;
+          
          
         },
         //保存修改
         async saveInfo(id){
+          // console.log(editName)
           this.editStatus=false;
           let stuData={
             id:id,
-            jobdate:this.editDate
+            name:this.editName
           }
           let res = await alterStudentInfo(stuData);
           console.log(res);

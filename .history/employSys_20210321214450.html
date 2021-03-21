@@ -521,10 +521,11 @@
         //修改
         async editStudentInfo(id){
           console.log("ok");
-          if (this.loginName.roleId == 1) {
-            this.editInfo=id;
-            this.editStatus=true;
-          }
+          // event.stopPropagation();
+          this.editInfo=id;
+          this.editStatus=true;
+          // this.editDate=cell.name;
+          
          
         },
         //保存修改
@@ -532,7 +533,7 @@
           this.editStatus=false;
           let stuData={
             id:id,
-            jobdate:this.editDate
+            jobDate:this.editDate
           }
           let res = await alterStudentInfo(stuData);
           console.log(res);
